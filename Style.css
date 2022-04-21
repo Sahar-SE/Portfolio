@@ -36,7 +36,7 @@ label.logo {
   font-weight: bold;
 }
 
-nav {
+header {
   overflow: auto;
   background: white;
   height: 70px;
@@ -44,19 +44,20 @@ nav {
   display: flex;
   align-items: center;
   position: sticky;
+  justify-content: center;
 }
 
-nav ul {
+header ul {
   float: right;
 }
 
-nav ul li {
+header ul li {
   display: inline-block;
   line-height: 75px;
   margin: 0 5px;
 }
 
-nav ul li a {
+header ul li a {
   color: black;
   font-size: 17px;
   padding: 7px;
@@ -66,23 +67,23 @@ nav ul li a {
   label.logo {
     font-size: 30px;
     line-height: 35px;
-    padding-left: 20px;
-    padding-right: 190px;
+    padding-left: 30px;
+    padding-right: 150px;
   }
 
   .bar {
     display: block;
-    padding-right: 4px;
+    padding-right: 30px;
   }
 }
 
-header {
+section {
   display: flex;
   flex-direction: column;
-  margin: 38px 50px;
+  margin: 38px 30px;
 }
 
-h2 {
+h1 {
   padding-top: 65px;
   font-weight: 700px, bold;
   font-size: 45px;
@@ -92,7 +93,7 @@ h2 {
   justify-items: center;
 }
 
-header .p1 {
+section .p1 {
   color: #344563;
   font-weight: 400px;
   line-height: 24px;
@@ -101,20 +102,15 @@ header .p1 {
   margin-top: 9px;
 }
 
-header .p2 {
-  font-weight: 500;
+section .p2 {
+  font-weight: bold;
   font-size: 16px;
   line-height: 24px;
   color: #7f8cff;
   margin-top: 10px;
 }
 
-.images {
+section ul li {
   display: inline-block;
-}
-
-img {
-  width: 8%;
-  height: 8%;
-  margin: 10px;
+  margin-right: 10px;
 }
