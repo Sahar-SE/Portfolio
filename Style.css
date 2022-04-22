@@ -121,3 +121,180 @@ section ul li {
   margin-right: 10px;
   margin-top: 15px;
 }
+
+.grid1 {
+  margin: 20px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 30px;
+  align-items: center;
+  margin-left: 25px;
+  justify-content: center;
+}
+
+.grid1 > article {
+  box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+  border-radius: 20px;
+  width: 320px;
+  height: 550px;
+}
+
+.grid1 > article img {
+  margin-top: 20px;
+  margin-left: 13px;
+}
+
+.contents {
+  margin-left: 13px ;
+}
+
+.contents button {
+  background: white;
+  border: 1px solid ;
+  width: 150px;
+  height: 37px;
+  border-radius: 5px;
+  font-size: 17px;
+  line-height: 24px;
+  margin-top: 10px;
+  color: #396df2;
+  font-weight: bold;
+}
+
+.contents label {
+  color: #344563;
+  margin-right: 2px;
+  font-weight: bold;
+}
+
+article p {
+  color: #344563;
+}
+
+main article h2 {
+  color: #172b4d;
+  font-family: 'Poppins', sans-serif;
+  font-size: 25px;
+}
+
+main article ul li {
+  display: inline-block;
+  color: #7a869a;
+  font-weight: bold;
+}
+
+.li2 li {
+  color: #6070ff;
+  margin-top: 5px;
+  padding: 10px;
+  margin-right: 7px;
+  background-color: #ebebff;
+  border-radius: 8px;
+}
+
+.lang {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 50px;
+}
+
+.lang h2 {
+  padding-left: 20px;
+  padding-right: 150px;
+}
+
+.lang img {
+  padding-right: 30px;
+}
+
+.skills {
+  display: flex;
+  background-color: #f7f7f9;
+  border-radius: 8px;
+  width: 320px;
+  height: 80px;
+  margin-top: 20px;
+  margin-left: 30px;
+  flex-direction: column;
+}
+
+.skills div p {
+  margin-right: 130px;
+  line-height: 20px;
+  margin-top: 25px;
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  color: #253858;
+}
+
+.margin {
+  padding-right: 40px;
+  padding-left: 15px;
+}
+
+.skills div img {
+  flex-direction: row;
+  padding-left: 20px;
+  margin-top: 16px;
+}
+
+.lang1 {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 50px;
+}
+
+.lang1 h2 {
+  padding-left: 30px;
+  padding-right: 130px;
+}
+
+.lang1 img {
+  padding-right: 30px;
+}
+
+.lang2 {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 50px;
+}
+
+.lang2 h2 {
+  padding-left: 15px;
+  padding-right: 220px;
+}
+
+.lang2 img {
+  padding-right: 16px;
+}
+
+.line {
+  flex-direction: column;
+  border: none;
+  border-radius: 8px;
+  width: 320px;
+  height: 2px;
+  background-color: lightgrey;
+  position: absolute;
+  margin-left: 25px;
+  margin-top: 10px;
+}
+
+.backimg1 {
+  background-image: url("img/Contact.png");
+  background-size: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 800px;
+  margin-top: 100px;
+}
+
+.shape {
+  width: 50%;
+  height: 700px;
+  float: right;
+}
