@@ -133,10 +133,22 @@ section ul li {
 }
 
 .grid1 > article {
-  box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
   border-radius: 20px;
   width: 320px;
   height: 550px;
+  border: 1px solid lightgrey;
+}
+
+.lang img {
+  padding-right: 30px;
+}
+
+.lang1 img {
+  padding-right: 30px;
+}
+
+.lang2 img {
+  padding-right: 16px;
 }
 
 .grid1 > article img {
@@ -145,12 +157,12 @@ section ul li {
 }
 
 .contents {
-  margin-left: 13px ;
+  margin-left: 13px;
 }
 
 .contents button {
   background: white;
-  border: 1px solid ;
+  border: 1px solid;
   width: 150px;
   height: 37px;
   border-radius: 5px;
@@ -161,7 +173,7 @@ section ul li {
   font-weight: bold;
 }
 
-.contents label {
+.brand {
   color: #344563;
   margin-right: 2px;
   font-weight: bold;
@@ -202,10 +214,6 @@ main article ul li {
 .lang h2 {
   padding-left: 20px;
   padding-right: 150px;
-}
-
-.lang img {
-  padding-right: 30px;
 }
 
 .skills {
@@ -252,10 +260,6 @@ main article ul li {
   padding-right: 130px;
 }
 
-.lang1 img {
-  padding-right: 30px;
-}
-
 .lang2 {
   display: flex;
   justify-content: center;
@@ -266,10 +270,6 @@ main article ul li {
 .lang2 h2 {
   padding-left: 15px;
   padding-right: 220px;
-}
-
-.lang2 img {
-  padding-right: 16px;
 }
 
 .line {
