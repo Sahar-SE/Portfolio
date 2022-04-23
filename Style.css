@@ -116,12 +116,6 @@ section .p2 {
   margin-top: 10px;
 }
 
-section ul li {
-  display: inline-block;
-  margin-right: 10px;
-  margin-top: 15px;
-}
-
 .grid1 {
   margin: 20px;
   display: grid;
