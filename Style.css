@@ -83,7 +83,7 @@ header ul li a {
   }
 }
 
-section {
+.h {
   display: flex;
   flex-direction: column;
   margin: 38px 30px;
@@ -128,15 +128,12 @@ section ul li {
   grid-template-columns: repeat(1, 1fr);
   grid-gap: 30px;
   align-items: center;
-  margin-left: 25px;
+  margin-left: 27px;
   justify-content: center;
-}
-
-.grid1 > article {
-  border-radius: 20px;
+  border: 1px solid lightgrey;
   width: 320px;
   height: auto;
-  border: 1px solid lightgrey;
+  border-radius: 20px;
 }
 
 .lang img {
@@ -151,9 +148,9 @@ section ul li {
   padding-right: 16px;
 }
 
-.grid1 > article img {
+.grid1 img {
   margin-top: 20px;
-  margin-left: 13px;
+  margin-left: 12px;
 }
 
 .contents {
@@ -180,17 +177,18 @@ section ul li {
   font-weight: bold;
 }
 
-article p {
+ul li .p {
   color: #344563;
+  font-weight: normal;
 }
 
-aside article h2 {
+section ul li h2 {
   color: #172b4d;
   font-family: 'Poppins', sans-serif;
   font-size: 25px;
 }
 
-aside article ul li {
+section ul li {
   display: inline-block;
   color: #7a869a;
   font-weight: bold;
