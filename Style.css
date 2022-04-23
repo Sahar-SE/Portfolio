@@ -83,7 +83,7 @@ header ul li a {
   }
 }
 
-section {
+.h {
   display: flex;
   flex-direction: column;
   margin: 38px 30px;
@@ -116,8 +116,164 @@ section .p2 {
   margin-top: 10px;
 }
 
+.grid1 {
+  margin: 20px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 30px;
+  align-items: center;
+  margin-left: 27px;
+  justify-content: center;
+  border: 1px solid lightgrey;
+  width: 320px;
+  height: auto;
+  border-radius: 20px;
+}
+
+.lang img {
+  padding-right: 30px;
+}
+
+.lang1 img {
+  padding-right: 30px;
+}
+
+.lang2 img {
+  padding-right: 16px;
+}
+
+.grid1 img {
+  margin-top: 20px;
+  margin-left: 12px;
+}
+
+.contents {
+  margin-left: 13px;
+}
+
+.contents button {
+  background: white;
+  border: 1px solid;
+  width: 150px;
+  height: 37px;
+  border-radius: 5px;
+  font-size: 17px;
+  line-height: 24px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #396df2;
+  font-weight: bold;
+}
+
+.brand {
+  color: #344563;
+  margin-right: 2px;
+  font-weight: bold;
+}
+
+ul li .p {
+  color: #344563;
+  font-weight: normal;
+}
+
+section ul li h2 {
+  color: #172b4d;
+  font-family: 'Poppins', sans-serif;
+  font-size: 25px;
+}
+
 section ul li {
   display: inline-block;
-  margin-right: 10px;
-  margin-top: 15px;
+  color: #7a869a;
+  font-weight: bold;
+}
+
+.li2 li {
+  color: #6070ff;
+  margin-top: 5px;
+  padding: 10px;
+  margin-right: 7px;
+  background-color: #ebebff;
+  border-radius: 8px;
+}
+
+.lang {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 50px;
+}
+
+.lang h2 {
+  padding-left: 20px;
+  padding-right: 150px;
+}
+
+.skills {
+  display: flex;
+  background-color: #f7f7f9;
+  border-radius: 8px;
+  width: 320px;
+  height: 80px;
+  margin-top: 20px;
+  margin-left: 30px;
+  flex-direction: column;
+}
+
+.skills div p {
+  margin-right: 130px;
+  line-height: 20px;
+  margin-top: 25px;
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  color: #253858;
+}
+
+.margin {
+  padding-right: 40px;
+  padding-left: 15px;
+}
+
+.skills div img {
+  flex-direction: row;
+  padding-left: 20px;
+  margin-top: 16px;
+}
+
+.lang1 {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 50px;
+}
+
+.lang1 h2 {
+  padding-left: 30px;
+  padding-right: 130px;
+}
+
+.lang2 {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-top: 50px;
+}
+
+.lang2 h2 {
+  padding-left: 15px;
+  padding-right: 220px;
+}
+
+.line {
+  flex-direction: column;
+  border: none;
+  border-radius: 8px;
+  width: 320px;
+  height: 2px;
+  background-color: lightgrey;
+  position: absolute;
+  margin-left: 25px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
