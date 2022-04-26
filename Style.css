@@ -280,7 +280,7 @@ footer {
 
 .decription {
   margin-top: -70px;
-  color: #ffffff;
+  color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -294,7 +294,7 @@ footer {
   flex-direction: column;
   padding: 20px;
   text-align: center;
-  color: #ffffff;
+  color: #fff;
 }
 
 #description-text {
@@ -315,7 +315,7 @@ form {
 form label input {
   width: 327px;
   height: 48px;
-  border:none;
+  border: none;
   border-radius: 8px;
   font-size: 17px;
   font-weight: 400;
@@ -339,7 +339,7 @@ form label textarea {
   color: #6070ff;
   font-size: 17px;
   font-weight: 500;
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 8px;
   border: none;
 }
