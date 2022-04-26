@@ -270,10 +270,11 @@ section ul li {
 }
 
 footer {
-  background-image: url("img/Contact.png");
+  background-image: url("img/Contact\ me.png");
+  /* background-image: url("img/contact-vector.svg"); */
   background-repeat: no-repeat;
   background-size: cover;
-  height:80vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -283,7 +284,7 @@ footer {
 }
 
 .decription {
-  margin-top: -80px;
+  margin-top: -90px;
   color: #FFFFFF;
   display: flex;
   flex-direction: column;
@@ -314,7 +315,24 @@ form {
   margin-top: 30px;
 }
 form label input{
-  width: 330px
+  width: 327px;
+  height: 48px;
+  border:none;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 400;
+  padding: 20px;
+}
+
+form label textarea{
+  width: 327px;
+  height: 140px;
+  border: none;
+  resize: none;
+  border-radius: 8px;
+  font-size: 17px;
+  font-weight: 400;
+  padding: 20px;
 }
 
 .btn-2 {
@@ -326,4 +344,9 @@ form label input{
   background-color: #FFFFFF;
   border-radius: 8px;
   border:none;
+}
+
+#indicator {
+  padding-top: 150px;
+
 }
