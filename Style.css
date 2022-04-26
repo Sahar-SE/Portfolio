@@ -22,7 +22,6 @@
   margin: 0;
   display: block;
   padding-right: 30px;
-
 }
 
 .b1,
@@ -36,7 +35,6 @@
 
 .logo {
   color: #6070ff;
-  line-height: 75px;
   font-weight: bold;
   font-size: 25px;
   line-height: 35px;
@@ -282,7 +280,7 @@ footer {
 
 .decription {
   margin-top: -70px;
-  color: #FFFFFF;
+  color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -296,10 +294,10 @@ footer {
   flex-direction: column;
   padding: 20px;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
-#description-text{
+#description-text {
   font-size: 25px;
   font-weight: 400;
   line-height: 28px;
@@ -314,7 +312,7 @@ form {
   margin-top: 30px;
 }
 
-form label input{
+form label input {
   width: 327px;
   height: 48px;
   border:none;
@@ -324,26 +322,26 @@ form label input{
   padding: 20px;
 }
 
-form label textarea{
+form label textarea {
   width: 327px;
   height: 140px;
   border: none;
   resize: none;
   border-radius: 8px;
   font-size: 17px;
-  font-weight: 400;
+  font-weight: 400px;
   padding: 20px;
 }
 
 .btn-2 {
   width: 140px;
   height: 48px;
-  color: #6070FF;
+  color: #6070ff;
   font-size: 17px;
   font-weight: 500;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 8px;
-  border:none;
+  border: none;
 }
 
 #indicator {
