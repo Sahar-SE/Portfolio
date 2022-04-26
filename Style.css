@@ -271,21 +271,39 @@ section ul li {
 
 footer {
   background-image: url("img/Contact.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height:80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
   row-gap: 20px;
   margin-top: 100px;
-
 }
 
 .decription {
+  margin-top: -80px;
+  color: #FFFFFF;
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 300px;
   text-align: center;
+}
+
+.footer-heading {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  text-align: center;
+  color: #FFFFFF;
+}
+#description-text{
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 28px;
 }
 
 form {
@@ -294,4 +312,18 @@ form {
   justify-content: space-between;
   gap: 10px;
   margin-top: 30px;
+}
+form label input{
+  width: 330px
+}
+
+.btn-2 {
+  width: 140px;
+  height: 48px;
+  color: #6070FF;
+  font-size: 17px;
+  font-weight: 500;
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  border:none;
 }
