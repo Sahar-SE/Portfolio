@@ -72,8 +72,6 @@ header ul li a {
   padding: 7px;
 }
 
-/*s*/
-
 .h {
   display: flex;
   flex-direction: column;
@@ -300,6 +298,7 @@ footer {
   text-align: center;
   color: #FFFFFF;
 }
+
 #description-text{
   font-size: 25px;
   font-weight: 400;
@@ -314,6 +313,7 @@ form {
   gap: 10px;
   margin-top: 30px;
 }
+
 form label input{
   width: 327px;
   height: 48px;
@@ -348,5 +348,4 @@ form label textarea{
 
 #indicator {
   padding-top: 150px;
-
 }
