@@ -269,7 +269,7 @@ footer {
   background-image: url("img/Contact\ me.png");
   background-repeat: no-repeat;
   background-size: cover;
-  height: 90vh;
+  height: 805px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -286,10 +286,11 @@ footer {
   justify-content: center;
   width: 300px;
   text-align: center;
+  margin-right: 20px;
 }
 
 .footer-heading {
-  margin-top: 20px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -309,7 +310,7 @@ form {
   flex-direction: column;
   justify-content: space-between;
   gap: 10px;
-  margin-top: 30px;
+  margin-top: 80px;
 }
 
 form label input {
