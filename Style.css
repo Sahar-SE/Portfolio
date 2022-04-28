@@ -121,7 +121,6 @@ section .p2 {
   grid-template-rows: repeat(1, 1fr);
   grid-gap: 30px;
   align-items: center;
-  justify-content: center;
   border: 1px solid gray;
   width: 820px;
   height: 60vh;
@@ -133,6 +132,12 @@ section .p2 {
   display: flex;
   flex-direction: row-reverse;
   padding: 40px;
+}
+
+.img1 {
+  width: 100px;
+  height: 200px;
+  margin-left: 20px;
 }
 
 section ul li .img1 {
@@ -158,7 +163,7 @@ section ul li .img1 {
   margin-bottom: 10px;
   color: #396df2;
   font-weight: bold;
- }
+}
 
 .brand {
   color: #344563;
@@ -166,17 +171,18 @@ section ul li .img1 {
   font-weight: bold;
 }
 
-.img1 {
-  width: 100px;
-  height: 200px;
-  margin-left: 20px;
-}
-
 ul li .p {
   color: #344563;
   font-weight: normal;
   font-size: 20px;
-  padding: 10px 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+section ul li h2 {
+  color: #172b4d;
+  font-family: 'Poppins', sans-serif;
+  font-size: 25px;
 }
 
 .li2 li {
@@ -208,7 +214,7 @@ aside section h1 {
 }
 
 aside section p {
-  padding: 20px 0px;
+  padding: 20px 1px;
 }
 
 .lang {
@@ -250,6 +256,18 @@ aside section p {
   padding-left: 15px;
 }
 
+.lang img {
+  padding-right: 30px;
+}
+
+.lang1 img {
+  padding-right: 30px;
+}
+
+.lang2 img {
+  padding-right: 16px;
+}
+
 .skills div img {
   flex-direction: row;
   padding-left: 20px;
@@ -265,7 +283,6 @@ aside section p {
 }
 
 .lang1 h2 {
-  padding-left: 0px;
   padding-right: 130px;
 }
 
@@ -291,24 +308,6 @@ aside section p {
   margin-left: 25px;
   margin-top: 5px;
   margin-bottom: 5px;
-}
-
-.lang img {
-  padding-right: 30px;
-}
-
-.lang1 img {
-  padding-right: 30px;
-}
-
-.lang2 img {
-  padding-right: 16px;
-}
-
-section ul li h2 {
-  color: #172b4d;
-  font-family: 'Poppins', sans-serif;
-  font-size: 25px;
 }
 
 section ul li {
@@ -402,7 +401,6 @@ form label textarea {
 }
 
 @media (max-width: 560px) {
-
   header {
     justify-content: center;
   }
@@ -416,8 +414,8 @@ form label textarea {
     cursor: pointer;
     margin: 0;
     display: block;
-    padding-right: 30px;
     padding: 15px;
+    padding-right: 30px;
   }
 
   .b1,
@@ -471,7 +469,7 @@ form label textarea {
   .container {
     display: flex;
     flex-direction: column;
-    margin: 0 40px;
+    margin: 0px 40px;
   }
 
   .grid1 {
@@ -546,7 +544,7 @@ form label textarea {
   }
 
   aside section p {
-    padding: 20px 0px;
+    padding: 20px 1px;
   }
 
   .lang {
@@ -634,5 +632,4 @@ form label textarea {
   footer {
     background-image: url("img/Contact\ me.png");
   }
-
 }
