@@ -179,6 +179,12 @@ ul li .p {
   padding-bottom: 10px;
 }
 
+section ul li {
+  display: inline-block;
+  color: #7a869a;
+  font-weight: bold;
+}
+
 section ul li h2 {
   color: #172b4d;
   font-family: 'Poppins', sans-serif;
@@ -308,12 +314,6 @@ aside section p {
   margin-left: 25px;
   margin-top: 5px;
   margin-bottom: 5px;
-}
-
-section ul li {
-  display: inline-block;
-  color: #7a869a;
-  font-weight: bold;
 }
 
 footer {
@@ -465,11 +465,11 @@ form label textarea {
     color: #7f8cff;
     margin-top: 10px;
   }
- 
+
   .container {
     display: flex;
     flex-direction: column;
-    margin: 0px 40px;
+    margin: 1px 40px;
   }
 
   .grid1 {
