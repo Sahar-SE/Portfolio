@@ -463,6 +463,32 @@ form button .btn-2:hover {
     width: 100%;
   }
 
+  .nav-element a {
+    position: relative;
+  }
+
+  .nav-element a::after {
+    content: ' ';
+    position: absolute;
+    left: 0;
+    bottom: 26px;
+    width: 0;
+    background-color: #6070ff;
+    height: 3px;
+    transition: 0.3s;
+
+  }   
+  
+  .nav-element a:hover {
+    color: #6070ff;
+    font-weight: 550;
+  }
+  
+  .nav-element a:hover::after {
+    width: 100%;
+  }
+
+
   section .p1 {
     color: #344563;
     font-weight: 400px;
