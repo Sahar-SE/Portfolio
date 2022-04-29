@@ -284,8 +284,12 @@ aside section ul li {
 }
 
 .contents button:hover {
-  background-color: blue;
+  background-color: #396df2;
   color: white;
+}
+
+.contents button:pressed {
+  background-color: blue;
 }
 
 footer {
