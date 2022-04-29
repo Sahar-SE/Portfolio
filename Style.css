@@ -377,7 +377,7 @@ form button .btn-2:hover {
   padding-top: 150px;
 }
 
-@media screen and (min-width: 768px){
+@media screen and (min-width: 768px) {
   .bar {
     cursor: pointer;
     margin: 0;
@@ -476,7 +476,7 @@ form button .btn-2:hover {
     margin-top: 10px;
   }
 
-.grid1 {
+  .grid1 {
     margin-top: 50px;
     margin-left: 70px;
     display: flex;
@@ -593,7 +593,7 @@ form button .btn-2:hover {
     font-size: 20px;
   }
 
- .lang1 {
+  .lang1 {
     display: flex;
     margin-top: 50px;
     margin-left: 10px;
@@ -627,7 +627,7 @@ form button .btn-2:hover {
     margin-top: 5px;
     margin-bottom: 5px;
   }
- 
+
   .part2 {
     display: flex;
     flex-direction: row;
