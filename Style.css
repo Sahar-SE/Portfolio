@@ -11,7 +11,7 @@
 
 header {
   display: flex;
-  flex-direction:  row;
+  flex-direction: row;
   justify-content: center;
   width: 100%;
 }
@@ -32,7 +32,7 @@ header ul {
 }
 
 .bar {
-cursor: pointer;
+  cursor: pointer;
   margin: 0;
   padding: 15px;
   padding-right: 30px;
@@ -57,7 +57,8 @@ main {
   justify-content: center;
   width: 100%;
   align-items: center;
-  background-position: cover;}
+  background-position: cover;
+}
 
 h1 {
   padding-top: 65px;
@@ -84,6 +85,7 @@ section .p2 {
   color: #7f8cff;
   margin-top: 10px;
 }
+
 section div ul li {
   display: inline-block;
 }
@@ -93,6 +95,7 @@ section div ul li {
   flex-direction: column;
   margin: 1px 40px;
 }
+
 .grid1 {
   margin: 20px;
   display: none;
@@ -268,7 +271,7 @@ aside section ul li {
 
 .btn-3 {
   background: white;
-  border: 1px solid ;
+  border: 1px solid;
   width: 150px;
   height: 37px;
   border-radius: 5px;
@@ -364,10 +367,11 @@ form label textarea {
   border-radius: 8px;
   border: none;
 }
+
 form button .btn-2:hover {
   background-color: blue;
   color: white;
-  }
+}
 
 #indicator {
   padding-top: 150px;
@@ -462,7 +466,7 @@ form button .btn-2:hover {
     font-size: 20px;
     width: 100%;
     margin-top: 9px;
-}
+  }
 
   section .p2 {
     font-weight: bold;
@@ -659,7 +663,7 @@ form button .btn-2:hover {
 
   .btn-3 {
     background: white;
-    border: 1px solid ;
+    border: 1px solid;
     width: 150px;
     height: 37px;
     border-radius: 5px;
@@ -692,5 +696,4 @@ form button .btn-2:hover {
     gap: 10px;
     margin-top: 80px;
   }
-  
 }
