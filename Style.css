@@ -288,7 +288,7 @@ aside section ul li {
   color: white;
 }
 
-.contents button:pressed {
+.contents button:focus {
   background-color: blue;
 }
 
