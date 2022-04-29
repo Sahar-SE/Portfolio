@@ -9,10 +9,32 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.bar {
-  cursor: pointer;
-  margin: 0;
+header {
+  display: flex;
+  flex-direction:  row;
+  justify-content: center;
+  width: 100%;
+}
+
+header ul {
+  float: right;
   display: none;
+}
+
+.logo {
+  color: #6070ff;
+  font-weight: bold;
+  font-size: 25px;
+  line-height: 35px;
+  padding-left: 30px;
+  padding-right: 150px;
+  text-decoration: none;
+}
+
+.bar {
+cursor: pointer;
+  margin: 0;
+  padding: 15px;
   padding-right: 30px;
 }
 
@@ -26,65 +48,16 @@
   display: block;
 }
 
-.logo {
-  color: #6070ff;
-  font-weight: bold;
-  font-size: 25px;
-  line-height: 35px;
-  padding-left: 30px;
-  padding-right: 150px;
-  text-decoration: none;
-}
-
-header {
-  overflow: auto;
-  background: white;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-items: center;
-  position: sticky;
-  justify-content: space-between;
-}
-
-header ul {
-  float: right;
-  display: block;
-}
-
-header ul li {
-  display: inline-block;
-  line-height: 75px;
-  margin: 0 5px;
-}
-
-header ul li a {
-  color: black;
-  font-size: 17px;
-  padding: 7px;
-  margin-right: 5px;
-  display: flex;
-  align-items: center;
-}
-
 main {
-  background-image: url("img/Header.png");
+  background-image: url("img/header (2).png");
   background-size: cover;
   background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  height: 800px;
   align-items: center;
-  background-position: cover;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  margin: 0 180px;
-}
+  background-position: cover;}
 
 h1 {
   padding-top: 65px;
@@ -92,7 +65,7 @@ h1 {
   font-size: 45px;
   line-height: 50px;
   color: #172b4f;
-  width: 90%;
+  width: 100%;
 }
 
 section .p1 {
@@ -100,7 +73,7 @@ section .p1 {
   font-weight: 400px;
   line-height: 24px;
   font-size: 20px;
-  width: 80%;
+  width: 100%;
   margin-top: 9px;
 }
 
@@ -111,43 +84,45 @@ section .p2 {
   color: #7f8cff;
   margin-top: 10px;
 }
+section div ul li {
+  display: inline-block;
+}
 
-.grid1 {
-  margin-top: 50px;
-  margin-left: 280px;
+.container {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  grid-template-rows: repeat(1, 1fr);
+  flex-direction: column;
+  margin: 1px 40px;
+}
+.grid1 {
+  margin: 20px;
+  display: none;
+  grid-template-columns: repeat(1, 1fr);
   grid-gap: 30px;
   align-items: center;
-  border: 1px solid gray;
-  width: 820px;
-  height: 60vh;
+  margin-left: 27px;
+  justify-content: center;
+  border: 1px solid lightgrey;
+  width: 90%;
+  height: auto;
   border-radius: 20px;
   background-color: white;
 }
 
 .grid2 {
   display: flex;
-  flex-direction: row-reverse;
-  padding: 40px;
-}
-
-.img1 {
-  width: 100px;
-  height: 200px;
-  margin-left: 20px;
+  flex-direction: column;
+  padding: 1px;
 }
 
 section ul li .img1 {
-  width: 350px;
-  height: 350px;
+  margin-top: 20px;
+  margin-left: 12px;
+  width: 290px;
+  height: 290px;
 }
 
 .contents {
   margin-left: 13px;
-  height: 350px;
 }
 
 .contents button {
@@ -158,8 +133,7 @@ section ul li .img1 {
   border-radius: 5px;
   font-size: 17px;
   line-height: 24px;
-  margin-top: 40px;
-  padding: 4px;
+  margin-top: 10px;
   margin-bottom: 10px;
   color: #396df2;
   font-weight: bold;
@@ -174,45 +148,19 @@ section ul li .img1 {
 ul li .p {
   color: #344563;
   font-weight: normal;
-  font-size: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-section ul li {
-  display: inline-block;
-  color: #7a869a;
-  font-weight: bold;
-}
-
-section ul li h2 {
-  color: #172b4d;
-  font-family: 'Poppins', sans-serif;
-  font-size: 25px;
-}
-
-.li2 li {
-  color: #6070ff;
-  margin-top: 5px;
-  padding: 10px;
-  margin-right: 7px;
-  background-color: #ebebff;
-  border-radius: 8px;
 }
 
 aside {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
 }
 
-aside section {
+aside section .pr1 {
+  width: 300px;
   display: flex;
-  flex-direction: column;
-}
-
-aside section .container {
-  width: 600px;
+  flex-direction: row;
+  color: #344563;
 }
 
 aside section h1 {
@@ -223,12 +171,16 @@ aside section p {
   padding: 20px 1px;
 }
 
+aside section ul li {
+  display: inline-block;
+}
+
 .lang {
   display: flex;
   justify-content: center;
   flex-direction: row;
   margin-top: 50px;
-  margin-right: 75px;
+  margin-left: 10px;
 }
 
 .lang h2 {
@@ -243,7 +195,7 @@ aside section p {
   width: 320px;
   height: 80px;
   margin-top: 20px;
-  margin-left: 30px;
+  margin-left: 20px;
   flex-direction: column;
 }
 
@@ -262,16 +214,13 @@ aside section p {
   padding-left: 15px;
 }
 
-.lang img {
-  padding-right: 30px;
-}
-
-.lang1 img {
-  padding-right: 30px;
-}
-
-.lang2 img {
-  padding-right: 16px;
+.li2 li {
+  color: #6070ff;
+  margin-top: 5px;
+  padding: 10px;
+  margin-right: 7px;
+  background-color: #ebebff;
+  border-radius: 8px;
 }
 
 .skills div img {
@@ -285,10 +234,11 @@ aside section p {
   justify-content: center;
   flex-direction: row;
   margin-top: 50px;
-  margin-right: 40px;
+  margin-left: 10px;
 }
 
 .lang1 h2 {
+  padding-left: 10px;
   padding-right: 130px;
 }
 
@@ -297,11 +247,11 @@ aside section p {
   justify-content: center;
   flex-direction: row;
   margin-top: 50px;
-  margin-right: 50px;
+  margin-left: 10px;
 }
 
 .lang2 h2 {
-  padding-left: 15px;
+  padding-left: 5px;
   padding-right: 220px;
 }
 
@@ -311,13 +261,32 @@ aside section p {
   width: 320px;
   height: 2px;
   background-color: lightgrey;
-  margin-left: 25px;
+  margin-left: 20px;
   margin-top: 5px;
   margin-bottom: 5px;
 }
 
+.btn-3 {
+  background: white;
+  border: 1px solid ;
+  width: 150px;
+  height: 37px;
+  border-radius: 5px;
+  font-size: 17px;
+  line-height: 24px;
+  margin-top: 20px;
+  padding: 4px;
+  color: #396df2;
+  font-weight: bold;
+}
+
+.contents button:hover {
+  background-color: blue;
+  color: white;
+}
+
 footer {
-  background-image: url(img/contactaa.png);
+  background-image: url("img/Contact\ me.png");
   background-repeat: no-repeat;
   background-size: cover;
   height: 805px;
@@ -387,7 +356,7 @@ form label textarea {
 
 .btn-2 {
   width: 140px;
-  height: 48px;
+  height: 50px;
   color: #6070ff;
   font-size: 17px;
   font-weight: 500;
@@ -395,26 +364,20 @@ form label textarea {
   border-radius: 8px;
   border: none;
 }
+form button .btn-2:hover {
+  background-color: blue;
+  color: white;
+  }
 
 #indicator {
   padding-top: 150px;
 }
 
-@media (max-width: 560px) {
-  header {
-    justify-content: center;
-  }
-
-  header ul {
-    float: right;
-    display: none;
-  }
-
+@media screen and (min-width: 768px){
   .bar {
     cursor: pointer;
     margin: 0;
-    display: block;
-    padding: 15px;
+    display: none;
     padding-right: 30px;
   }
 
@@ -428,16 +391,59 @@ form label textarea {
     display: block;
   }
 
+  .logo {
+    color: #6070ff;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 35px;
+    padding-left: 30px;
+    padding-right: 150px;
+    text-decoration: none;
+  }
+
+  header {
+    overflow: auto;
+    background: white;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    position: sticky;
+    justify-content: space-between;
+  }
+
+  header ul {
+    float: right;
+    display: block;
+  }
+
+  header ul li {
+    display: inline-block;
+    line-height: 75px;
+    margin: 0 5px;
+  }
+
+  header ul li a {
+    color: black;
+    font-size: 17px;
+    padding: 7px;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+  }
+
   main {
-    background-image: url("img/header (2).png");
-    background-size: cover;
+    background-image: url("img/Header.png");
     background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 100%;
-    align-items: center;
-    background-position: cover;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 95px;
   }
 
   h1 {
@@ -456,7 +462,7 @@ form label textarea {
     font-size: 20px;
     width: 100%;
     margin-top: 9px;
-  }
+}
 
   section .p2 {
     font-weight: bold;
@@ -466,42 +472,35 @@ form label textarea {
     margin-top: 10px;
   }
 
-  .container {
+.grid1 {
+    margin-top: 50px;
+    margin-left: 70px;
     display: flex;
-    flex-direction: column;
-    margin: 1px 40px;
-  }
-
-  .grid1 {
-    margin: 20px;
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
+    flex-direction: row;
+    justify-content: center;
+    grid-template-rows: repeat(1, 1fr);
     grid-gap: 30px;
     align-items: center;
-    margin-left: 27px;
-    justify-content: center;
-    border: 1px solid lightgrey;
-    width: 320px;
-    height: auto;
+    border: 1px solid gray;
+    width: 80%;
+    height: 60vh;
     border-radius: 20px;
     background-color: white;
   }
 
   .grid2 {
     display: flex;
-    flex-direction: column;
-    padding: 1px;
+    flex-direction: row-reverse;
   }
 
   section ul li .img1 {
-    margin-top: 20px;
-    margin-left: 12px;
-    width: 290px;
-    height: 290px;
+    width: 300px;
+    height: 300px;
   }
 
   .contents {
     margin-left: 13px;
+    height: 300px;
   }
 
   .contents button {
@@ -512,8 +511,8 @@ form label textarea {
     border-radius: 5px;
     font-size: 17px;
     line-height: 24px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 20px;
+    padding: 4px;
     color: #396df2;
     font-weight: bold;
   }
@@ -527,95 +526,91 @@ form label textarea {
   ul li .p {
     color: #344563;
     font-weight: normal;
+    font-size: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  section ul li {
+    display: inline-block;
+    color: #7a869a;
+    font-weight: bold;
+  }
+
+  section ul li h2 {
+    color: #172b4d;
+    font-family: 'Poppins', sans-serif;
+    font-size: 25px;
+  }
+
+  .li2 li {
+    color: #6070ff;
+    margin-top: 5px;
+    padding: 10px;
+    margin-right: 7px;
+    background-color: #ebebff;
+    border-radius: 8px;
   }
 
   aside {
     display: flex;
+    flex-direction: row;
+    padding: 30px;
+    justify-content: center;
+    margin-left: 40px;
+  }
+
+  aside section {
+    display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 80%;
   }
 
-  aside section .container {
-    width: 300px;
+  .part1 {
+    width: 70%;
   }
 
-  aside section h1 {
-    padding-bottom: 24px;
-  }
-
-  aside section p {
-    padding: 20px 1px;
+  .pr1 {
+    font-size: 15px;
+    color: #344563;
+    font-weight: 400;
+    width: 100%;
   }
 
   .lang {
     display: flex;
-    justify-content: center;
-    flex-direction: row;
     margin-top: 50px;
-    margin-left: 70px;
+    margin-left: 2px;
   }
 
   .lang h2 {
-    padding-left: 20px;
-    padding-right: 150px;
-  }
-
-  .skills {
-    display: flex;
-    background-color: #f7f7f9;
-    border-radius: 8px;
-    width: 320px;
-    height: 80px;
-    margin-top: 20px;
-    margin-left: 90px;
-    flex-direction: column;
-  }
-
-  .skills div p {
-    margin-right: 130px;
-    line-height: 20px;
-    margin-top: 25px;
-    float: right;
+    padding-left: 5px;
+    padding-right: 180px;
     font-size: 20px;
-    font-weight: bold;
-    color: #253858;
   }
 
-  .margin {
-    padding-right: 40px;
-    padding-left: 15px;
-  }
-
-  .skills div img {
-    flex-direction: row;
-    padding-left: 20px;
-    margin-top: 16px;
-  }
-
-  .lang1 {
+ .lang1 {
     display: flex;
-    justify-content: center;
-    flex-direction: row;
     margin-top: 50px;
-    margin-left: 30px;
+    margin-left: 10px;
   }
 
   .lang1 h2 {
-    padding-left: 30px;
-    padding-right: 130px;
+    padding-left: 10px;
+    padding-right: 150px;
+    font-size: 20px;
   }
 
   .lang2 {
     display: flex;
-    justify-content: center;
-    flex-direction: row;
     margin-top: 50px;
-    margin-left: 40px;
+    margin-left: 10px;
   }
 
   .lang2 h2 {
-    padding-left: 15px;
+    padding-left: 5px;
     padding-right: 220px;
+    font-size: 20px;
   }
 
   .line {
@@ -624,12 +619,78 @@ form label textarea {
     width: 320px;
     height: 2px;
     background-color: lightgrey;
-    margin-left: 85px;
+    margin-left: 25px;
     margin-top: 5px;
     margin-bottom: 5px;
   }
+ 
+  .part2 {
+    display: flex;
+    flex-direction: row;
+    margin-left: 20px;
+  }
+
+  .skills {
+    display: flex;
+    background-color: #f7f7f9;
+    border-radius: 8px;
+    width: 110px;
+    height: 120px;
+    margin-top: 15px;
+    margin-left: 10px;
+    flex-direction: row;
+  }
+
+  .width {
+    width: 87px;
+  }
+
+  .skills div p {
+    margin-right: 65px;
+    display: flex;
+    flex-direction: column;
+    line-height: 20px;
+    margin-top: 1px;
+    width: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #253858;
+  }
+
+  .btn-3 {
+    background: white;
+    border: 1px solid ;
+    width: 150px;
+    height: 37px;
+    border-radius: 5px;
+    font-size: 17px;
+    line-height: 24px;
+    margin-top: 20px;
+    padding: 4px;
+    color: #396df2;
+    font-weight: bold;
+  }
 
   footer {
-    background-image: url("img/Contact\ me.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 805px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    row-gap: 20px;
+    margin-top: 100px;
   }
+
+  form {
+    margin: -120px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 80px;
+  }
+  
 }
