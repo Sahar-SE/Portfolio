@@ -10,11 +10,11 @@ In this project I create a headline page for Portfolio in Mobile version it has 
 # Author
 Sahar Saba Amiri
 
-# link
-The link for GitHub io of this project is here: https://sahar-se.github.io/Portfolio/
-
 # Contributing
 Contributions, issues, and feature requests are welcome!
+
+# links
+The link of my Portfolio GitHub io is:  https://sahar-se.github.io/Portfolio/
 
 # Show your Support
 By giving me a Star✨
