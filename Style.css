@@ -300,15 +300,66 @@ form label textarea {
   height: 3px;
 }
 
+.closebtn {
+  display: none;
+}
+
 @media screen and (max-width: 768px) {
   .burger {
     display: inline-block;
     margin: 1px 100%;
   }
 
+  nav {
+    position: absolute;
+  }
+
   nav ul {
     display: none;
   }
+
+  #expend {
+    display: none;
+    padding: 50px;
+    
+  }
+
+  .sidebar {
+    background-color: #6070ff;
+    mix-blend-mode: multiply;
+    backdrop-filter: blur(4px);
+    width: 87%;
+    height: 130vh;
+    opacity: 1;
+    flex-direction: column;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  nav ul li {
+    display: block;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+  }
+
+  nav ul li a {
+    color: white;
+  }
+
+  .closebtn {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 15%;
+    font-size: 36px;
+    margin-left: 50px;
+    color: white;
+    text-decoration: none;
+  }
+
 
   .head {
     padding: 2% 10%;

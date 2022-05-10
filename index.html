@@ -10,12 +10,13 @@
   <header>
     <nav>
       <label class="logo">Sahar</label>
-      <span><img src="img/Enabled.png" alt="burger" class="burger"></span>
-      <ul>
+      <ul id="expend" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
         <li><a href="#">Portfolio</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Contact</a></li>
       </ul>
+      <span><img src="img/Enabled.png" alt="burger" class="burger" id="burger" onclick="openNav()"></span>
     </nav>
   </header>
   <main>
