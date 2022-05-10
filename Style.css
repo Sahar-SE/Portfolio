@@ -321,7 +321,6 @@ form label textarea {
   #expend {
     display: none;
     padding: 50px;
-    
   }
 
   .sidebar {
@@ -358,8 +357,8 @@ form label textarea {
     margin-left: 50px;
     color: white;
     text-decoration: none;
+    cursor: pointer;
   }
-
 
   .head {
     padding: 2% 10%;
