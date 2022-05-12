@@ -31,14 +31,12 @@ nav {
 }
 
 nav ul {
-  padding: 2px 10%;
-  float: right;
+  padding: 2px 50px;
 }
 
 nav ul li {
-  padding: 35px;
+  padding: 25px;
   display: inline-block;
-  float: right;
 }
 
 nav ul li a {
@@ -184,6 +182,84 @@ main ul li {
   color: white;
 }
 
+.popup {
+  position: fixed;
+  overflow: auto;
+  top: 0;
+  left: 50%;
+  height: 96vh;
+  width: 80%;
+  transform: translate(-50%,-50%) scale(0.1);
+  border: 1px solid gray;
+  border-radius: 10px;
+  box-shadow: 2px 5px 2px gray;
+  visibility: hidden;
+  background-color: white;
+  transition: transform 0.4s, top 0.4s;
+}
+
+.popup-content {
+  padding: 0px 10px;
+  width: 90%;
+}
+
+.pop-head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.popup-content .card-img {
+  width: 100%;
+  margin-left: 10px;
+}
+
+.popup-body {
+  display: flex;
+  flex-direction: row;
+}
+
+.popup-content .cards-para {
+  width: 55%;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+}
+
+.popup-close {
+  color: black;
+  display: flex;
+  top: 0;
+  font-size: 36px;
+  margin-left: 90%;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.open-popup {
+  visibility: visible;
+  top: 50%;
+  transform: translate(-50%,-50%) scale(1);
+}
+
+.btn-pop {
+  width: 150px;
+  font-size: 15px;
+  margin: 5px;
+}
+
+.popup-body img {
+  width: 12px;
+}
+
+.popup-b {
+  display: flex;
+  flex-direction: row;
+}
+
 .aside-contents {
   display: flex;
   flex-direction: row;
@@ -300,14 +376,67 @@ form label textarea {
   height: 3px;
 }
 
+.closebtn {
+  display: none;
+}
+
 @media screen and (max-width: 768px) {
   .burger {
     display: inline-block;
     margin: 1px 100%;
   }
 
+  .burgeract {
+    visibility: hidden;
+  }
+
+  nav {
+    position: absolute;
+  }
+
   nav ul {
-    display: none;
+    display: block;
+  }
+
+  .sidebar {
+    visibility: hidden;
+    background-color: #6070ff;
+    mix-blend-mode: multiply;
+    backdrop-filter: blur(4px);
+    width: 87%;
+    height: 110vh;
+    opacity: 1;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  .show {
+    visibility: visible;
+  }
+
+  nav ul li {
+    display: block;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+  }
+
+  nav ul li a {
+    color: white;
+  }
+
+  .closebtn {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 15%;
+    font-size: 36px;
+    margin-left: 50px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
   }
 
   .head {
@@ -361,6 +490,72 @@ form label textarea {
     gap: 50px;
     align-items: center;
   }
+
+  /* .popup {
+    position: fixed;
+    overflow: auto;
+    top: 0;
+    left: 50%;
+    height: 96vh;
+    width: 65%;
+    transform: translate(-50%,-50%) scale(0.1);
+    border: 1px solid gray;
+    border-radius: 10px;
+    box-shadow: 2px 5px 2px gray;
+    visibility: hidden;
+    background-color: white;
+    transition: transform 0.4s, top 0.4s;
+  }
+
+  .popup-content {
+    padding: 0px 10px;
+  }
+
+  .popup-close {
+    color: black;
+    display: block;
+    top: 0;
+    font-size: 36px;
+    margin-left: 45%;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .pop-head {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .open-popup {
+    visibility: visible;
+    top: 50%;
+    transform: translate(-50%,-50%) scale(1);
+  }
+
+  .btn-pop {
+    width: 100px;
+    font-size: 13px;
+  }
+
+  .popup-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .popup-content .cards-para {
+    width: 100%;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .popup-content img {
+    height: 20%;
+  } */
 
   footer {
     background-image: url("img/Contact\ me.png");

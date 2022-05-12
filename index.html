@@ -10,12 +10,13 @@
   <header>
     <nav>
       <label class="logo">Sahar</label>
-      <span><img src="img/Enabled.png" alt="burger" class="burger"></span>
-      <ul>
-        <li><a href="#">Portfolio</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
+      <ul class="sidebar" id="expend">
+        <li><a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a></li>
+        <li><a href="#portfolio" onclick="closeNav()">Portfolio</a></li>
+        <li><a href="#about" onclick="closeNav()">About</a></li>
+        <li><a href="#contact" onclick="closeNav()">Contact</a></li>
       </ul>
+      <span><img src="img/Enabled.png" alt="burger" class="burger" id="burger" onclick="openNav()"></span>
     </nav>
   </header>
   <main>
@@ -24,7 +25,7 @@
       <p class="p1">I’m a software developer! I can help you build a product , feature or website Look through some of my work and experience! If you like what you see and have a project you need coded, don’t hestiate to contact me.</p>
     </div>
     <div class="part2">
-      <p class="p2">Let's CONNECT</p>
+      <p class="p2">LET's CONNECT</p>
       <ul class="icons-list">
         <li><a href="#"><img src="img/Vector.png" alt="Social Icons"></a></li>
         <li><a href="#"><img src="img/Linkedin.png" alt="Social Icons"></a></li>
@@ -34,7 +35,7 @@
       </ul>
     </div>
   </main>
-  <div class="cards">
+  <div class="cards" id="portfolio">
   <section class="card">
     <div class="card-img">
       <img src="img/Snapshoot.png" alt="image">
@@ -52,7 +53,40 @@
         <li>css</li>
         <li>javaScript</li>
       </ul>
-      <button type="submit" class="btn">See Project</button>
+      <button type="submit" class="btn" onclick="openPopup()">See Project</button>
+      <!-- START POPUP -->
+      <div class="popup" id="popup">
+        <div class="popup-content">
+            <div class="pop-head">
+          <h2 class="card-head">Tonic</h2>
+          <a href="javascript:void(0)" class="popup-close" onclick="closePopup()">&times;</a>
+        </div>
+          <ul class="list">
+        <li class="brand">CANOPY</li>
+        <li><img src="img/Counter.png" alt="Counter">Back End Dev</li>
+        <li><img src="img/Counter.png" alt="Counter">2015</li>
+      </ul>
+        <div class="card-img">
+      <img src="img/Snapshoot.png" alt="image">
+    </div>
+    <div class="popup-body">
+      <p class="cards-para">A daily selection of privately personalized reads; no accounts or sign-ups required.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+      <div class="buttons">
+      <ul class="languages">
+        <li>html</li>
+        <li>css</li>
+        <li>javaScript</li>
+      </ul>
+      <div class="popup-b">
+        <button type="submit" class="btn btn-pop" onclick="openPopup()">
+          See Resource <img src="img/Icone.png" alt="Social"></button>
+        <button type="submit" class="btn btn-pop" onclick="openPopup()">
+          See Project <img src="img/Vectors.png" alt="Social"></button>
+      </div>
+    </div>
+    </div>
+      </div>
+      <!-- END POPUP -->
       </div>
   </section>
     <section class="card card2">
@@ -72,7 +106,42 @@
         <li>css</li>
         <li>javaScript</li>
       </ul>
-      <button type="submit" class="btn">See Project</button>
+      <button type="submit" class="btn" onclick="openPopup1()">See Project</button>
+      <!-- START POPUP-->
+      <div class="popup" id="popup1">
+        <div class="popup-content">
+            <div class="pop-head">
+          <h2 class="card-head">Tonic</h2>
+          <a href="javascript:void(0)" class="popup-close" onclick="closePopup1()">&times;</a>
+        </div>
+          <ul class="list">
+        <li class="brand">CANOPY</li>
+        <li><img src="img/Counter.png" alt="Counter">Back End Dev</li>
+        <li><img src="img/Counter.png" alt="Counter">2015</li>
+      </ul>
+        <div class="card-img">
+      <img src="img/Snapshoot(1).png" alt="image">
+    </div>
+    <div class="popup-body">
+      <p class="cards-para">A daily selection of privately personalized reads; no accounts or sign-ups required.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+      <div class="buttons">
+      <ul class="languages">
+        <li>html</li>
+        <li>css</li>
+        <li>javaScript</li>
+      </ul>
+      <div class="popup-b">
+        <button type="submit" class="btn btn-pop" onclick="openPopup()">
+          See Resources <img src="img/Icone.png" alt="Social"></button>
+        <button type="submit" class="btn btn-pop" onclick="openPopup()">
+          See Project <img src="img/Vectors.png" alt="Social"></button>
+        </div>
+      </div>
+    </div>
+
+    </div>
+      </div>
+      <!-- END POPUP -->
     </div>
   </section>
     <section class="card">
@@ -92,7 +161,41 @@
         <li>css</li>
         <li>javaScript</li>
       </ul>
-      <button type="submit" class="btn">See Project</button>
+      <button type="submit" class="btn" onclick="openPopup2()">See Project</button>
+      <!-- START POPUP-->
+      <div class="popup" id="popup2">
+        <div class="popup-content">
+            <div class="pop-head">
+          <h2 class="card-head">Tonic</h2>
+          <a href="javascript:void(0)" class="popup-close" onclick="closePopup2()">&times;</a>
+        </div>
+          <ul class="list">
+        <li class="brand">CANOPY</li>
+        <li><img src="img/Counter.png" alt="Counter">Back End Dev</li>
+        <li><img src="img/Counter.png" alt="Counter">2015</li>
+      </ul>
+        <div class="card-img">
+      <img src="img/Snapshoot(2).png" alt="image">
+    </div>
+    <div class="popup-body">
+      <p class="cards-para">A daily selection of privately personalized reads; no accounts or sign-ups required.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+      <div class="buttons">
+      <ul class="languages">
+        <li>html</li>
+        <li>css</li>
+        <li>javaScript</li>
+      </ul>
+      <div class="popup-b">
+        <button type="submit" class="btn btn-pop" onclick="openPopup()">
+          See Resources <img src="img/Icone.png" alt="Social"></button>
+        <button type="submit" class="btn btn-pop" onclick="openPopup()">
+          See Project<img src="img/Vectors.png" alt="Social"></button>
+      </div>
+    </div>
+   </div>
+    </div>
+      </div>
+      <!-- END POPUP -->
     </div>
   </section>
     <section class="card card2">
@@ -112,12 +215,46 @@
         <li>css</li>
         <li>javaScript</li>
       </ul>
-     <button type="submit" class="btn">See Project</button>
+     <button type="submit" class="btn" onclick="openPopup3()">See Project</button>
+     <!-- START POPUP-->
+      <div class="popup" id="popup3">
+        <div class="popup-content">
+            <div class="pop-head">
+          <h2 class="card-head">Tonic</h2>
+          <a href="javascript:void(0)" class="popup-close" onclick="closePopup3()">&times;</a>
+        </div>
+          <ul class="list">
+        <li class="brand">CANOPY</li>
+        <li><img src="img/Counter.png" alt="Counter">Back End Dev</li>
+        <li><img src="img/Counter.png" alt="Counter">2015</li>
+      </ul>
+        <div class="card-img">
+      <img src="img/Snapshoot(3).png" alt="image">
+    </div>
+    <div class="popup-body">
+      <p class="cards-para">A daily selection of privately personalized reads; no accounts or sign-ups required.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+      <div class="buttons">
+      <ul class="languages">
+        <li>html</li>
+        <li>css</li>
+        <li>javaScript</li>
+      </ul>
+      <div class="popup-b">
+        <button type="submit" class="btn btn-pop" onclick="openPopup()">
+          See Resources <img src="img/Icone.png" alt="Social"></button>
+        <button type="submit" class="btn btn-pop" onclick="openPopup()">
+          See Project<img src="img/Vectors.png" alt="Social"></button>
+      </div>
+    </div>
+  </div>
+   </div>
+      </div>
+      <!-- END POPUP -->
     </div>
   </section>
   </div>
   <aside>
-    <div class="aside-contents">
+    <div class="aside-contents" id="about">
       <div class="about">
         <h2 class="aside-head">About Myself</h2>
         <p class="aside-para">I’m a software developer! I can help you build a product , feature or website Look through some of my work and experience! If you like what you see and have a project you need coded, don’t hestiate to contact me.</p>
@@ -163,7 +300,7 @@
       </div>
     </div>
   </aside>
-  <footer>
+  <footer id="contact">
     <h2 class="footer-head">Contact Me</h2>
     <p class="footer-para">If you have an application you are interested in developing, a feature that you need built or a project that needs coding. I’d love to help with it.</p>
     <div class="decription">
@@ -182,5 +319,6 @@
     </div>
     <img src="img/Shape.png" alt="sign" class="sign">
   </footer>
+  <script src="script.js"></script>
 </body>
 </html>
