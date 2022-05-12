@@ -182,7 +182,7 @@ main ul li {
   color: white;
 }
 
-/*.popup {
+/* .popup {
   position: fixed;
   overflow: auto;
   top: 0;
@@ -258,7 +258,7 @@ main ul li {
 .popup-b {
   display: flex;
   flex-direction: row;
-}*/
+} */
 
 .aside-contents {
   display: flex;
@@ -386,7 +386,7 @@ form label textarea {
     margin: 1px 100%;
   }
 
-  .burgeract{
+  .burgeract {
     visibility: hidden;
   }
 
@@ -490,7 +490,8 @@ form label textarea {
     gap: 50px;
     align-items: center;
   }
-  /*.popup {
+
+  /* .popup {
     position: fixed;
     overflow: auto;
     top: 0;
@@ -554,7 +555,7 @@ form label textarea {
 
   .popup-content img {
     height: 20%;
-  }*/
+  } */
 
   footer {
     background-image: url("img/Contact\ me.png");
