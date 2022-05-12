@@ -491,7 +491,7 @@ form label textarea {
     align-items: center;
   }
 
-  /* .popup {
+   .popup {
     position: fixed;
     overflow: auto;
     top: 0;
@@ -555,7 +555,7 @@ form label textarea {
 
   .popup-content img {
     height: 20%;
-  } */
+  }
 
   footer {
     background-image: url("img/Contact\ me.png");
