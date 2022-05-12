@@ -491,14 +491,14 @@ form label textarea {
     align-items: center;
   }
 
-   .popup {
+  .popup {
     position: fixed;
     overflow: auto;
     top: 0;
     left: 50%;
     height: 96vh;
     width: 65%;
-    transform: translate(-50%,-50%) scale(0.1);
+    transform: translate(-50%, -50%) scale(0.1);
     border: 1px solid gray;
     border-radius: 10px;
     box-shadow: 2px 5px 2px gray;
@@ -508,7 +508,7 @@ form label textarea {
   }
 
   .popup-content {
-    padding: 0px 10px;
+    padding: 0 10px;
   }
 
   .popup-close {
@@ -530,7 +530,7 @@ form label textarea {
   .open-popup {
     visibility: visible;
     top: 50%;
-    transform: translate(-50%,-50%) scale(1);
+    transform: translate(-50%, -50%) scale(1);
   }
 
   .btn-pop {
