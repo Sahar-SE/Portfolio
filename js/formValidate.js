@@ -1,6 +1,6 @@
 const form = document.getElementById("contact-form");
 const emailInput = document.getElementById("email");
-const formButton = document.querySelector(".contact-section-button");
+const formButton = document.getElementById("submit");
 
 form.addEventListener("submit", (event) => {
   if (emailInput.value !== emailInput.value.toLowerCase()) {
@@ -10,8 +10,4 @@ form.addEventListener("submit", (event) => {
     formButton.reportValidity();
     event.preventDefault();
   }
-});
-
-emailInput.addEventListener("input", () => {
-  formButton.setCustomValidity("");
 });
