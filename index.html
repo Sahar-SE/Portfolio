@@ -53,9 +53,9 @@
         <li>css</li>
         <li>javaScript</li>
       </ul>
-      <button type="submit" class="btn" onclick="openPopup()">See Project</button>
+      <button type="submit" class="btn">See Project</button>
       <!-- START POPUP -->
-      <div class="popup" id="popup">
+      <!-- <div class="popup" id="popup">
         <div class="popup-content">
             <div class="pop-head">
           <h2 class="card-head">Tonic</h2>
@@ -87,7 +87,7 @@
     </div>
       </div>
     </div>
-  </div>
+  </div> -->
       <!-- END POPUP -->  
   </section>
     <section class="card card2">
@@ -107,9 +107,13 @@
         <li>css</li>
         <li>javaScript</li>
       </ul>
-      <button type="submit" class="btn" onclick="openPopup1()">See Project</button>
+      <button type="submit" class="btn">See Project</button>
+
+      <div class="popup-menus"></div>
+
+
       <!-- START POPUP-->
-      <div class="popup" id="popup1">
+      <!-- <div class="popup" id="popup1">
         <div class="popup-content">
             <div class="pop-head">
           <h2 class="card-head">Tonic</h2>
@@ -141,7 +145,7 @@
     </div>
    </div>
     </div>
-      </div>
+      </div> -->
       <!-- END POPUP -->
   </section>
     <section class="card">
@@ -161,9 +165,9 @@
         <li>css</li>
         <li>javaScript</li>
       </ul>
-      <button type="submit" class="btn" onclick="openPopup2()">See Project</button>
+      <button type="submit" class="btn">See Project</button>
       <!-- START POPUP-->
-      <div class="popup" id="popup2">
+      <!-- <div class="popup" id="popup2">
         <div class="popup-content">
             <div class="pop-head">
           <h2 class="card-head">Tonic</h2>
@@ -194,7 +198,7 @@
     </div>
    </div>
     </div>
-      </div>
+      </div> -->
       <!-- END POPUP -->
     </div>
   </section>
@@ -215,9 +219,9 @@
         <li>css</li>
         <li>javaScript</li>
       </ul>
-     <button type="submit" class="btn" onclick="openPopup3()">See Project</button>
+     <button type="submit" class="btn">See Project</button>
      <!-- START POPUP-->
-      <div class="popup" id="popup3">
+      <!-- <div class="popup" id="popup3">
         <div class="popup-content">
             <div class="pop-head">
           <h2 class="card-head">Tonic</h2>
@@ -248,7 +252,7 @@
     </div>
   </div>
    </div>
-      </div>
+      </div> -->
       <!-- END POPUP -->
     </div>
   </section>
@@ -304,21 +308,24 @@
     <h2 class="footer-head">Contact Me</h2>
     <p class="footer-para">If you have an application you are interested in developing, a feature that you need built or a project that needs coding. I’d love to help with it.</p>
     <div class="decription">
-    <form action="https://formspree.io/f/mbjwpoar">
+    <form action="https://formspree.io/f/mbjwpoar" id="contact-form">
       <label>
       <input type="text" name="user" placeholder="Enter your name" maxlength="30" required>
       </label>
       <label>
-      <input type="email" name="email" placeholder="Enter your Email" maxlength="30" required>
+      <input id="email" type="email" name="email" placeholder="Enter your Email" maxlength="30" required>
       </label>
       <label>
       <textarea placeholder="Write your message here" maxlength="500" required></textarea>
       </label>
-      <button class="btn" type="submit">Get It Touch</button>
+      <button class="btn .contact-section-button" type="submit">Get It Touch</button>
     </form>
     </div>
     <img src="img/Shape.png" alt="sign" class="sign">
   </footer>
   <script src="script.js"></script>
+  <script src="js/localStorage.js"></script>
+  <script src="js/popUp.js" defer></script>
+  <script src="js/formValidate.js"></script>
 </body>
 </html>
