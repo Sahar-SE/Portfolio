@@ -182,14 +182,22 @@ main ul li {
   color: white;
 }
 
+
 /*.popup {
+
+/* .popup {
+
   position: fixed;
   overflow: auto;
   top: 0;
   left: 50%;
   height: 96vh;
   width: 80%;
+
   transform: translate(-50%, -50%) scale(0.1);
+
+  transform: translate(-50%,-50%) scale(0.1);
+
   border: 1px solid gray;
   border-radius: 10px;
   box-shadow: 2px 5px 2px gray;
@@ -199,7 +207,11 @@ main ul li {
 }
 
 .popup-content {
+
   padding: 0 10px;
+
+  padding: 0px 10px;
+
   width: 90%;
 }
 
@@ -242,7 +254,11 @@ main ul li {
 .open-popup {
   visibility: visible;
   top: 50%;
+
   transform: translate(-50%, -50%) scale(1);
+
+  transform: translate(-50%,-50%) scale(1);
+
 }
 
 .btn-pop {
@@ -258,6 +274,7 @@ main ul li {
 .popup-b {
   display: flex;
   flex-direction: row;
+
 }*/
 
 /* Start from here */
@@ -658,6 +675,9 @@ main ul li {
 
 /* End from here */
 
+} */
+
+
 .aside-contents {
   display: flex;
   flex-direction: row;
@@ -889,6 +909,7 @@ form label textarea {
     align-items: center;
   }
 
+
   /*.project-popup-info {
     display: flex;
     flex-direction: column;
@@ -922,15 +943,19 @@ form label textarea {
     margin-left: 0;
   }*/
 
+  /* .popup {
 
-/*  .popup {
     position: fixed;
     overflow: auto;
     top: 0;
     left: 50%;
     height: 96vh;
     width: 65%;
+
     transform: translate(-50%, -50%) scale(0.1);
+
+    transform: translate(-50%,-50%) scale(0.1);
+
     border: 1px solid gray;
     border-radius: 10px;
     box-shadow: 2px 5px 2px gray;
@@ -940,7 +965,11 @@ form label textarea {
   }
 
   .popup-content {
+
     padding: 0 10px;
+
+    padding: 0px 10px;
+
   }
 
   .popup-close {
@@ -962,7 +991,11 @@ form label textarea {
   .open-popup {
     visibility: visible;
     top: 50%;
+
     transform: translate(-50%, -50%) scale(1);
+
+    transform: translate(-50%,-50%) scale(1);
+
   }
 
   .btn-pop {
@@ -987,7 +1020,8 @@ form label textarea {
 
   .popup-content img {
     height: 20%;
-  }*/
+
+  } */
 
   footer {
     background-image: url("img/Contact\ me.png");
