@@ -1,26 +1,16 @@
-const name1 = document.querySelector('name');
-const email1 = document.querySelector('email');
-const message1 = document.querySelector('message');
+const name = document.getElementById("name");
+const email = document.getElementById("email");
+const message = document.getElementById("message");
+const button = document.getElementById("submit");
+const out = document.getElementById("out");
 
-function storeValues(name1, email1, message1) {
-  const dataObject = JSON.stringify({ name1, email1, message1 });
-  localStorage.setItem('dataObject', dataObject);
-}
+button.onclick= function() {
+  const user = name.value;
+  const mail = email.value;
+  const sms = message.value;
 
-function populateStorage() {
-  const formValues = JSON.parse(localStorage.getItem('dataObject'));
-  if (formValues) {
-    name1.value = formValues.name1;
-    email1.value = formValues.email1;
-    message1.value = formValues.message1;
+  if(user && mail && sms) {
+    localStorage.setItem(user, mail, sms);
+    location.reload();
   }
 }
-
-function getValues() {
-  name1.addEventListener('input', () => storeValues(name1.value, email1.value, message1.value));
-  email1.addEventListener('input', () => storeValues(name1.value, email1.value, message1.value));
-  message1.addEventListener('input', () => storeValues(name1.value, email1.value, message1.value));
-}
-
-populateStorage();
-getValues();

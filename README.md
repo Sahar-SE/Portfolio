@@ -12,7 +12,12 @@ In this project I create a Headline page, Cards, About me page and a Contact pag
 
 # Author
 Sahar Saba Amiri
+ . Gmail: saharsaba.amiri123@gmail.com
+ . LinkedIn: https://www.linkedin.com/sahar-saba-amiri
+ . GitHub : https://github.com/Sahar-SE
+
 Elijah
+ .GitHub : https://github.com/Elijahdre
 
 # Contributing
 Contributions, issues, and feature requests are welcome!
