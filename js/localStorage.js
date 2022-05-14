@@ -11,4 +11,4 @@ button.onclick = function () {
   if (user && mail && sms) {
     localStorage.setItem(user, mail, sms);
   }
-}
+};
