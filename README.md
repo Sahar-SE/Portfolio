@@ -16,9 +16,6 @@ Sahar Saba Amiri
  . LinkedIn: https://www.linkedin.com/sahar-saba-amiri
  . GitHub : https://github.com/Sahar-SE
 
-Elijah
- .GitHub : https://github.com/Elijahdre
-
 # Contributing
 Contributions, issues, and feature requests are welcome!
 
