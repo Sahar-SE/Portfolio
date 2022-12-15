@@ -1,66 +1,76 @@
 const projects = [
   {
     title: 'Hotel Reservation',
-    devs: ['Sahar', ' • backend', ' • 2021'],
+    devs: ['• frontend', ' • backend', ' • 2022'],
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essent, Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    tags: ['html', 'css', 'javascript'],
+      "This application is a web application for final capstone project that you can find your favorite Hotel around the world and reserve it for a specific date, find information about a hotel at details page and cancel a reservation.",
+    tags: ['html', 'css', 'React/Redux', 'Ruby on Rails'],
     image: 'img/Snapshoot.png',
     liveVersion: 'See Live',
     sourceLink: 'See Source',
     btnImg1: '/img/Vector(2).png',
     btnImg2: '/img/Vector(1).png',
+    link: 'https://hotel-reservation-i2st.onrender.com/',
+    srcLink: 'https://github.com/Sahar-SE/hotel-reservation'
     // eslint-disable-next-line linebreak-style
   },
   {
-    title: 'Tonic',
-    devs: ['Sahar', ' • backend', ' • 2021'],
+    title: 'Media Hub',
+    devs: ['• HTML/CSS', ' • JavaScript', ' • 2022'],
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essent, Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    tags: ['html', 'css', 'javascript'],
+      "In this project, we developed an application that displays movies and allows users to like and comment on their favorite movies. The application is built on HTML, CSS and JavaScript.",
+    tags: ['html', 'css', 'javascript', 'Bootstrap'],
     image: 'img/Snapshoot(1).png',
     liveVersion: 'See Live',
     sourceLink: 'See Source',
     btnImg1: '/img/Vector(2).png',
     btnImg2: '/img/Vector(1).png',
+    link: 'https://kamba56.github.io/MediaHub/docs/',
+    srcLink: 'https://github.com/Sahar-SE/MediaHub',
     // eslint-disable-next-line linebreak-style
   },
   {
-    title: 'Multi-Post Stories',
-    devs: ['Sahar', ' • backend', ' • 2021'],
+    title: 'Weather App',
+    devs: ['• React', '• Redux', ' • 2021'],
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essent, Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    tags: ['html', 'css', 'javascript'],
+      "This is a SPA react-app project that is built using two APIs. And users can select and choose countries and states and get their updated weather info. I have built this project using react-redux and JavaScript.",
+    tags: ['html', 'css', 'React/Resux', 'API'],
     image: 'img/Snapshoot(2).png',
     liveVersion: 'See Live',
     sourceLink: 'See Source',
     btnImg1: '/img/Vector(1).png',
     btnImg2: '/img/Vector(2).png',
+    link: 'https://redux-h.herokuapp.com/',
+    srcLink: 'https://github.com/Sahar-SE/sakwa-weather-app',
   },
 
   {
-    title: 'Facebook 360',
-    devs: ['Sahar', ' • backend', ' • 2021'],
+    title: 'Leader Board',
+    devs: ['• HTML/CSS', ' • JavaScript', ' • 2022'],
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essent, Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    tags: ['html', 'css', 'javascript'],
+      "This project contains a leader board for a game which contains players name and list and store them on API build with HTML, CSS, JS and API.",
+    tags: ['html', 'css', 'javascript', 'bootstrap'],
     image: 'img/Snapshoot(3).png',
     liveVersion: 'See Live',
     sourceLink: 'See Source',
     btnImg1: '/img/Vector(1).png',
     btnImg2: '/img/Vector(2).png',
+    link: 'https://sahar-se.github.io/Leaderboard/docs/',
+    srcLink: 'https://github.com/Sahar-SE/Leaderboard',
   },
   {
-    title: 'Uber Navigation',
-    devs: ['Sahar', ' • backend', ' • 2021'],
+    title: 'Recipe App',
+    devs: ['• Ruby', ' • SQL', ' • 2022'],
     description:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essent, Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    tags: ['html', 'css', 'javascript'],
+      "he Recipe app keeps track of all your recipes and ingredients. It will allow you to save ingredients, keep track of what you have, create recipes, and generate a shopping list based on what you have and what you are missing from a recipe. Also, since sharing recipes is an important part of cooking the app should allow you to make them public so anyone can access them.",
+    tags: ['Ruby', 'Rails', 'MySQL','Tailwind'],
     image: 'img/Snapshoot(4).png',
     liveVersion: 'See Live',
     sourceLink: 'See Source',
     btnImg1: '/img/Vector(1).png',
     btnImg2: '/img/Vector(1).png',
+    link: 'https://github.com/Sahar-SE/Recipe_App/pull/29',
+    srcLink: 'https://github.com/Sahar-SE/Recipe_App',
   },
 ];
 
@@ -70,7 +80,7 @@ const headersection = document.querySelector('header');
 
 function open(index) {
   const {
-    title, devs, description, tags, image, liveVersion, sourceLink,
+    title, devs, description, tags, image, liveVersion, sourceLink, link, srcLink,
   } = projects[index];
   const dev1 = devs[0];
   const dev2 = devs[1];
@@ -78,6 +88,7 @@ function open(index) {
   const tags1 = tags[0];
   const tags2 = tags[1];
   const tags3 = tags[2];
+  const tags4 = tags[3];
   const container = document.querySelector('.popup-menus');
   container.innerHTML = `
   <div class="popup-main-container">
@@ -101,10 +112,12 @@ function open(index) {
   <li class="popup-tag">${tags1}</li>
   <li class="popup-tag">${tags2}</li>
   <li class="popup-tag">${tags3}</li>
+  <li class="popup-tag">${tags4}</li>
   </ul>
+
   <div class="popup-button">
-  <button type="button" class="popup-button1">${liveVersion}<img class="" src='img/Icone.png'></button>
-  <button type="button" class="popup-button1">${sourceLink}<img class=""  src='img/Vectors.png'></button>
+  <a href=${link}><button type="button" class="popup-button1">${liveVersion}<img class="" src='img/Icone.png'></button></a>
+  <a href=${srcLink}><button type="button" class="popup-button1">${sourceLink}<img class=""  src='img/Vectors.png'></button></a>
   </div>
   </div>
   </div>

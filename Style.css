@@ -112,6 +112,7 @@ main ul li {
 .card-img {
   padding: 1%;
   width: 50%;
+  border-radius: 50px;
 }
 
 .card-img img {
@@ -300,6 +301,10 @@ main ul li {
   justify-content: space-around;
   margin-bottom: 1.25rem;
   margin-top: 1.25rem;
+}
+
+.popup-button a {
+  text-decoration: none;
 }
 
 .popup-button1 {
