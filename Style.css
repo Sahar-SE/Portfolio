@@ -426,7 +426,6 @@ main ul li {
 }
 
 .texts {
-  display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding-bottom: 30px;
@@ -441,11 +440,16 @@ main ul li {
 
 .badge {
   background-color: #f7f7f9;
-  padding: 30px;
+  padding: 20px;
   border-radius: 8px;
   color: #344563;
   font-weight: bold;
   line-height: 24px;
+}
+
+.badge img {
+  width: 40px;
+  height: 40px;
 }
 
 .underline {
