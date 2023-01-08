@@ -40,7 +40,7 @@ const projects = [
     sourceLink: 'See Source',
     btnImg1: '/img/Vector(1).png',
     btnImg2: '/img/Vector(2).png',
-    link: 'https://redux-h.herokuapp.com/',
+    link: 'https://stellar-pithivier-09ad04.netlify.app/',
     srcLink: 'https://github.com/Sahar-SE/sakwa-weather-app',
   },
 
