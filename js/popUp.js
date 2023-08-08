@@ -25,7 +25,7 @@ const projects = [
     sourceLink: 'See Source',
     btnImg1: '/img/Vector(2).png',
     btnImg2: '/img/Vector(1).png',
-    link: 'https://kamba56.github.io/MediaHub/docs/',
+    link: 'https://sahar-se.github.io/MediaHub/',
     srcLink: 'https://github.com/Sahar-SE/MediaHub',
     // eslint-disable-next-line linebreak-style
   },
