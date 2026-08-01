@@ -1,24 +1,26 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { sql, initDb } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
+// ── POST: Update resume URL and/or contacts ──────────────────────
 export async function POST(req: Request) {
   try {
+    await initDb();
     const { resume, contacts } = await req.json();
 
     if (resume !== undefined) {
-      db.prepare(`
-        INSERT INTO config (key, value)
-        VALUES ('resume', ?)
-        ON CONFLICT(key) DO UPDATE SET value = excluded.value
-      `).run(resume);
+      await sql`
+        INSERT INTO config (key, value) VALUES ('resume', ${resume})
+        ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value
+      `;
     }
 
     if (contacts !== undefined) {
-      db.prepare(`
-        INSERT INTO config (key, value)
-        VALUES ('contacts', ?)
-        ON CONFLICT(key) DO UPDATE SET value = excluded.value
-      `).run(JSON.stringify(contacts));
+      await sql`
+        INSERT INTO config (key, value) VALUES ('contacts', ${JSON.stringify(contacts)})
+        ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value
+      `;
     }
 
     return NextResponse.json({ success: true });
