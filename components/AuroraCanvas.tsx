@@ -1,9 +1,26 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function AuroraCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  const [shouldRender, setShouldRender] = useState(true);
+
+  useEffect(() => {
+    const fadeTimer = setTimeout(() => {
+      setIsVisible(false);
+    }, 60000); // Fade out after 1 minute
+
+    const destroyTimer = setTimeout(() => {
+      setShouldRender(false);
+    }, 63000); // Unmount canvas after fade transition (3 seconds) complete
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(destroyTimer);
+    };
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -257,6 +274,8 @@ export default function AuroraCanvas() {
     };
   }, []);
 
+  if (!shouldRender) return null;
+
   return (
     <canvas
       ref={canvasRef}
@@ -268,6 +287,8 @@ export default function AuroraCanvas() {
         height: '100vh',
         zIndex: -1,
         pointerEvents: 'none', // Allows native browser scroll/swipe touch events to pass through on mobile
+        opacity: isVisible ? 1 : 0,
+        transition: 'opacity 3s ease-out',
       }}
     />
   );
