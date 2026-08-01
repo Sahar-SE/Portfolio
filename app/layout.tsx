@@ -5,7 +5,7 @@ import Nav from "@/components/Nav";
 
 export const metadata: Metadata = {
   title: "Sahar Saba Amiri — Software Developer Portfolio",
-  description: "Sahar Saba Amiri — Software Developer portfolio showcasing full-stack projects, skills, and experience with a beautiful Next.js animated aurora background.",
+  description: "Sahar Saba Amiri — Software Developer portfolio showcasing full-stack projects, skills, and experience with a beautiful animated aurora background.",
 };
 
 export const viewport: Viewport = {
