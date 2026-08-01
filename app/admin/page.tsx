@@ -87,15 +87,80 @@ export default function AdminPage() {
   // GitHub README generator states
   const [isLoadingReadme, setIsLoadingReadme] = useState(false);
 
-  // Helper: Read file as Base64 string
+  // Helper: Read file as Base64 string with canvas image compression (max dimension 800px, 0.70 JPEG quality)
   const handleImageUpload = (file: File, callback: (base64: string) => void) => {
     const reader = new FileReader();
-    reader.onloadend = () => {
-      if (typeof reader.result === 'string') {
-        callback(reader.result);
-      }
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const maxDimension = 800; // Optimal max resolution for portfolio payload optimization
+
+        if (width > maxDimension || height > maxDimension) {
+          if (width > height) {
+            height = Math.round((height * maxDimension) / width);
+            width = maxDimension;
+          } else {
+            width = Math.round((width * maxDimension) / height);
+            height = maxDimension;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+          callback(compressedBase64);
+        } else {
+          callback(event.target?.result as string);
+        }
+      };
+      img.src = event.target?.result as string;
     };
     reader.readAsDataURL(file);
+  };
+
+  // Helper: Async canvas compression utility for auto-optimizing existing database images
+  const compressBase64Image = (base64Str: string): Promise<string> => {
+    return new Promise((resolve) => {
+      if (!base64Str || !base64Str.startsWith('data:image') || base64Str.length < 150000) {
+        resolve(base64Str);
+        return;
+      }
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        const maxDimension = 800;
+
+        if (width > maxDimension || height > maxDimension) {
+          if (width > height) {
+            height = Math.round((height * maxDimension) / width);
+            width = maxDimension;
+          } else {
+            width = Math.round((width * maxDimension) / height);
+            height = maxDimension;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL('image/jpeg', 0.7));
+        } else {
+          resolve(base64Str);
+        }
+      };
+      img.onerror = () => resolve(base64Str);
+      img.src = base64Str;
+    });
   };
 
   // Helper: Parse markdown content to readable project introduction paragraph
@@ -202,6 +267,63 @@ export default function AdminPage() {
       setError('Invalid password. Try "admin123"');
     }
   };
+
+  // Background Auto-Optimizer for existing database images (runs when admin is authenticated)
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const optimizeExistingImages = async () => {
+      // 1. Compress Projects
+      for (const proj of projects) {
+        if (proj.image && proj.image.startsWith('data:image') && proj.image.length > 150000) {
+          console.log(`Auto-optimizing huge project image: "${proj.title}"`);
+          const compressed = await compressBase64Image(proj.image);
+          if (compressed !== proj.image) {
+            try {
+              const res = await fetch('/api/portfolio/projects', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...proj, image: compressed })
+              });
+              if (res.ok) {
+                console.log(`Auto-optimized project: "${proj.title}"`);
+                setProjects(prev => prev.map(p => p.id === proj.id ? { ...p, image: compressed } : p));
+              }
+            } catch (err) {
+              console.error('Failed to auto-optimize project:', err);
+            }
+          }
+        }
+      }
+
+      // 2. Compress Certificates
+      for (const cert of certificates) {
+        if (cert.image && cert.image.startsWith('data:image') && cert.image.length > 150000) {
+          console.log(`Auto-optimizing huge certificate image: "${cert.title}"`);
+          const compressed = await compressBase64Image(cert.image);
+          if (compressed !== cert.image) {
+            try {
+              const res = await fetch('/api/portfolio/certificates', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...cert, image: compressed })
+              });
+              if (res.ok) {
+                console.log(`Auto-optimized certificate: "${cert.title}"`);
+                setCertificates(prev => prev.map(c => c.id === cert.id ? { ...c, image: compressed } : c));
+              }
+            } catch (err) {
+              console.error('Failed to auto-optimize certificate:', err);
+            }
+          }
+        }
+      }
+    };
+
+    if (projects.length > 0 || certificates.length > 0) {
+      optimizeExistingImages();
+    }
+  }, [isAuthenticated, projects.length, certificates.length]);
 
   // Project Actions
   const handleSaveProject = async (e: React.FormEvent) => {

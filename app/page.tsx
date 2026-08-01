@@ -57,7 +57,7 @@ export default function Home() {
   useEffect(() => {
     const loadPortfolioData = async () => {
       try {
-        const res = await fetch(`/api/portfolio?t=${Date.now()}`);
+        const res = await fetch(`/api/portfolio?minimal=true&t=${Date.now()}`);
         const data = await res.json();
         if (data.success) {
           if (data.languages && data.languages.length > 0) setLanguages(data.languages);

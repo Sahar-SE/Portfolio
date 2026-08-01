@@ -3,6 +3,44 @@ import { sql, initDb } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
+// ── GET: Retrieve certificates list ──────────────────────────────
+export async function GET() {
+  try {
+    await initDb();
+    const certificates = await sql`SELECT * FROM certificates ORDER BY id`;
+    return NextResponse.json({ success: true, certificates });
+  } catch (error: any) {
+    console.error('Error fetching certificates:', error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+}
+
+// ── PUT: Update an existing certificate ──────────────────────────
+export async function PUT(req: Request) {
+  try {
+    await initDb();
+    const { id, title, image, url } = await req.json();
+
+    if (!id || !title || !image) {
+      return NextResponse.json({ success: false, error: 'Missing id, title, or image' }, { status: 400 });
+    }
+
+    await sql`
+      UPDATE certificates
+      SET
+        title = ${title},
+        image = ${image},
+        url   = ${url || ''}
+      WHERE id = ${id}
+    `;
+
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    console.error('Error updating certificate:', error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+}
+
 // ── POST: Add a new certificate ──
 export async function POST(req: Request) {
   try {

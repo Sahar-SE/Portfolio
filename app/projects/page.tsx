@@ -28,7 +28,7 @@ export default function ProjectsCatalog() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await fetch(`/api/portfolio?t=${Date.now()}`);
+        const res = await fetch(`/api/portfolio/projects?t=${Date.now()}`);
         const data = await res.json();
         if (data.success && data.projects) {
           setProjects(data.projects);

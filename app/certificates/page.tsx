@@ -18,7 +18,7 @@ export default function CertificatesPage() {
   useEffect(() => {
     const fetchCertificates = async () => {
       try {
-        const res = await fetch(`/api/portfolio?t=${Date.now()}`);
+        const res = await fetch(`/api/portfolio/certificates?t=${Date.now()}`);
         const data = await res.json();
         if (data.success && data.certificates) {
           setCertificates(data.certificates);

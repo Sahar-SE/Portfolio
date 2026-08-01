@@ -3,6 +3,23 @@ import { sql, initDb } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
+// ── GET: Retrieve projects list ──────────────────────────────────
+export async function GET() {
+  try {
+    await initDb();
+    const rawProjects = await sql`SELECT * FROM projects ORDER BY id`;
+    const projects = rawProjects.map((p: any) => ({
+      ...p,
+      devs: JSON.parse(p.devs),
+      tags: JSON.parse(p.tags)
+    }));
+    return NextResponse.json({ success: true, projects });
+  } catch (error: any) {
+    console.error('Error fetching projects:', error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+}
+
 // ── POST: Add new project ────────────────────────────────────────
 export async function POST(req: Request) {
   try {

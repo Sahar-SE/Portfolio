@@ -3,17 +3,11 @@ import { sql, initDb } from '@/lib/db';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     await initDb();
-
-    // Get projects
-    const rawProjects = await sql`SELECT * FROM projects ORDER BY id`;
-    const projects = rawProjects.map((p: any) => ({
-      ...p,
-      devs: JSON.parse(p.devs),
-      tags: JSON.parse(p.tags)
-    }));
+    const { searchParams } = new URL(req.url);
+    const minimal = searchParams.get('minimal') === 'true';
 
     // Get skills
     const rawSkills = await sql`SELECT * FROM skills ORDER BY id`;
@@ -27,8 +21,21 @@ export async function GET() {
     const resume   = resumeRow[0]?.value ?? '';
     const contacts = contactsRow[0] ? JSON.parse(contactsRow[0].value) : {};
 
-    // Get certificates
-    const certificates = await sql`SELECT * FROM certificates ORDER BY id`;
+    let projects: any[] = [];
+    let certificates: any[] = [];
+
+    if (!minimal) {
+      // Get projects
+      const rawProjects = await sql`SELECT * FROM projects ORDER BY id`;
+      projects = rawProjects.map((p: any) => ({
+        ...p,
+        devs: JSON.parse(p.devs),
+        tags: JSON.parse(p.tags)
+      }));
+
+      // Get certificates
+      certificates = await sql`SELECT * FROM certificates ORDER BY id`;
+    }
 
     return NextResponse.json({ success: true, projects, languages, frameworks, contacts, resume, certificates });
   } catch (error: any) {
