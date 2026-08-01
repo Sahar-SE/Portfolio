@@ -1,0 +1,862 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+
+interface Project {
+  id?: number;
+  title: string;
+  devs: string[];
+  description: string;
+  tags: string[];
+  image: string;
+  liveVersion: string;
+  sourceLink: string;
+  link: string;
+  srcLink: string;
+}
+
+interface Skill {
+  id?: number;
+  name: string;
+  image: string;
+}
+
+interface Contacts {
+  twitter: string;
+  linkedin: string;
+  email: string;
+  github: string;
+  angel: string;
+}
+
+export default function AdminPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  // Admin Data State
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [languages, setLanguages] = useState<Skill[]>([]);
+  const [frameworks, setFrameworks] = useState<Skill[]>([]);
+  const [contacts, setContacts] = useState<Contacts>({
+    twitter: '',
+    linkedin: '',
+    email: '',
+    github: '',
+    angel: ''
+  });
+  const [resume, setResume] = useState('');
+
+  // Tab State
+  const [activeTab, setActiveTab] = useState<'projects' | 'skills' | 'contacts'>('projects');
+
+  // Form State for Adding/Editing Projects
+  const [editingProjectId, setEditingProjectId] = useState<number | null>(null);
+  const [projectForm, setProjectForm] = useState<Project>({
+    title: '',
+    devs: ['frontend', 'backend', '2022'],
+    description: '',
+    tags: [],
+    image: '',
+    liveVersion: 'See Live',
+    sourceLink: 'See Source',
+    link: '',
+    srcLink: ''
+  });
+  const [projectTagsInput, setProjectTagsInput] = useState('');
+
+  // Skill Form State
+  const [newSkillName, setNewSkillName] = useState('');
+  const [newSkillType, setNewSkillType] = useState<'language' | 'framework'>('language');
+  const [newSkillImage, setNewSkillImage] = useState('/img/Ellipse.png');
+
+  // Fetch data from database API on mount
+  const fetchData = async () => {
+    try {
+      const res = await fetch('/api/portfolio');
+      const data = await res.json();
+      if (data.success) {
+        setProjects(data.projects);
+        setLanguages(data.languages);
+        setFrameworks(data.frameworks);
+        setContacts(data.contacts);
+        setResume(data.resume);
+      }
+    } catch (err) {
+      console.error('Error fetching data from API:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === 'admin123') { // Simple default password
+      setIsAuthenticated(true);
+      setError('');
+    } else {
+      setError('Invalid password. Try "admin123"');
+    }
+  };
+
+  // Project Actions
+  const handleSaveProject = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const updatedTags = projectTagsInput.split(',').map(t => t.trim()).filter(Boolean);
+    const body = {
+      ...projectForm,
+      tags: updatedTags,
+      id: editingProjectId || undefined
+    };
+
+    const method = editingProjectId !== null ? 'PUT' : 'POST';
+
+    try {
+      const res = await fetch('/api/portfolio/projects', {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchData();
+        resetProjectForm();
+        alert('Project saved successfully!');
+      } else {
+        alert('Failed to save project: ' + data.error);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleEditProject = (index: number) => {
+    const p = projects[index];
+    setEditingProjectId(p.id || null);
+    setProjectForm(p);
+    setProjectTagsInput(p.tags.join(', '));
+  };
+
+  const handleDeleteProject = async (id?: number) => {
+    if (!id) return;
+    if (!confirm('Are you sure you want to delete this project?')) return;
+
+    try {
+      const res = await fetch(`/api/portfolio/projects?id=${id}`, {
+        method: 'DELETE'
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchData();
+      } else {
+        alert('Failed to delete project: ' + data.error);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const resetProjectForm = () => {
+    setEditingProjectId(null);
+    setProjectForm({
+      title: '',
+      devs: ['frontend', 'backend', '2022'],
+      description: '',
+      tags: [],
+      image: '/img/Snapshoot.png',
+      liveVersion: 'See Live',
+      sourceLink: 'See Source',
+      link: '',
+      srcLink: ''
+    });
+    setProjectTagsInput('');
+  };
+
+  // Skill Actions
+  const handleAddSkill = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newSkillName.trim()) return;
+
+    const body = {
+      name: newSkillName.trim(),
+      image: newSkillImage,
+      type: newSkillType
+    };
+
+    try {
+      const res = await fetch('/api/portfolio/skills', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchData();
+        setNewSkillName('');
+      } else {
+        alert('Failed to add skill: ' + data.error);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteSkill = async (id?: number) => {
+    if (!id) return;
+    try {
+      const res = await fetch(`/api/portfolio/skills?id=${id}`, {
+        method: 'DELETE'
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchData();
+      } else {
+        alert('Failed to delete skill: ' + data.error);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // Contact / Resume Actions
+  const handleSaveContacts = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('/api/portfolio/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ resume, contacts })
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchData();
+        alert('Contacts & CV saved successfully!');
+      } else {
+        alert('Failed to save config: ' + data.error);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div style={adminStyles.loginContainer}>
+        <div style={adminStyles.loginCard}>
+          <h1 style={adminStyles.title}>Admin Panel Login</h1>
+          <form onSubmit={handleLogin} style={adminStyles.form}>
+            <input
+              type="password"
+              placeholder="Enter admin password (admin123)"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={adminStyles.input}
+              required
+            />
+            {error && <p style={adminStyles.error}>{error}</p>}
+            <button type="submit" style={adminStyles.loginBtn}>Login</button>
+          </form>
+          <Link href="/" style={adminStyles.backLink}>← Return to Portfolio</Link>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={adminStyles.adminContainer}>
+      <div style={adminStyles.adminCard}>
+        <div style={adminStyles.header}>
+          <h1 style={adminStyles.dashboardTitle}>Dashboard (DB Managed)</h1>
+          <Link href="/" style={adminStyles.viewBtn}>View Site</Link>
+        </div>
+
+        {/* Tab Selection */}
+        <div style={adminStyles.tabBar}>
+          <button
+            onClick={() => setActiveTab('projects')}
+            style={activeTab === 'projects' ? adminStyles.activeTab : adminStyles.tab}
+          >
+            Projects ({projects.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('skills')}
+            style={activeTab === 'skills' ? adminStyles.activeTab : adminStyles.tab}
+          >
+            Skills ({languages.length + frameworks.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('contacts')}
+            style={activeTab === 'contacts' ? adminStyles.activeTab : adminStyles.tab}
+          >
+            Contacts & CV
+          </button>
+        </div>
+
+        {/* Tab Content: Projects */}
+        {activeTab === 'projects' && (
+          <div style={adminStyles.tabContent}>
+            <h2 style={adminStyles.subTitle}>
+              {editingProjectId !== null ? 'Edit Project' : 'Add New Project'}
+            </h2>
+            <form onSubmit={handleSaveProject} style={adminStyles.projectForm}>
+              <div style={adminStyles.row}>
+                <input
+                  type="text"
+                  placeholder="Project Title"
+                  value={projectForm.title}
+                  onChange={e => setProjectForm({ ...projectForm, title: e.target.value })}
+                  style={adminStyles.inputField}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Image Path (e.g. /img/Snapshoot.png)"
+                  value={projectForm.image}
+                  onChange={e => setProjectForm({ ...projectForm, image: e.target.value })}
+                  style={adminStyles.inputField}
+                  required
+                />
+              </div>
+
+              <div style={adminStyles.row}>
+                <input
+                  type="text"
+                  placeholder="Live Project URL"
+                  value={projectForm.link}
+                  onChange={e => setProjectForm({ ...projectForm, link: e.target.value })}
+                  style={adminStyles.inputField}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Source Code URL"
+                  value={projectForm.srcLink}
+                  onChange={e => setProjectForm({ ...projectForm, srcLink: e.target.value })}
+                  style={adminStyles.inputField}
+                  required
+                />
+              </div>
+
+              <input
+                type="text"
+                placeholder="Tags (comma-separated, e.g. React, Rails, HTML)"
+                value={projectTagsInput}
+                onChange={e => setProjectTagsInput(e.target.value)}
+                style={adminStyles.fullInputField}
+              />
+
+              <textarea
+                placeholder="Project Description..."
+                value={projectForm.description}
+                onChange={e => setProjectForm({ ...projectForm, description: e.target.value })}
+                style={adminStyles.textArea}
+                required
+              />
+
+              <div style={adminStyles.btnRow}>
+                <button type="submit" style={adminStyles.saveBtn}>
+                  {editingProjectId !== null ? 'Update Project' : 'Add Project'}
+                </button>
+                {editingProjectId !== null && (
+                  <button type="button" onClick={resetProjectForm} style={adminStyles.cancelBtn}>
+                    Cancel Edit
+                  </button>
+                )}
+              </div>
+            </form>
+
+            <h2 style={{ ...adminStyles.subTitle, marginTop: '40px' }}>Current Projects</h2>
+            <div style={adminStyles.projectsList}>
+              {projects.map((p, idx) => (
+                <div key={idx} style={adminStyles.projectItem}>
+                  <div>
+                    <h3 style={adminStyles.projectTitle}>{p.title}</h3>
+                    <p style={adminStyles.projectDesc}>{p.description.substring(0, 100)}...</p>
+                  </div>
+                  <div style={adminStyles.actions}>
+                    <button onClick={() => handleEditProject(idx)} style={adminStyles.editBtn}>Edit</button>
+                    <button onClick={() => handleDeleteProject(p.id)} style={adminStyles.deleteBtn}>Delete</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Tab Content: Skills */}
+        {activeTab === 'skills' && (
+          <div style={adminStyles.tabContent}>
+            <h2 style={adminStyles.subTitle}>Add New Skill Badge</h2>
+            <form onSubmit={handleAddSkill} style={adminStyles.skillForm}>
+              <input
+                type="text"
+                placeholder="Skill Name (e.g. Next.js, Python)"
+                value={newSkillName}
+                onChange={e => setNewSkillName(e.target.value)}
+                style={adminStyles.inputField}
+                required
+              />
+              <select
+                value={newSkillType}
+                onChange={e => setNewSkillType(e.target.value as any)}
+                style={adminStyles.select}
+              >
+                <option value="language">Language</option>
+                <option value="framework">Framework</option>
+              </select>
+              <select
+                value={newSkillImage}
+                onChange={e => setNewSkillImage(e.target.value)}
+                style={adminStyles.select}
+              >
+                <option value="">None (No Icon)</option>
+                <option value="/img/Ellipse.png">JS Oval (Gold/Purple)</option>
+                <option value="/img/Ellipse(1).png">HTML Oval (Red)</option>
+                <option value="/img/Ellipse(2).png">CSS Oval (Blue)</option>
+                <option value="/img/ruby.png">Ruby Diamond</option>
+                <option value="/img/mysql.png">MySQL Dolphin</option>
+                <option value="/img/bootstrap.png">Bootstrap Purple</option>
+                <option value="/img/react.png">React Blue</option>
+                <option value="/img/rails.png">Rails Red</option>
+                <option value="/img/tailwind.png">Tailwind Cyan</option>
+              </select>
+              <button type="submit" style={adminStyles.saveBtn}>Add Skill</button>
+            </form>
+
+            <div style={{ ...adminStyles.row, marginTop: '40px', gap: '30px' }}>
+              <div style={{ flex: 1 }}>
+                <h3 style={adminStyles.subTitle}>Languages</h3>
+                <div style={adminStyles.badgeGrid}>
+                  {languages.map((l, idx) => (
+                    <div key={idx} style={adminStyles.badgeItem}>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        {l.image && <img src={l.image} alt={l.name} style={{ width: '20px', height: '20px', marginRight: '8px' }} />}
+                        <span>{l.name}</span>
+                      </div>
+                      <button onClick={() => handleDeleteSkill(l.id)} style={adminStyles.delBadgeBtn}>&times;</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div style={{ flex: 1 }}>
+                <h3 style={adminStyles.subTitle}>Frameworks</h3>
+                <div style={adminStyles.badgeGrid}>
+                  {frameworks.map((f, idx) => (
+                    <div key={idx} style={adminStyles.badgeItem}>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        {f.image && <img src={f.image} alt={f.name} style={{ width: '20px', height: '20px', marginRight: '8px' }} />}
+                        <span>{f.name}</span>
+                      </div>
+                      <button onClick={() => handleDeleteSkill(f.id)} style={adminStyles.delBadgeBtn}>&times;</button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Tab Content: Contacts & Resume */}
+        {activeTab === 'contacts' && (
+          <div style={adminStyles.tabContent}>
+            <h2 style={adminStyles.subTitle}>Manage CV Link & Contacts</h2>
+            <form onSubmit={handleSaveContacts} style={adminStyles.contactsForm}>
+              <div style={adminStyles.contactRow}>
+                <label style={adminStyles.label}>Resume CV Google Drive Link</label>
+                <input
+                  type="text"
+                  value={resume}
+                  onChange={e => setResume(e.target.value)}
+                  style={adminStyles.fullInputField}
+                  required
+                />
+              </div>
+
+              <div style={adminStyles.contactRow}>
+                <label style={adminStyles.label}>Email Address</label>
+                <input
+                  type="text"
+                  value={contacts.email}
+                  onChange={e => setContacts({ ...contacts, email: e.target.value })}
+                  style={adminStyles.fullInputField}
+                  required
+                />
+              </div>
+
+              <div style={adminStyles.contactRow}>
+                <label style={adminStyles.label}>GitHub Profile Link</label>
+                <input
+                  type="text"
+                  value={contacts.github}
+                  onChange={e => setContacts({ ...contacts, github: e.target.value })}
+                  style={adminStyles.fullInputField}
+                  required
+                />
+              </div>
+
+              <div style={adminStyles.contactRow}>
+                <label style={adminStyles.label}>LinkedIn Profile Link</label>
+                <input
+                  type="text"
+                  value={contacts.linkedin}
+                  onChange={e => setContacts({ ...contacts, linkedin: e.target.value })}
+                  style={adminStyles.fullInputField}
+                  required
+                />
+              </div>
+
+              <div style={adminStyles.contactRow}>
+                <label style={adminStyles.label}>Twitter Profile Link</label>
+                <input
+                  type="text"
+                  value={contacts.twitter}
+                  onChange={e => setContacts({ ...contacts, twitter: e.target.value })}
+                  style={adminStyles.fullInputField}
+                />
+              </div>
+
+              <div style={adminStyles.contactRow}>
+                <label style={adminStyles.label}>AngelList/Wellfound Link</label>
+                <input
+                  type="text"
+                  value={contacts.angel}
+                  onChange={e => setContacts({ ...contacts, angel: e.target.value })}
+                  style={adminStyles.fullInputField}
+                />
+              </div>
+
+              <button type="submit" style={{ ...adminStyles.saveBtn, marginTop: '20px', width: '100%' }}>
+                Save Contacts & CV Link
+              </button>
+            </form>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+const adminStyles: Record<string, React.CSSProperties> = {
+  loginContainer: {
+    minHeight: '90vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '20px',
+  },
+  loginCard: {
+    width: '100%',
+    maxWidth: '400px',
+    background: 'rgba(20, 20, 43, 0.75)',
+    backdropFilter: 'blur(20px)',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: '16px',
+    padding: '40px 30px',
+    boxShadow: '0 24px 80px rgba(0,0,0,0.5)',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '24px'
+  },
+  title: {
+    fontSize: '24px',
+    fontWeight: '800',
+    color: '#f0f0ff',
+    textAlign: 'center',
+    letterSpacing: '-0.5px'
+  },
+  form: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px'
+  },
+  input: {
+    width: '100%',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: '8px',
+    padding: '14px',
+    color: '#f0f0ff',
+    fontSize: '14px',
+    outline: 'none',
+    textAlign: 'center'
+  },
+  error: {
+    color: '#ef4444',
+    fontSize: '13px',
+    textAlign: 'center'
+  },
+  loginBtn: {
+    width: '100%',
+    height: '44px',
+    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+    color: 'white',
+    border: 'none',
+    borderRadius: '8px',
+    fontSize: '15px',
+    fontWeight: '600',
+    cursor: 'pointer',
+    boxShadow: '0 4px 15px rgba(99,102,241,0.3)'
+  },
+  backLink: {
+    color: 'rgba(220, 220, 255, 0.5)',
+    textDecoration: 'none',
+    fontSize: '13px',
+    transition: 'color 0.2s'
+  },
+  adminContainer: {
+    minHeight: '100vh',
+    padding: '100px 6% 60px',
+    maxWidth: '1000px',
+    margin: '0 auto'
+  },
+  adminCard: {
+    background: 'rgba(20, 20, 43, 0.65)',
+    backdropFilter: 'blur(24px)',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: '24px',
+    padding: '40px',
+    boxShadow: '0 24px 80px rgba(0,0,0,0.5)',
+  },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottom: '1px solid rgba(255,255,255,0.08)',
+    paddingBottom: '20px',
+    marginBottom: '30px'
+  },
+  dashboardTitle: {
+    fontSize: '28px',
+    fontWeight: '800',
+    color: '#f0f0ff',
+    letterSpacing: '-0.5px'
+  },
+  viewBtn: {
+    padding: '8px 16px',
+    borderRadius: '8px',
+    border: '1px solid rgba(99, 102, 241, 0.4)',
+    color: '#818cf8',
+    textDecoration: 'none',
+    fontWeight: '600',
+    fontSize: '13px',
+    background: 'rgba(99, 102, 241, 0.05)',
+    transition: 'all 0.2s'
+  },
+  tabBar: {
+    display: 'flex',
+    gap: '12px',
+    marginBottom: '30px',
+    borderBottom: '1px solid rgba(255,255,255,0.06)',
+    paddingBottom: '10px'
+  },
+  tab: {
+    padding: '10px 20px',
+    background: 'none',
+    borderTop: 'none',
+    borderLeft: 'none',
+    borderRight: 'none',
+    borderBottom: '2px solid transparent',
+    color: 'rgba(220, 220, 255, 0.5)',
+    cursor: 'pointer',
+    fontSize: '15px',
+    fontWeight: '600',
+    transition: 'color 0.2s, border-color 0.2s'
+  },
+  activeTab: {
+    padding: '10px 20px',
+    background: 'none',
+    borderTop: 'none',
+    borderLeft: 'none',
+    borderRight: 'none',
+    borderBottom: '2px solid #6366f1',
+    color: '#818cf8',
+    cursor: 'pointer',
+    fontSize: '15px',
+    fontWeight: '700',
+  },
+  tabContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '24px'
+  },
+  subTitle: {
+    fontSize: '18px',
+    fontWeight: '700',
+    color: '#f0f0ff',
+    letterSpacing: '-0.3px',
+    marginBottom: '8px'
+  },
+  projectForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px'
+  },
+  row: {
+    display: 'flex',
+    gap: '16px',
+    flexWrap: 'wrap'
+  },
+  inputField: {
+    flex: '1',
+    minWidth: '240px',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: '8px',
+    padding: '12px 16px',
+    color: '#f0f0ff',
+    fontSize: '14px',
+    outline: 'none'
+  },
+  fullInputField: {
+    width: '100%',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: '8px',
+    padding: '12px 16px',
+    color: '#f0f0ff',
+    fontSize: '14px',
+    outline: 'none'
+  },
+  textArea: {
+    width: '100%',
+    height: '120px',
+    backgroundColor: 'rgba(255,255,255,0.04)',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: '8px',
+    padding: '12px 16px',
+    color: '#f0f0ff',
+    fontSize: '14px',
+    outline: 'none',
+    resize: 'vertical'
+  },
+  btnRow: {
+    display: 'flex',
+    gap: '12px'
+  },
+  saveBtn: {
+    padding: '12px 24px',
+    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+    color: 'white',
+    border: 'none',
+    borderRadius: '8px',
+    fontWeight: '600',
+    cursor: 'pointer',
+    fontSize: '14px'
+  },
+  cancelBtn: {
+    padding: '12px 24px',
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    border: '1px solid rgba(255,255,255,0.1)',
+    color: '#f0f0ff',
+    borderRadius: '8px',
+    fontWeight: '600',
+    cursor: 'pointer',
+    fontSize: '14px'
+  },
+  projectsList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '12px'
+  },
+  projectItem: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255,255,255,0.02)',
+    border: '1px solid rgba(255,255,255,0.05)',
+    padding: '20px',
+    borderRadius: '12px',
+    gap: '20px'
+  },
+  projectTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#f0f0ff',
+    marginBottom: '4px'
+  },
+  projectDesc: {
+    fontSize: '13px',
+    color: 'rgba(220,220,255,0.6)'
+  },
+  actions: {
+    display: 'flex',
+    gap: '8px'
+  },
+  editBtn: {
+    padding: '6px 12px',
+    backgroundColor: 'rgba(99, 102, 241, 0.1)',
+    border: '1px solid rgba(99, 102, 241, 0.3)',
+    color: '#818cf8',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontSize: '12px'
+  },
+  deleteBtn: {
+    padding: '6px 12px',
+    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+    border: '1px solid rgba(239, 68, 68, 0.3)',
+    color: '#ef4444',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontSize: '12px'
+  },
+  skillForm: {
+    display: 'flex',
+    gap: '12px',
+    flexWrap: 'wrap',
+    alignItems: 'center'
+  },
+  select: {
+    backgroundColor: '#14142b',
+    border: '1px solid rgba(255,255,255,0.08)',
+    borderRadius: '8px',
+    padding: '12px',
+    color: '#f0f0ff',
+    outline: 'none',
+    fontSize: '14px',
+    cursor: 'pointer'
+  },
+  badgeGrid: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px',
+    marginTop: '12px'
+  },
+  badgeItem: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'rgba(255,255,255,0.03)',
+    padding: '10px 14px',
+    borderRadius: '8px',
+    border: '1px solid rgba(255,255,255,0.05)'
+  },
+  delBadgeBtn: {
+    background: 'none',
+    border: 'none',
+    color: '#ef4444',
+    fontSize: '18px',
+    cursor: 'pointer',
+    lineHeight: '1'
+  },
+  contactsForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px'
+  },
+  contactRow: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px'
+  },
+  label: {
+    fontSize: '13px',
+    color: 'rgba(220, 220, 255, 0.6)',
+    fontWeight: '500'
+  }
+};
