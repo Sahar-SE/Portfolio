@@ -109,11 +109,11 @@ export default function Home() {
   const [contacts, setContacts] = useState<Contacts>(DEFAULT_CONTACTS);
   const [resume, setResume] = useState(DEFAULT_RESUME);
 
-  // Fetch portfolio data from database API on mount
+  // Fetch portfolio data from database API on mount with cache buster
   useEffect(() => {
     const loadPortfolioData = async () => {
       try {
-        const res = await fetch('/api/portfolio');
+        const res = await fetch(`/api/portfolio?t=${Date.now()}`);
         const data = await res.json();
         if (data.success) {
           if (data.projects && data.projects.length > 0) setProjects(data.projects);
@@ -128,6 +128,18 @@ export default function Home() {
     };
     loadPortfolioData();
   }, []);
+
+  // Lock body scroll when popup modal is open to ensure clean mobile focus
+  useEffect(() => {
+    if (activeProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [activeProject]);
 
   // Load draft from localStorage on mount
   useEffect(() => {

@@ -161,7 +161,7 @@ export default function AdminPage() {
   // Fetch data from database API on mount
   const fetchData = async () => {
     try {
-      const res = await fetch('/api/portfolio');
+      const res = await fetch(`/api/portfolio?t=${Date.now()}`);
       const data = await res.json();
       if (data.success) {
         setProjects(data.projects);

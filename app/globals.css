@@ -735,7 +735,7 @@ form label textarea {
   display: flex;
   position: fixed;
   z-index: 200;
-  overflow: auto;
+  overflow-y: auto;
   top: 0;
   left: 0;
   width: 100%;
@@ -743,8 +743,9 @@ form label textarea {
   background: rgba(0, 0, 0, 0.70);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  padding: 40px 0;
 }
 
 .popup-main-container {

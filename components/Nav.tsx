@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import styles from './Nav.module.css';
 import Logo from './Logo';
@@ -9,6 +10,9 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLUListElement>(null);
+  const pathname = usePathname();
+
+  const isAdmin = pathname === '/admin';
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -39,7 +43,7 @@ export default function Nav() {
         <ul className={styles.desktopLinks}>
           {['portfolio', 'about', 'contact'].map((id) => (
             <li key={id}>
-              <a href={`#${id}`} className={styles.link}>
+              <a href={isAdmin ? `/#${id}` : `#${id}`} className={styles.link}>
                 {id.charAt(0).toUpperCase() + id.slice(1)}
               </a>
             </li>
@@ -67,7 +71,7 @@ export default function Nav() {
           </li>
           {['portfolio', 'about', 'contact'].map((id) => (
             <li key={id}>
-              <a href={`#${id}`} className={styles.sideLink} onClick={close}>
+              <a href={isAdmin ? `/#${id}` : `#${id}`} className={styles.sideLink} onClick={close}>
                 {id.charAt(0).toUpperCase() + id.slice(1)}
               </a>
             </li>
