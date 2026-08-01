@@ -71,6 +71,93 @@ export default function AdminPage() {
   const [newSkillType, setNewSkillType] = useState<'language' | 'framework'>('language');
   const [newSkillImage, setNewSkillImage] = useState('/img/Ellipse.png');
 
+  // GitHub README generator states
+  const [isLoadingReadme, setIsLoadingReadme] = useState(false);
+
+  // Helper: Read file as Base64 string
+  const handleImageUpload = (file: File, callback: (base64: string) => void) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (typeof reader.result === 'string') {
+        callback(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Helper: Parse markdown content to readable project introduction paragraph
+  const cleanReadmeToDescription = (markdown: string): string => {
+    let text = markdown;
+    
+    // Remove markdown comments
+    text = text.replace(/<!--[\s\S]*?-->/g, '');
+    // Remove image links: ![alt](url)
+    text = text.replace(/!\[.*?\]\(.*?\)/g, '');
+    // Remove standard links: [text](url) -> text
+    text = text.replace(/\[(.*?)\]\(.*?\)/g, '$1');
+    // Remove HTML tags
+    text = text.replace(/<[^>]*>/g, '');
+    // Remove headers: # header
+    text = text.replace(/^#+\s+.*$/gm, '');
+    // Remove code blocks
+    text = text.replace(/```[\s\S]*?```/g, '');
+    // Remove bullets and other markdown delimiters
+    text = text.replace(/[\*\`\_\-\#\>]/g, '');
+    
+    // Break into paragraphs, filters, and join first few lines
+    const paragraphs = text
+      .split('\n')
+      .map(p => p.trim())
+      .filter(p => p.length > 25);
+    
+    return paragraphs.slice(0, 3).join('\n\n');
+  };
+
+  // Action: Fetch project description from GitHub README
+  const handleGenerateDescription = async () => {
+    const githubUrl = projectForm.srcLink;
+    if (!githubUrl || !githubUrl.includes('github.com')) {
+      alert('Please enter a valid GitHub repository URL in the "Source Code URL" field first.');
+      return;
+    }
+
+    const match = githubUrl.match(/github\.com\/([^\/]+)\/([^\/#\?]+)/);
+    if (!match) {
+      alert('Invalid GitHub URL format. Example: https://github.com/username/repo');
+      return;
+    }
+
+    const owner = match[1];
+    const repo = match[2].replace(/\.git$/, '');
+
+    setIsLoadingReadme(true);
+    try {
+      // Try main branch first
+      let res = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/main/README.md`);
+      if (!res.ok) {
+        // Try master branch
+        res = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/master/README.md`);
+      }
+
+      if (!res.ok) {
+        throw new Error('README.md not found in repository root on main or master branches.');
+      }
+
+      const markdown = await res.text();
+      const desc = cleanReadmeToDescription(markdown);
+      if (!desc) {
+        throw new Error('Could not extract a readable paragraph description from the README.');
+      }
+
+      setProjectForm(prev => ({ ...prev, description: desc }));
+      alert('Successfully populated description from GitHub README!');
+    } catch (err: any) {
+      alert('Failed to generate description: ' + err.message);
+    } finally {
+      setIsLoadingReadme(false);
+    }
+  };
+
   // Fetch data from database API on mount
   const fetchData = async () => {
     try {
@@ -311,15 +398,44 @@ export default function AdminPage() {
                   style={adminStyles.inputField}
                   required
                 />
-                <input
-                  type="text"
-                  placeholder="Image Path (e.g. /img/Snapshoot.png)"
-                  value={projectForm.image}
-                  onChange={e => setProjectForm({ ...projectForm, image: e.target.value })}
-                  style={adminStyles.inputField}
-                  required
-                />
+                <div style={{ flex: '1', minWidth: '240px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <input
+                    type="text"
+                    placeholder="Image URL or Base64"
+                    value={projectForm.image}
+                    onChange={e => setProjectForm({ ...projectForm, image: e.target.value })}
+                    style={adminStyles.inputField}
+                    required
+                  />
+                  <label style={adminStyles.fileUploadBtn}>
+                    Upload File
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{ display: 'none' }}
+                      onChange={e => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          handleImageUpload(file, base64 => {
+                            setProjectForm({ ...projectForm, image: base64 });
+                          });
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
               </div>
+
+              {projectForm.image && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '4px' }}>
+                  <span style={adminStyles.label}>Image Preview:</span>
+                  <img
+                    src={projectForm.image}
+                    alt="Project preview"
+                    style={{ maxHeight: '80px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', objectFit: 'cover' }}
+                  />
+                </div>
+              )}
 
               <div style={adminStyles.row}>
                 <input
@@ -330,14 +446,24 @@ export default function AdminPage() {
                   style={adminStyles.inputField}
                   required
                 />
-                <input
-                  type="text"
-                  placeholder="Source Code URL"
-                  value={projectForm.srcLink}
-                  onChange={e => setProjectForm({ ...projectForm, srcLink: e.target.value })}
-                  style={adminStyles.inputField}
-                  required
-                />
+                <div style={{ flex: '1', minWidth: '240px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <input
+                    type="text"
+                    placeholder="Source Code URL"
+                    value={projectForm.srcLink}
+                    onChange={e => setProjectForm({ ...projectForm, srcLink: e.target.value })}
+                    style={adminStyles.inputField}
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={handleGenerateDescription}
+                    disabled={isLoadingReadme}
+                    style={adminStyles.generateBtn}
+                  >
+                    {isLoadingReadme ? 'Importing...' : 'Fetch README Desc'}
+                  </button>
+                </div>
               </div>
 
               <input
@@ -407,22 +533,52 @@ export default function AdminPage() {
                 <option value="language">Language</option>
                 <option value="framework">Framework</option>
               </select>
-              <select
-                value={newSkillImage}
-                onChange={e => setNewSkillImage(e.target.value)}
-                style={adminStyles.select}
-              >
-                <option value="">None (No Icon)</option>
-                <option value="/img/Ellipse.png">JS Oval (Gold/Purple)</option>
-                <option value="/img/Ellipse(1).png">HTML Oval (Red)</option>
-                <option value="/img/Ellipse(2).png">CSS Oval (Blue)</option>
-                <option value="/img/ruby.png">Ruby Diamond</option>
-                <option value="/img/mysql.png">MySQL Dolphin</option>
-                <option value="/img/bootstrap.png">Bootstrap Purple</option>
-                <option value="/img/react.png">React Blue</option>
-                <option value="/img/rails.png">Rails Red</option>
-                <option value="/img/tailwind.png">Tailwind Cyan</option>
-              </select>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <select
+                  value={newSkillImage.startsWith('data:') ? 'custom' : newSkillImage}
+                  onChange={e => {
+                    if (e.target.value !== 'custom') {
+                      setNewSkillImage(e.target.value);
+                    }
+                  }}
+                  style={adminStyles.select}
+                >
+                  <option value="">None (No Icon)</option>
+                  <option value="/img/Ellipse.png">JS Oval (Gold/Purple)</option>
+                  <option value="/img/Ellipse(1).png">HTML Oval (Red)</option>
+                  <option value="/img/Ellipse(2).png">CSS Oval (Blue)</option>
+                  <option value="/img/ruby.png">Ruby Diamond</option>
+                  <option value="/img/mysql.png">MySQL Dolphin</option>
+                  <option value="/img/bootstrap.png">Bootstrap Purple</option>
+                  <option value="/img/react.png">React Blue</option>
+                  <option value="/img/rails.png">React/Rails Red</option>
+                  <option value="/img/tailwind.png">Tailwind Cyan</option>
+                  {newSkillImage.startsWith('data:') && <option value="custom">Custom Upload</option>}
+                </select>
+                <label style={adminStyles.fileUploadBtn}>
+                  Upload File
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    onChange={e => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        handleImageUpload(file, base64 => {
+                          setNewSkillImage(base64);
+                        });
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+              {newSkillImage && (
+                <img
+                  src={newSkillImage}
+                  alt="Skill preview"
+                  style={{ width: '32px', height: '32px', objectFit: 'contain', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }}
+                />
+              )}
               <button type="submit" style={adminStyles.saveBtn}>Add Skill</button>
             </form>
 
@@ -854,9 +1010,34 @@ const adminStyles: Record<string, React.CSSProperties> = {
     flexDirection: 'column',
     gap: '8px'
   },
-  label: {
+   label: {
     fontSize: '13px',
     color: 'rgba(220, 220, 255, 0.6)',
     fontWeight: '500'
+  },
+  fileUploadBtn: {
+    padding: '12px 18px',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    borderRadius: '8px',
+    color: '#f0f0ff',
+    cursor: 'pointer',
+    fontSize: '14px',
+    fontWeight: '600',
+    textAlign: 'center',
+    whiteSpace: 'nowrap',
+    transition: 'background 0.2s'
+  },
+  generateBtn: {
+    padding: '12px 18px',
+    background: 'rgba(99, 102, 241, 0.1)',
+    border: '1px solid rgba(99, 102, 241, 0.3)',
+    borderRadius: '8px',
+    color: '#818cf8',
+    cursor: 'pointer',
+    fontSize: '14px',
+    fontWeight: '600',
+    whiteSpace: 'nowrap',
+    transition: 'all 0.2s'
   }
 };

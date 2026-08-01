@@ -173,8 +173,8 @@ export default function AuroraCanvas() {
       window.addEventListener('click', onWindowClick, { passive: true });
       window.addEventListener('mousemove', onWindowMouseMove, { passive: true });
       window.addEventListener('scroll', onWindowScroll, { passive: true });
-      window.addEventListener('touchstart', forwardTouchEvent, { passive: false });
-      window.addEventListener('touchmove', forwardTouchEvent, { passive: false });
+      window.addEventListener('touchstart', forwardTouchEvent, { passive: true });
+      window.addEventListener('touchmove', forwardTouchEvent, { passive: true });
 
       cleanupListeners = () => {
         window.removeEventListener('click', onWindowClick);
@@ -204,7 +204,7 @@ export default function AuroraCanvas() {
         width: '100vw',
         height: '100vh',
         zIndex: 0,
-        pointerEvents: 'auto', // Receives native browser pointer inputs directly
+        pointerEvents: 'none', // Allows native browser scroll/swipe touch events to pass through on mobile
       }}
     />
   );
