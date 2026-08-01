@@ -158,3 +158,18 @@
   .burger { display: flex; }
   .sidebar { display: flex; }
 }
+
+.link.active {
+  color: #f0f0ff;
+  background: rgba(99, 102, 241, 0.18);
+  font-weight: 600;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.15) inset;
+}
+
+.sideLink.active {
+  color: #f0f0ff;
+  background: rgba(99, 102, 241, 0.15);
+  font-weight: 600;
+  border-left: 4px solid #6366f1;
+}

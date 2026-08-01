@@ -3,19 +3,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-interface Project {
-  id?: number;
-  title: string;
-  devs: string[];
-  description: string;
-  tags: string[];
-  image: string;
-  liveVersion: string;
-  sourceLink: string;
-  link: string;
-  srcLink: string;
-}
-
 interface Skill {
   id?: number;
   name: string;
@@ -29,46 +16,6 @@ interface Contacts {
   github: string;
   angel: string;
 }
-
-// Fallback initial data
-const DEFAULT_PROJECTS: Project[] = [
-  {
-    title: 'Hotel Reservation',
-    devs: ['frontend', 'backend', '2022'],
-    description:
-      "This application is a web application for final capstone project that you can find your favorite Hotel around the world and reserve it for a specific date, find information about a hotel at details page and cancel a reservation.",
-    tags: ['html', 'css', 'React/Redux', 'Ruby on Rails'],
-    image: '/img/Snapshoot.png',
-    liveVersion: 'See Live',
-    sourceLink: 'See Source',
-    link: 'https://hotel-reservation-i2st.onrender.com/',
-    srcLink: 'https://github.com/Sahar-SE/hotel-reservation'
-  },
-  {
-    title: 'Media Hub',
-    devs: ['HTML/CSS', 'JavaScript', '2022'],
-    description:
-      "In this project, we developed an application that displays movies and allows users to like and comment on their favorite movies. The application is built on HTML, CSS and JavaScript.",
-    tags: ['html', 'css', 'javascript', 'Bootstrap'],
-    image: '/img/Snapshoot(1).png',
-    liveVersion: 'See Live',
-    sourceLink: 'See Source',
-    link: 'https://sahar-se.github.io/MediaHub/',
-    srcLink: 'https://github.com/Sahar-SE/MediaHub',
-  },
-  {
-    title: 'Weather App',
-    devs: ['React', 'Redux', '2021'],
-    description:
-      "This is a SPA react-app project that is built using two APIs. And users can select and choose countries and states and get their updated weather info. I have built this project using react-redux and JavaScript.",
-    tags: ['html', 'css', 'React/Redux', 'API'],
-    image: '/img/Snapshoot(2).png',
-    liveVersion: 'See Live',
-    sourceLink: 'See Source',
-    link: 'https://stellar-pithivier-09ad04.netlify.app/',
-    srcLink: 'https://github.com/Sahar-SE/sakwa-weather-app',
-  }
-];
 
 const DEFAULT_LANGUAGES: Skill[] = [
   { name: 'JavaScript', image: '/img/Ellipse.png' },
@@ -96,14 +43,11 @@ const DEFAULT_CONTACTS: Contacts = {
 const DEFAULT_RESUME = 'https://drive.google.com/file/d/1Lgaswupc8tNLWKjA05i1l4zTLhn77RLl/view?usp=sharing';
 
 export default function Home() {
-  const [activeProject, setActiveProject] = useState<Project | null>(null);
-
   // Form handling state
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [errorMsg, setErrorMsg] = useState('');
 
   // Database-driven States
-  const [projects, setProjects] = useState<Project[]>(DEFAULT_PROJECTS);
   const [languages, setLanguages] = useState<Skill[]>(DEFAULT_LANGUAGES);
   const [frameworks, setFrameworks] = useState<Skill[]>(DEFAULT_FRAMEWORKS);
   const [contacts, setContacts] = useState<Contacts>(DEFAULT_CONTACTS);
@@ -116,7 +60,6 @@ export default function Home() {
         const res = await fetch(`/api/portfolio?t=${Date.now()}`);
         const data = await res.json();
         if (data.success) {
-          if (data.projects && data.projects.length > 0) setProjects(data.projects);
           if (data.languages && data.languages.length > 0) setLanguages(data.languages);
           if (data.frameworks && data.frameworks.length > 0) setFrameworks(data.frameworks);
           if (data.contacts) setContacts(data.contacts);
@@ -128,18 +71,6 @@ export default function Home() {
     };
     loadPortfolioData();
   }, []);
-
-  // Lock body scroll when popup modal is open to ensure clean mobile focus
-  useEffect(() => {
-    if (activeProject) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [activeProject]);
 
   // Load draft from localStorage on mount
   useEffect(() => {
@@ -182,11 +113,11 @@ export default function Home() {
             <span className="gradient-text">Glad to see you!</span>
           </h1>
           <p className="p1">
-            I'm a software developer. I can help you build a product, feature, or website. Look through some of my work and experience — if you like what you see and have a project you need coded, don't hesitate to contact me.
+            I'm a software developer. I specialize in building robust, interactive web applications, crafting custom API integrations, and styling responsive interfaces that feel premium. Look through my portfolio journey below.
           </p>
         </div>
         <div className="part2">
-          <p className="p2">LET's CONNECT</p>
+          <p className="p2">LET'S CONNECT</p>
           <ul className="icons-list">
             {contacts.twitter && (
               <li>
@@ -227,53 +158,94 @@ export default function Home() {
         </div>
       </main>
 
-      {/* ─── Portfolio Cards ─── */}
-      <div className="cards" id="portfolio">
-        {projects.map((p, idx) => (
-          <section key={p.id || idx} className={`card ${idx % 2 === 1 ? 'card2' : ''}`}>
-            <div className="card-img">
-              <img src={p.image} alt={p.title} />
-            </div>
-            <div className="card-contents">
-              <h2 className="card-head">{p.title}</h2>
-              <ul className="list">
-                <li className="brand">Front End</li>
-                <li>
-                  <img src="/img/Counter.png" alt="Counter" />
-                  {p.devs[1] || 'backend'}
-                </li>
-                <li>
-                  <img src="/img/Counter.png" alt="Counter" />
-                  {p.devs[2] || '2022'}
-                </li>
-              </ul>
-              <p className="cards-para">{p.description}</p>
-              <ul className="languages">
-                {p.tags.map((tag, tIdx) => (
-                  <li key={tIdx}>{tag}</li>
-                ))}
-              </ul>
-              <button
-                type="button"
-                className="btn"
-                onClick={() => setActiveProject(p)}
-              >
-                See Project
-              </button>
-            </div>
-          </section>
-        ))}
-      </div>
+      {/* ─── Core Services Section ─── */}
+      <section className="services-section">
+        <div className="section-header">
+          <h2 className="section-title">What I Do</h2>
+          <div className="underline" style={{ margin: '8px auto 0', width: '80px' }} />
+        </div>
+        <div className="services-grid">
+          <div className="service-card">
+            <div className="service-icon-wrap">💻</div>
+            <h3 className="service-title">Front-End Development</h3>
+            <p className="service-desc">
+              Building highly interactive single page applications (SPAs) with React, Next.js, Redux, and modern styled interfaces.
+            </p>
+          </div>
+          <div className="service-card">
+            <div className="service-icon-wrap">⚙️</div>
+            <h3 className="service-title">Back-End Engineering</h3>
+            <p className="service-desc">
+              Developing RESTful API endpoints, background jobs, schema models, and architectures with Ruby on Rails and Node.js.
+            </p>
+          </div>
+          <div className="service-card">
+            <div className="service-icon-wrap">🗄️</div>
+            <h3 className="service-title">Database Design</h3>
+            <p className="service-desc">
+              Configuring relational databases (PostgreSQL, SQLite, MySQL) with query optimization, indexing, and persistent storage.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      {/* ─── About Myself Section ─── */}
+      {/* ─── Journey / Timeline Section ─── */}
+      <section className="journey-section">
+        <div className="section-header">
+          <h2 className="section-title">My Journey</h2>
+          <div className="underline" style={{ margin: '8px auto 0', width: '80px' }} />
+        </div>
+
+        <div className="timeline-container">
+          <div className="timeline-line" />
+          
+          <div className="timeline-item left">
+            <div className="timeline-dot" />
+            <div className="timeline-card">
+              <span className="timeline-date">2023 - Present</span>
+              <h3 className="timeline-title">Full-Stack Software Developer</h3>
+              <h4 className="timeline-subtitle">Independent Projects & Collaborations</h4>
+              <p className="timeline-desc">
+                Building responsive web applications using React, Next.js, and Serverless databases. Creating REST API servers, state configurations, and fluid UI experiences.
+              </p>
+            </div>
+          </div>
+
+          <div className="timeline-item right">
+            <div className="timeline-dot" />
+            <div className="timeline-card">
+              <span className="timeline-date">2022</span>
+              <h3 className="timeline-title">Microverse Program Graduate</h3>
+              <h4 className="timeline-subtitle">Collaborative Remote Academy</h4>
+              <p className="timeline-desc">
+                Spent 1000+ hours mastering algorithms, data structures, test-driven development, and pair-programming on Git/GitHub using React/Redux and Ruby on Rails.
+              </p>
+            </div>
+          </div>
+
+          <div className="timeline-item left">
+            <div className="timeline-dot" />
+            <div className="timeline-card">
+              <span className="timeline-date">2021</span>
+              <h3 className="timeline-title">Front-End Developer Journey</h3>
+              <h4 className="timeline-subtitle">Self-Driven Coding & Open Source</h4>
+              <p className="timeline-desc">
+                Started building user interfaces using pure HTML5, CSS3, and JavaScript (ES6). Mastered responsive design patterns, CSS Grid/Flexbox, and layout accessibility.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── About Myself & Skill Matrix Section ─── */}
       <aside id="about">
         <div className="aside-contents">
           <div className="about">
             <h2 className="aside-head">About Myself</h2>
             <p className="aside-para">
-              I'm a software developer! I can help you build a product, feature, or website. Look through some of my work and experience! If you like what you see and have a project you need coded, don't hesitate to contact me.
+              I'm Sahar, a software developer. I help teams, startups, and clients build beautiful, interactive products. I focus on clean code structures, component modularity, and rich aesthetic interfaces. If you have an application you need designed or code written, check my CV or get in touch.
             </p>
-            <p className="p2">LET's CONNECT</p>
+            <p className="p2">LET'S CONNECT</p>
             <ul className="icons-list">
               {contacts.twitter && (
                 <li>
@@ -368,7 +340,7 @@ export default function Home() {
             method="post"
             onSubmit={handleFormSubmit}
           >
-            <label>
+            <label style={{ width: '100%' }}>
               <input
                 id="name"
                 type="text"
@@ -380,7 +352,7 @@ export default function Home() {
                 onChange={handleInputChange}
               />
             </label>
-            <label>
+            <label style={{ width: '100%' }}>
               <input
                 id="email"
                 type="email"
@@ -392,7 +364,7 @@ export default function Home() {
                 onChange={handleInputChange}
               />
             </label>
-            <label>
+            <label style={{ width: '100%' }}>
               <textarea
                 id="message"
                 name="message"
@@ -415,71 +387,13 @@ export default function Home() {
         </div>
         <img src="/img/Shape.png" alt="sign" className="sign" />
         
-        {/* Subtle, beautiful link in the footer to access the admin panel */}
+        {/* Subtle link to access the admin panel */}
         <div style={{ marginTop: '40px', opacity: 0.2, transition: 'opacity 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'} onMouseLeave={(e) => e.currentTarget.style.opacity = '0.2'}>
           <Link href="/admin" style={{ fontSize: '12px', color: 'rgba(220, 220, 255, 0.6)', textDecoration: 'none', fontWeight: '500' }}>
             Admin Dashboard
           </Link>
         </div>
       </footer>
-
-      {/* ─── Project Modal Popup ─── */}
-      {activeProject && (
-        <div className="popup-menus" onClick={() => setActiveProject(null)}>
-          <div className="popup-main-container" onClick={(e) => e.stopPropagation()}>
-            <div className="popup-content">
-              <div className="popup-heading">
-                <h1 className="popup-project1-title">{activeProject.title}</h1>
-                <button
-                  type="button"
-                  className="popup-close"
-                  onClick={() => setActiveProject(null)}
-                >
-                  &times;
-                </button>
-              </div>
-              <ul className="popup-example-dev">
-                <li className="dev1">• {activeProject.devs[0]}</li>
-                <li className="dev2">• {activeProject.devs[1]}</li>
-                <li className="dev2">• {activeProject.devs[2]}</li>
-              </ul>
-              <div className="popup-desktop">
-                <div className="project-popup-img1">
-                  <div className="popup-container-img">
-                    <img src={activeProject.image} alt={activeProject.title} />
-                  </div>
-                </div>
-                <div className="content-container">
-                  <p className="project-popup-info1">{activeProject.description}</p>
-                  <div className="project-popup-info2">
-                    <ul className="popup-tags">
-                      {activeProject.tags.map((tag, tIdx) => (
-                        <li key={tIdx} className="popup-tag">
-                          {tag}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="popup-button">
-                      <a href={activeProject.link} target="_blank" rel="noopener noreferrer">
-                        <button type="button" className="popup-button1">
-                          {activeProject.liveVersion}
-                          <img src="/img/Icone.png" alt="Live Icon" />
-                        </button>
-                      </a>
-                      <a href={activeProject.srcLink} target="_blank" rel="noopener noreferrer">
-                        <button type="button" className="popup-button1">
-                          {activeProject.sourceLink}
-                          <img src="/img/Vectors.png" alt="Source Icon" />
-                        </button>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }

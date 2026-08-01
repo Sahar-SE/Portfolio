@@ -22,6 +22,13 @@ interface Skill {
   image: string;
 }
 
+interface Certificate {
+  id?: number;
+  title: string;
+  image: string;
+  url?: string;
+}
+
 interface Contacts {
   twitter: string;
   linkedin: string;
@@ -39,6 +46,7 @@ export default function AdminPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [languages, setLanguages] = useState<Skill[]>([]);
   const [frameworks, setFrameworks] = useState<Skill[]>([]);
+  const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [contacts, setContacts] = useState<Contacts>({
     twitter: '',
     linkedin: '',
@@ -49,7 +57,12 @@ export default function AdminPage() {
   const [resume, setResume] = useState('');
 
   // Tab State
-  const [activeTab, setActiveTab] = useState<'projects' | 'skills' | 'contacts'>('projects');
+  const [activeTab, setActiveTab] = useState<'projects' | 'skills' | 'contacts' | 'certificates'>('projects');
+
+  // Certificate Form State
+  const [newCertTitle, setNewCertTitle] = useState('');
+  const [newCertUrl, setNewCertUrl] = useState('');
+  const [newCertImage, setNewCertImage] = useState('');
 
   // Form State for Adding/Editing Projects
   const [editingProjectId, setEditingProjectId] = useState<number | null>(null);
@@ -169,6 +182,7 @@ export default function AdminPage() {
         setFrameworks(data.frameworks);
         setContacts(data.contacts);
         setResume(data.resume);
+        setCertificates(data.certificates || []);
       }
     } catch (err) {
       console.error('Error fetching data from API:', err);
@@ -308,6 +322,60 @@ export default function AdminPage() {
     }
   };
 
+  // Certificate Actions
+  const handleAddCertificate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCertTitle.trim() || !newCertImage) {
+      alert('Please fill out the title and upload an image.');
+      return;
+    }
+
+    const body = {
+      title: newCertTitle.trim(),
+      image: newCertImage,
+      url: newCertUrl.trim()
+    };
+
+    try {
+      const res = await fetch('/api/portfolio/certificates', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchData();
+        setNewCertTitle('');
+        setNewCertUrl('');
+        setNewCertImage('');
+        alert('Certificate added successfully!');
+      } else {
+        alert('Failed to add certificate: ' + data.error);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleDeleteCertificate = async (id?: number) => {
+    if (!id) return;
+    if (!confirm('Are you sure you want to delete this certificate?')) return;
+
+    try {
+      const res = await fetch(`/api/portfolio/certificates?id=${id}`, {
+        method: 'DELETE'
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchData();
+      } else {
+        alert('Failed to delete certificate: ' + data.error);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // Contact / Resume Actions
   const handleSaveContacts = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -379,6 +447,12 @@ export default function AdminPage() {
             style={activeTab === 'contacts' ? adminStyles.activeTab : adminStyles.tab}
           >
             Contacts & CV
+          </button>
+          <button
+            onClick={() => setActiveTab('certificates')}
+            style={activeTab === 'certificates' ? adminStyles.activeTab : adminStyles.tab}
+          >
+            Certificates ({certificates.length})
           </button>
         </div>
 
@@ -688,6 +762,98 @@ export default function AdminPage() {
                 Save Contacts & CV Link
               </button>
             </form>
+          </div>
+        )}
+
+        {/* Tab Content: Certificates */}
+        {activeTab === 'certificates' && (
+          <div style={adminStyles.tabContent}>
+            <h2 style={adminStyles.subTitle}>Add New Certificate</h2>
+            <form onSubmit={handleAddCertificate} style={adminStyles.projectForm}>
+              <div style={adminStyles.row}>
+                <input
+                  type="text"
+                  placeholder="Certificate Title (e.g. Full-Stack Dev Degree)"
+                  value={newCertTitle}
+                  onChange={e => setNewCertTitle(e.target.value)}
+                  style={adminStyles.inputField}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Verification Link (URL, optional)"
+                  value={newCertUrl}
+                  onChange={e => setNewCertUrl(e.target.value)}
+                  style={adminStyles.inputField}
+                />
+              </div>
+
+              <div style={adminStyles.row}>
+                <div style={{ flex: '1', minWidth: '240px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                  <input
+                    type="text"
+                    placeholder="Image URL or Base64 (uploaded)"
+                    value={newCertImage}
+                    onChange={e => setNewCertImage(e.target.value)}
+                    style={adminStyles.inputField}
+                    required
+                  />
+                  <label style={adminStyles.fileUploadBtn}>
+                    Upload Certificate
+                    <input
+                      type="file"
+                      accept="image/*"
+                      style={{ display: 'none' }}
+                      onChange={e => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          handleImageUpload(file, base64 => {
+                            setNewCertImage(base64);
+                          });
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
+              </div>
+
+              {newCertImage && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '4px' }}>
+                  <span style={adminStyles.label}>Certificate Preview:</span>
+                  <img
+                    src={newCertImage}
+                    alt="Certificate preview"
+                    style={{ maxHeight: '100px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', objectFit: 'contain' }}
+                  />
+                </div>
+              )}
+
+              <button type="submit" style={{ ...adminStyles.saveBtn, alignSelf: 'flex-start' }}>
+                Add Certificate
+              </button>
+            </form>
+
+            <h2 style={{ ...adminStyles.subTitle, marginTop: '40px' }}>Current Certificates</h2>
+            <div style={adminStyles.projectsList}>
+              {certificates.map((c, idx) => (
+                <div key={idx} style={adminStyles.projectItem}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    {c.image && (
+                      <img src={c.image} alt={c.title} style={{ width: '60px', height: '40px', objectFit: 'contain', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }} />
+                    )}
+                    <div>
+                      <h3 style={adminStyles.projectTitle}>{c.title}</h3>
+                      {c.url && (
+                        <a href={c.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#818cf8', textDecoration: 'none' }}>
+                          Verify Credential &rarr;
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                  <button onClick={() => handleDeleteCertificate(c.id)} style={adminStyles.deleteBtn}>Delete</button>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>

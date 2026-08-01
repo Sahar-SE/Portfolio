@@ -27,7 +27,10 @@ export async function GET() {
     const resume   = resumeRow[0]?.value ?? '';
     const contacts = contactsRow[0] ? JSON.parse(contactsRow[0].value) : {};
 
-    return NextResponse.json({ success: true, projects, languages, frameworks, contacts, resume });
+    // Get certificates
+    const certificates = await sql`SELECT * FROM certificates ORDER BY id`;
+
+    return NextResponse.json({ success: true, projects, languages, frameworks, contacts, resume, certificates });
   } catch (error: any) {
     console.error('Error fetching database data:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

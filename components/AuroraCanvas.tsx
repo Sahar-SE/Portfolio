@@ -105,8 +105,14 @@ export default function AuroraCanvas() {
         });
       };
 
+      let lastInteractionTime = Date.now();
+      const updateInteraction = () => {
+        lastInteractionTime = Date.now();
+      };
+
       // Handle window mouse move to track coordinate and dispatch to canvas
       const onWindowMouseMove = (e: MouseEvent) => {
+        updateInteraction();
         currentMouseX = e.clientX;
         currentMouseY = e.clientY;
         selectRandomColor(); // Rotate colors on movement
@@ -119,6 +125,7 @@ export default function AuroraCanvas() {
       // TRIGGER:'hover' means the library creates splats from mousemove distance,
       // so no mousedown state is required at all.
       const onWindowClick = (e: MouseEvent) => {
+        updateInteraction();
         const cx = e.clientX;
         const cy = e.clientY;
         const spokes = 14;       // radial directions
@@ -143,6 +150,7 @@ export default function AuroraCanvas() {
       // Handle window scroll to generate ink trails at current mouse position
       let scrollOffset = 1;
       const onWindowScroll = () => {
+        updateInteraction();
         selectRandomColor(); // Rotate colors on scroll
 
         // Toggle offset back and forth to create a non-zero coordinate delta,
@@ -153,6 +161,7 @@ export default function AuroraCanvas() {
       };
 
       const forwardTouchEvent = (e: TouchEvent) => {
+        updateInteraction();
         if (e.targetTouches.length === 0) return;
         const touch = e.targetTouches[0];
         currentMouseX = touch.clientX;
@@ -169,15 +178,69 @@ export default function AuroraCanvas() {
         canvas.dispatchEvent(customEvent);
       };
 
+      const onNavbarClick = (e: Event) => {
+        updateInteraction();
+        const customEvent = e as CustomEvent<{ x: number; y: number }>;
+        const { x, y } = customEvent.detail;
+        
+        // Fire a massive fluid burst at the click coordinates
+        const spokes = 18;
+        const steps = 6;
+        const burstRadius = 55;
+
+        for (let d = 0; d < spokes; d++) {
+          selectRandomColor();
+          const theta = (d / spokes) * 2 * Math.PI;
+          for (let s = 1; s <= steps; s++) {
+            const dist = (burstRadius * s) / steps;
+            const mx = x + Math.cos(theta) * dist;
+            const my = y + Math.sin(theta) * dist;
+            canvas.dispatchEvent(createCustomMouseEvent('mousemove', mx, my));
+          }
+          canvas.dispatchEvent(createCustomMouseEvent('mousemove', x, y));
+        }
+      };
+
+      // Ambient background drifting loop (keeps fluid flows always looping in the background)
+      const triggerDriftSplat = () => {
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight;
+
+        const spokes = 8;
+        const steps = 4;
+        const burstRadius = 32;
+
+        selectRandomColor();
+        for (let d = 0; d < spokes; d++) {
+          const theta = (d / spokes) * 2 * Math.PI;
+          for (let s = 1; s <= steps; s++) {
+            const dist = (burstRadius * s) / steps;
+            const mx = x + Math.cos(theta) * dist;
+            const my = y + Math.sin(theta) * dist;
+            canvas.dispatchEvent(createCustomMouseEvent('mousemove', mx, my));
+          }
+        }
+        canvas.dispatchEvent(createCustomMouseEvent('mousemove', x, y));
+      };
+
+      // Trigger first splat immediately on mount
+      triggerDriftSplat();
+
+      // Keep it looping continuously every 2 seconds
+      const autoInterval = setInterval(triggerDriftSplat, 2000);
+
       // Listeners
       window.addEventListener('click', onWindowClick, { passive: true });
+      window.addEventListener('navbar-click', onNavbarClick, { passive: true });
       window.addEventListener('mousemove', onWindowMouseMove, { passive: true });
       window.addEventListener('scroll', onWindowScroll, { passive: true });
       window.addEventListener('touchstart', forwardTouchEvent, { passive: true });
       window.addEventListener('touchmove', forwardTouchEvent, { passive: true });
 
       cleanupListeners = () => {
+        clearInterval(autoInterval);
         window.removeEventListener('click', onWindowClick);
+        window.removeEventListener('navbar-click', onNavbarClick);
         window.removeEventListener('mousemove', onWindowMouseMove);
         window.removeEventListener('scroll', onWindowScroll);
         window.removeEventListener('touchstart', forwardTouchEvent);
@@ -203,7 +266,7 @@ export default function AuroraCanvas() {
         inset: 0,
         width: '100vw',
         height: '100vh',
-        zIndex: 0,
+        zIndex: -1,
         pointerEvents: 'none', // Allows native browser scroll/swipe touch events to pass through on mobile
       }}
     />
