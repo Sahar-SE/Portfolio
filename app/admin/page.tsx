@@ -260,13 +260,23 @@ export default function AdminPage() {
     fetchData();
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'admin123') { // Simple default password
-      setIsAuthenticated(true);
-      setError('');
-    } else {
-      setError('Invalid password. Try "admin123"');
+    setError('');
+    try {
+      const res = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setIsAuthenticated(true);
+      } else {
+        setError(data.error || 'Incorrect password.');
+      }
+    } catch {
+      setError('Connection error. Please try again.');
     }
   };
 
@@ -531,7 +541,7 @@ export default function AdminPage() {
           <form onSubmit={handleLogin} style={adminStyles.form}>
             <input
               type="password"
-              placeholder="Enter admin password (admin123)"
+              placeholder="Enter admin password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={adminStyles.input}
