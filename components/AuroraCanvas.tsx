@@ -2,25 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-export default function AuroraCanvas() {
+// Inner component that handles the WebGL fluid context and loop
+function FluidCanvas({ isVisible }: { isVisible: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [isVisible, setIsVisible] = useState(true);
-  const [shouldRender, setShouldRender] = useState(true);
-
-  useEffect(() => {
-    const fadeTimer = setTimeout(() => {
-      setIsVisible(false);
-    }, 60000); // Fade out after 1 minute
-
-    const destroyTimer = setTimeout(() => {
-      setShouldRender(false);
-    }, 63000); // Unmount canvas after fade transition (3 seconds) complete
-
-    return () => {
-      clearTimeout(fadeTimer);
-      clearTimeout(destroyTimer);
-    };
-  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -86,8 +70,6 @@ export default function AuroraCanvas() {
       let currentMouseY = window.innerHeight / 2;
 
       // ─── Custom Mouse Event Class ───
-      // Extends native MouseEvent to cleanly override read-only offsetX/offsetY
-      // properties without using Object.defineProperty on the instance.
       class CustomMouseEvent extends MouseEvent {
         private _offsetX: number;
         private _offsetY: number;
@@ -122,14 +104,8 @@ export default function AuroraCanvas() {
         });
       };
 
-      let lastInteractionTime = Date.now();
-      const updateInteraction = () => {
-        lastInteractionTime = Date.now();
-      };
-
       // Handle window mouse move to track coordinate and dispatch to canvas
       const onWindowMouseMove = (e: MouseEvent) => {
-        updateInteraction();
         currentMouseX = e.clientX;
         currentMouseY = e.clientY;
         selectRandomColor(); // Rotate colors on movement
@@ -138,11 +114,8 @@ export default function AuroraCanvas() {
         canvas.dispatchEvent(customEvent);
       };
 
-      // Handle window click — fire a synchronous radial burst of mousemove events.
-      // TRIGGER:'hover' means the library creates splats from mousemove distance,
-      // so no mousedown state is required at all.
+      // Handle window click — fire a synchronous radial burst of mousemove events
       const onWindowClick = (e: MouseEvent) => {
-        updateInteraction();
         const cx = e.clientX;
         const cy = e.clientY;
         const spokes = 14;       // radial directions
@@ -152,14 +125,12 @@ export default function AuroraCanvas() {
         for (let d = 0; d < spokes; d++) {
           selectRandomColor();
           const theta = (d / spokes) * 2 * Math.PI;
-          // Move outward along each spoke
           for (let s = 1; s <= steps; s++) {
             const dist = (burstRadius * s) / steps;
             const mx = cx + Math.cos(theta) * dist;
             const my = cy + Math.sin(theta) * dist;
             canvas.dispatchEvent(createCustomMouseEvent('mousemove', mx, my));
           }
-          // Return to centre so next spoke starts fresh
           canvas.dispatchEvent(createCustomMouseEvent('mousemove', cx, cy));
         }
       };
@@ -167,18 +138,14 @@ export default function AuroraCanvas() {
       // Handle window scroll to generate ink trails at current mouse position
       let scrollOffset = 1;
       const onWindowScroll = () => {
-        updateInteraction();
         selectRandomColor(); // Rotate colors on scroll
 
-        // Toggle offset back and forth to create a non-zero coordinate delta,
-        // which forces WebGL Fluid to draw the trail at the current mouse position.
         scrollOffset = -scrollOffset;
         const scrollEvent = createCustomMouseEvent('mousemove', currentMouseX + scrollOffset, currentMouseY + scrollOffset);
         canvas.dispatchEvent(scrollEvent);
       };
 
       const forwardTouchEvent = (e: TouchEvent) => {
-        updateInteraction();
         if (e.targetTouches.length === 0) return;
         const touch = e.targetTouches[0];
         currentMouseX = touch.clientX;
@@ -196,7 +163,6 @@ export default function AuroraCanvas() {
       };
 
       const onNavbarClick = (e: Event) => {
-        updateInteraction();
         const customEvent = e as CustomEvent<{ x: number; y: number }>;
         const { x, y } = customEvent.detail;
         
@@ -274,8 +240,6 @@ export default function AuroraCanvas() {
     };
   }, []);
 
-  if (!shouldRender) return null;
-
   return (
     <canvas
       ref={canvasRef}
@@ -286,10 +250,60 @@ export default function AuroraCanvas() {
         width: '100vw',
         height: '100vh',
         zIndex: -1,
-        pointerEvents: 'none', // Allows native browser scroll/swipe touch events to pass through on mobile
+        pointerEvents: 'none',
         opacity: isVisible ? 1 : 0,
         transition: 'opacity 3s ease-out',
       }}
     />
   );
+}
+
+// Wrapper component that remains mounted to catch window interaction events and wake up the canvas
+export default function AuroraCanvas() {
+  const [isVisible, setIsVisible] = useState(true);
+  const [shouldRender, setShouldRender] = useState(true);
+
+  const fadeTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const destroyTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const resetInactivityTimer = () => {
+    setIsVisible(true);
+    setShouldRender(true);
+
+    if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
+    if (destroyTimerRef.current) clearTimeout(destroyTimerRef.current);
+
+    fadeTimerRef.current = setTimeout(() => {
+      setIsVisible(false);
+    }, 60000); // Fade out after 1 minute of idle time
+
+    destroyTimerRef.current = setTimeout(() => {
+      setShouldRender(false);
+    }, 63000); // Unmount after fade completes
+  };
+
+  useEffect(() => {
+    resetInactivityTimer();
+
+    const events = ['mousemove', 'click', 'scroll', 'touchstart', 'navbar-click'];
+    const handleActivity = () => {
+      resetInactivityTimer();
+    };
+
+    events.forEach(event => {
+      window.addEventListener(event, handleActivity, { passive: true });
+    });
+
+    return () => {
+      if (fadeTimerRef.current) clearTimeout(fadeTimerRef.current);
+      if (destroyTimerRef.current) clearTimeout(destroyTimerRef.current);
+      events.forEach(event => {
+        window.removeEventListener(event, handleActivity);
+      });
+    };
+  }, []);
+
+  if (!shouldRender) return null;
+
+  return <FluidCanvas isVisible={isVisible} />;
 }
