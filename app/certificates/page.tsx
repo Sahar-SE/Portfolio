@@ -73,6 +73,14 @@ export default function CertificatesPage() {
     </article>
   );
 
+  const renderBadgeCard = (c: Certificate, idx: number) => (
+    <article key={c.id || idx} className="cert-catalog-card cert-catalog-card--badge">
+      <div className="cert-card-image">
+        <img src={c.image} alt={c.title} />
+      </div>
+    </article>
+  );
+
   return (
     <div className="certificates-page-container">
 
@@ -126,7 +134,7 @@ export default function CertificatesPage() {
                 <span className="cred-count-pill cred-count-pill--violet">{badgeList.length}</span>
               </div>
               <div className="badges-catalog-grid">
-                {badgeList.map((c, idx) => renderCard(c, idx))}
+                {badgeList.map((c, idx) => renderBadgeCard(c, idx))}
               </div>
             </section>
           )}

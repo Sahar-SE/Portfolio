@@ -2090,22 +2090,16 @@ form label textarea {
   min-height: 0;
 }
 
+.cert-catalog-card--badge {
+  cursor: default !important;
+}
+
+.cert-catalog-card--badge .cert-card-image {
+  border-bottom: none !important;
+}
+
 .badges-catalog-grid .cert-card-image {
-  height: 140px;
-}
-
-.badges-catalog-grid .cert-card-title {
-  font-size: 14px;
-  text-align: center;
-}
-
-.badges-catalog-grid .cert-card-body {
-  padding: 14px;
-  align-items: center;
-}
-
-.badges-catalog-grid .cert-verify-link {
-  font-size: 12px;
+  height: 160px;
 }
 
 @media screen and (max-width: 768px) {

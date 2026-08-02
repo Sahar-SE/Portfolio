@@ -467,7 +467,7 @@ export default function AdminPage() {
     const body = {
       title: newCertTitle.trim(),
       image: newCertImage,
-      url: newCertUrl.trim(),
+      url: newCertCategory === 'badge' ? '' : newCertUrl.trim(),
       category: newCertCategory
     };
 
@@ -933,19 +933,21 @@ export default function AdminPage() {
               <div style={adminStyles.row}>
                 <input
                   type="text"
-                  placeholder="Certificate / Badge Title"
+                  placeholder={newCertCategory === 'badge' ? "Badge Title (e.g. React Expert)" : "Certificate Title (e.g. Full-Stack Dev Degree)"}
                   value={newCertTitle}
                   onChange={e => setNewCertTitle(e.target.value)}
                   style={adminStyles.inputField}
                   required
                 />
-                <input
-                  type="text"
-                  placeholder="Verification Link (URL, optional)"
-                  value={newCertUrl}
-                  onChange={e => setNewCertUrl(e.target.value)}
-                  style={adminStyles.inputField}
-                />
+                {newCertCategory === 'certificate' && (
+                  <input
+                    type="text"
+                    placeholder="Verification Link (URL, optional)"
+                    value={newCertUrl}
+                    onChange={e => setNewCertUrl(e.target.value)}
+                    style={adminStyles.inputField}
+                  />
+                )}
               </div>
 
               {/* Category selector */}
