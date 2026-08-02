@@ -588,7 +588,7 @@ export default function AdminPage() {
             onClick={() => setActiveTab('certificates')}
             style={activeTab === 'certificates' ? adminStyles.activeTab : adminStyles.tab}
           >
-            Certificates ({certificates.length})
+            Credentials (🎓 {certificates.filter(c => (c.category ?? 'certificate') === 'certificate').length} / 🏅 {certificates.filter(c => c.category === 'badge').length})
           </button>
         </div>
 
