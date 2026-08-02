@@ -538,6 +538,19 @@ export default function AdminPage() {
       <div style={adminStyles.loginContainer}>
         <div style={adminStyles.loginCard}>
           <h1 style={adminStyles.title}>Admin Panel Login</h1>
+          <p style={{
+            fontSize: '13px',
+            color: '#a78bfa',
+            margin: '-12px 0 16px 0',
+            textAlign: 'center',
+            opacity: 0.85,
+            fontWeight: '500',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px'
+          }}>
+            🔒 Only Sahar can access this dashboard.
+          </p>
           <form onSubmit={handleLogin} style={adminStyles.form}>
             <input
               type="password"
