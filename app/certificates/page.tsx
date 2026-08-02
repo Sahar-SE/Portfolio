@@ -13,6 +13,7 @@ interface Certificate {
 export default function CertificatesPage() {
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [activeCertificate, setActiveCertificate] = useState<Certificate | null>(null);
+  const [activeCategory, setActiveCategory] = useState<'certificate' | 'badge'>('certificate');
   const [isLoading, setIsLoading] = useState(true);
 
   // Fetch certificates from DB
@@ -92,6 +93,26 @@ export default function CertificatesPage() {
         </p>
       </section>
 
+      {/* ── Tabs Selector ── */}
+      {!isLoading && certificates.length > 0 && (
+        <div className="controls-bar" style={{ justifyContent: 'center', marginBottom: '40px' }}>
+          <div className="filter-tabs">
+            <button
+              className={`filter-tab ${activeCategory === 'certificate' ? 'active' : ''}`}
+              onClick={() => setActiveCategory('certificate')}
+            >
+              🎓 Certificates ({certList.length})
+            </button>
+            <button
+              className={`filter-tab ${activeCategory === 'badge' ? 'active' : ''}`}
+              onClick={() => setActiveCategory('badge')}
+            >
+              🏅 Badges ({badgeList.length})
+            </button>
+          </div>
+        </div>
+      )}
+
       {isLoading ? (
         <div className="loading-container">
           <div className="loading-spinner">
@@ -104,41 +125,33 @@ export default function CertificatesPage() {
           <p>No certificates or badges are currently published.</p>
         </div>
       ) : (
-        <>
-          {/* ── Certificates Section ── */}
-          {certList.length > 0 && (
-            <section className="cred-section">
-              <div className="cred-section-header">
-                <div className="cred-section-icon">🎓</div>
-                <div>
-                  <h2 className="cred-section-title">Certificates</h2>
-                  <p className="cred-section-subtitle">Verified program completions & degrees</p>
-                </div>
-                <span className="cred-count-pill">{certList.length}</span>
-              </div>
-              <div className="certificates-catalog-grid">
-                {certList.map((c, idx) => renderCard(c, idx))}
-              </div>
-            </section>
+        <div className="tab-content-area">
+          {/* ── Certificates Tab ── */}
+          {activeCategory === 'certificate' && (
+            <div className="certificates-catalog-grid">
+              {certList.length > 0 ? (
+                certList.map((c, idx) => renderCard(c, idx))
+              ) : (
+                <p className="empty-text" style={{ gridColumn: '1 / -1', textAlign: 'center', color: 'var(--text-muted)' }}>
+                  No certificates have been uploaded yet.
+                </p>
+              )}
+            </div>
           )}
 
-          {/* ── Badges Section ── */}
-          {badgeList.length > 0 && (
-            <section className="cred-section">
-              <div className="cred-section-header">
-                <div className="cred-section-icon">🏅</div>
-                <div>
-                  <h2 className="cred-section-title">Badges</h2>
-                  <p className="cred-section-subtitle">Skills, achievements & micro-credentials</p>
-                </div>
-                <span className="cred-count-pill cred-count-pill--violet">{badgeList.length}</span>
-              </div>
-              <div className="badges-catalog-grid">
-                {badgeList.map((c, idx) => renderBadgeCard(c, idx))}
-              </div>
-            </section>
+          {/* ── Badges Tab ── */}
+          {activeCategory === 'badge' && (
+            <div className="badges-catalog-grid">
+              {badgeList.length > 0 ? (
+                badgeList.map((c, idx) => renderBadgeCard(c, idx))
+              ) : (
+                <p className="empty-text" style={{ gridColumn: '1 / -1', textAlign: 'center', color: 'var(--text-muted)' }}>
+                  No badges have been uploaded yet.
+                </p>
+              )}
+            </div>
           )}
-        </>
+        </div>
       )}
 
       {/* ── Lightbox Detail Modal ── */}
