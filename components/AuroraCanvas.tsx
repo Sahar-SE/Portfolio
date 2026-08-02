@@ -135,8 +135,8 @@ function FluidCanvas({ isVisible }: { isVisible: boolean }) {
         const cx = e.clientX;
         const cy = e.clientY;
 
-        // Auto-detect if click happened on an interactive element/item (links, buttons, inputs, form controls, clickable cards/badges)
-        const clickedItem = target.closest('a, button, input, textarea, .btn, .show-more-btn, .tag-more-badge, [role="button"]');
+        // Auto-detect if click happened on an interactive element or title (links, buttons, headings, inputs, badges)
+        const clickedItem = target.closest('h1, h2, h3, h4, h5, h6, a, button, input, textarea, .btn, .show-more-btn, .tag-more-badge, [role="button"]');
 
         if (clickedItem) {
           const isHeaderClick = target && typeof target.closest === 'function' && target.closest('header');
