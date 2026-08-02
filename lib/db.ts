@@ -41,12 +41,15 @@ export async function initDb() {
     `,
     sql`
       CREATE TABLE IF NOT EXISTS certificates (
-        id    SERIAL PRIMARY KEY,
-        title TEXT NOT NULL,
-        image TEXT NOT NULL,
-        url   TEXT
+        id       SERIAL PRIMARY KEY,
+        title    TEXT NOT NULL,
+        image    TEXT NOT NULL,
+        url      TEXT,
+        category TEXT NOT NULL DEFAULT 'certificate'
       )
-    `
+    `,
+    /* Safely add category column to existing tables that pre-date this schema */
+    sql`ALTER TABLE certificates ADD COLUMN IF NOT EXISTS category TEXT NOT NULL DEFAULT 'certificate'`
   ]);
 
   // ── Fetch counts in parallel to check seeding needs ────────────

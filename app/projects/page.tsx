@@ -175,8 +175,11 @@ export default function ProjectsCatalog() {
 
             return (
               <section key={p.id || idx} className={`card ${idx % 2 === 1 ? 'card2' : ''}`}>
-                {/* Image – flex: 1, same width as content */}
-                <div className="card-img">
+                {/* Image container – passes URL to CSS for blurred backdrop */}
+                <div
+                  className="card-img"
+                  style={{ '--card-img-url': `url(${p.image})` } as React.CSSProperties}
+                >
                   <img src={p.image} alt={p.title} />
                 </div>
 
@@ -274,7 +277,10 @@ export default function ProjectsCatalog() {
                 {/* Desktop two-column layout */}
                 <div className="popup-desktop">
                   <div className="project-popup-img1">
-                    <div className="popup-container-img">
+                    <div
+                      className="popup-container-img"
+                      style={{ '--popup-img-url': `url(${activeProject.image})` } as React.CSSProperties}
+                    >
                       <img src={activeProject.image} alt={activeProject.title} />
                     </div>
                   </div>

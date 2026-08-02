@@ -290,33 +290,58 @@ main ul li,
 .card-img {
   flex: 1;
   min-width: 0;
-  height: auto;
   align-self: stretch;
   overflow: hidden;
   position: relative;
+  /* Dark base so contain-mode never shows white edges */
+  background-color: #08080f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Blurred backdrop — same image, fills container, no cropping visible */
+.card-img::before {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  background-image: var(--card-img-url);
+  background-size: cover;
+  background-position: center;
+  filter: blur(18px) brightness(0.35) saturate(1.4);
+  transform: scale(1.1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Accent gradient overlay on hover */
 .card-img::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(99,102,241,0.08) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(99,102,241,0.10) 0%, transparent 60%);
   pointer-events: none;
   transition: opacity 0.3s;
   opacity: 0;
+  z-index: 2;
 }
 
 .card:hover .card-img::after { opacity: 1; }
 
+/* Actual image: contain so nothing is cropped */
 .card-img img {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   display: block;
   transition: transform 0.4s ease;
+  /* Subtle drop-shadow so image pops against the blurred bg */
+  filter: drop-shadow(0 4px 20px rgba(0,0,0,0.6));
 }
 
-.card:hover .card-img img { transform: scale(1.03); }
+.card:hover .card-img img { transform: scale(1.04); }
 
 .card-contents {
   padding: 36px 40px;
@@ -937,9 +962,36 @@ form label textarea {
     border-radius: var(--radius-md);
     width: 100%;
     overflow: hidden;
+    position: relative;
+    background-color: #08080f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 180px;
   }
 
-  .popup-container-img img { width: 100%; display: block; }
+  /* Blurred backdrop in popup image too */
+  .popup-container-img::before {
+    content: '';
+    position: absolute;
+    inset: -10%;
+    background-image: var(--popup-img-url);
+    background-size: cover;
+    background-position: center;
+    filter: blur(16px) brightness(0.30) saturate(1.4);
+    transform: scale(1.1);
+    z-index: 0;
+  }
+
+  .popup-container-img img {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-height: 260px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5));
+  }
 
   .project-popup-img1 { flex: 1; }
   .content-container  { flex: 1; }
@@ -983,14 +1035,13 @@ form label textarea {
   .card-img {
     flex: none;
     width: 100%;
-    height: 200px;
+    height: 220px;
   }
 
   .card-img img {
-    min-height: auto;
-    max-height: none;
-    height: 100%;
     width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   .card-contents {
@@ -1962,6 +2013,122 @@ form label textarea {
 .cert-verify-link:hover {
   color: var(--text-primary);
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   CREDENTIALS PAGE — SECTION HEADERS
+   ═══════════════════════════════════════════════════════════════ */
+.cred-section {
+  margin-bottom: 60px;
+}
+
+.cred-section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.cred-section-icon {
+  font-size: 28px;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.cred-section-title {
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.4px;
+  line-height: 1.2;
+}
+
+.cred-section-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.cred-count-pill {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 28px;
+  padding: 0 10px;
+  background: linear-gradient(135deg, var(--accent-500), var(--accent-violet));
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 999px;
+  box-shadow: var(--shadow-btn);
+  flex-shrink: 0;
+}
+
+.cred-count-pill--violet {
+  background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
+}
+
+/* ── Badges grid: smaller square cards ── */
+.badges-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+/* Badge cards are more compact and square */
+.badges-catalog-grid .cert-catalog-card {
+  min-height: 0;
+}
+
+.badges-catalog-grid .cert-card-image {
+  height: 140px;
+}
+
+.badges-catalog-grid .cert-card-title {
+  font-size: 14px;
+  text-align: center;
+}
+
+.badges-catalog-grid .cert-card-body {
+  padding: 14px;
+  align-items: center;
+}
+
+.badges-catalog-grid .cert-verify-link {
+  font-size: 12px;
+}
+
+@media screen and (max-width: 768px) {
+  .cred-section-header {
+    gap: 12px;
+  }
+
+  .cred-section-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .badges-catalog-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+  }
+
+  .badges-catalog-grid .cert-card-image {
+    height: 110px;
+  }
+}
+
 
 /* ═══════════════════════════════════════════════════════════════
    LIGHTBOX DETAILS MODAL VIEW

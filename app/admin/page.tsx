@@ -27,6 +27,7 @@ interface Certificate {
   title: string;
   image: string;
   url?: string;
+  category?: 'certificate' | 'badge';
 }
 
 interface Contacts {
@@ -63,6 +64,7 @@ export default function AdminPage() {
   const [newCertTitle, setNewCertTitle] = useState('');
   const [newCertUrl, setNewCertUrl] = useState('');
   const [newCertImage, setNewCertImage] = useState('');
+  const [newCertCategory, setNewCertCategory] = useState<'certificate' | 'badge'>('certificate');
 
   // Form State for Adding/Editing Projects
   const [editingProjectId, setEditingProjectId] = useState<number | null>(null);
@@ -455,7 +457,8 @@ export default function AdminPage() {
     const body = {
       title: newCertTitle.trim(),
       image: newCertImage,
-      url: newCertUrl.trim()
+      url: newCertUrl.trim(),
+      category: newCertCategory
     };
 
     try {
@@ -470,6 +473,7 @@ export default function AdminPage() {
         setNewCertTitle('');
         setNewCertUrl('');
         setNewCertImage('');
+        setNewCertCategory('certificate');
         alert('Certificate added successfully!');
       } else {
         alert('Failed to add certificate: ' + data.error);
@@ -919,7 +923,7 @@ export default function AdminPage() {
               <div style={adminStyles.row}>
                 <input
                   type="text"
-                  placeholder="Certificate Title (e.g. Full-Stack Dev Degree)"
+                  placeholder="Certificate / Badge Title"
                   value={newCertTitle}
                   onChange={e => setNewCertTitle(e.target.value)}
                   style={adminStyles.inputField}
@@ -932,6 +936,33 @@ export default function AdminPage() {
                   onChange={e => setNewCertUrl(e.target.value)}
                   style={adminStyles.inputField}
                 />
+              </div>
+
+              {/* Category selector */}
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                <span style={adminStyles.label}>Category:</span>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', color: '#f0f0ff', fontSize: '14px' }}>
+                  <input
+                    type="radio"
+                    name="certCategory"
+                    value="certificate"
+                    checked={newCertCategory === 'certificate'}
+                    onChange={() => setNewCertCategory('certificate')}
+                    style={{ accentColor: '#6366f1' }}
+                  />
+                  🎓 Certificate
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', color: '#f0f0ff', fontSize: '14px' }}>
+                  <input
+                    type="radio"
+                    name="certCategory"
+                    value="badge"
+                    checked={newCertCategory === 'badge'}
+                    onChange={() => setNewCertCategory('badge')}
+                    style={{ accentColor: '#8b5cf6' }}
+                  />
+                  🏅 Badge
+                </label>
               </div>
 
               <div style={adminStyles.row}>
@@ -979,7 +1010,7 @@ export default function AdminPage() {
               </button>
             </form>
 
-            <h2 style={{ ...adminStyles.subTitle, marginTop: '40px' }}>Current Certificates</h2>
+            <h2 style={{ ...adminStyles.subTitle, marginTop: '40px' }}>Current Certificates & Badges</h2>
             <div style={adminStyles.projectsList}>
               {certificates.map((c, idx) => (
                 <div key={idx} style={adminStyles.projectItem}>
@@ -988,7 +1019,18 @@ export default function AdminPage() {
                       <img src={c.image} alt={c.title} style={{ width: '60px', height: '40px', objectFit: 'contain', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }} />
                     )}
                     <div>
-                      <h3 style={adminStyles.projectTitle}>{c.title}</h3>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                        <h3 style={adminStyles.projectTitle}>{c.title}</h3>
+                        <span style={{
+                          fontSize: '10px', fontWeight: '700', textTransform: 'uppercase',
+                          padding: '2px 8px', borderRadius: '4px', letterSpacing: '0.5px',
+                          background: (c as any).category === 'badge' ? 'rgba(139,92,246,0.15)' : 'rgba(99,102,241,0.15)',
+                          color: (c as any).category === 'badge' ? '#a78bfa' : '#818cf8',
+                          border: `1px solid ${(c as any).category === 'badge' ? 'rgba(139,92,246,0.3)' : 'rgba(99,102,241,0.3)'}`
+                        }}>
+                          {(c as any).category === 'badge' ? '🏅 Badge' : '🎓 Certificate'}
+                        </span>
+                      </div>
                       {c.url && (
                         <a href={c.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: '12px', color: '#818cf8', textDecoration: 'none' }}>
                           Verify Credential &rarr;

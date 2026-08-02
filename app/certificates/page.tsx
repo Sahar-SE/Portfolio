@@ -7,6 +7,7 @@ interface Certificate {
   title: string;
   image: string;
   url?: string;
+  category?: 'certificate' | 'badge';
 }
 
 export default function CertificatesPage() {
@@ -32,7 +33,7 @@ export default function CertificatesPage() {
     fetchCertificates();
   }, []);
 
-  // Lock body scroll on lightbox modal active
+  // Lock body scroll when lightbox is open
   useEffect(() => {
     if (activeCertificate) {
       document.body.style.overflow = 'hidden';
@@ -44,8 +45,37 @@ export default function CertificatesPage() {
     };
   }, [activeCertificate]);
 
+  const certList   = certificates.filter(c => (c.category ?? 'certificate') === 'certificate');
+  const badgeList  = certificates.filter(c => c.category === 'badge');
+
+  const renderCard = (c: Certificate, idx: number) => (
+    <article key={c.id || idx} className="cert-catalog-card" onClick={() => setActiveCertificate(c)}>
+      <div className="cert-card-image">
+        <img src={c.image} alt={c.title} />
+        <div className="cert-card-overlay">
+          <span className="view-details-tag">Expand View</span>
+        </div>
+      </div>
+      <div className="cert-card-body">
+        <h2 className="cert-card-title">{c.title}</h2>
+        {c.url && (
+          <a
+            href={c.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={e => e.stopPropagation()}
+            className="cert-verify-link"
+          >
+            Verify Authority &rarr;
+          </a>
+        )}
+      </div>
+    </article>
+  );
+
   return (
     <div className="certificates-page-container">
+
       {/* ── Header ── */}
       <section className="projects-header">
         <h1 className="projects-title">Verified <span className="gradient-text">Credentials</span></h1>
@@ -54,7 +84,6 @@ export default function CertificatesPage() {
         </p>
       </section>
 
-      {/* ── Grid ── */}
       {isLoading ? (
         <div className="loading-container">
           <div className="loading-spinner">
@@ -64,43 +93,57 @@ export default function CertificatesPage() {
         </div>
       ) : certificates.length === 0 ? (
         <div className="empty-results">
-          <p>No certificates are currently published in the catalog.</p>
+          <p>No certificates or badges are currently published.</p>
         </div>
       ) : (
-        <div className="certificates-catalog-grid">
-          {certificates.map((c, idx) => (
-            <article key={c.id || idx} className="cert-catalog-card" onClick={() => setActiveCertificate(c)}>
-              <div className="cert-card-image">
-                <img src={c.image} alt={c.title} />
-                <div className="cert-card-overlay">
-                  <span className="view-details-tag">Expand View</span>
+        <>
+          {/* ── Certificates Section ── */}
+          {certList.length > 0 && (
+            <section className="cred-section">
+              <div className="cred-section-header">
+                <div className="cred-section-icon">🎓</div>
+                <div>
+                  <h2 className="cred-section-title">Certificates</h2>
+                  <p className="cred-section-subtitle">Verified program completions & degrees</p>
                 </div>
+                <span className="cred-count-pill">{certList.length}</span>
               </div>
-              <div className="cert-card-body">
-                <h2 className="cert-card-title">{c.title}</h2>
-                {c.url && (
-                  <a
-                    href={c.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={e => e.stopPropagation()}
-                    className="cert-verify-link"
-                  >
-                    Verify Authority &rarr;
-                  </a>
-                )}
+              <div className="certificates-catalog-grid">
+                {certList.map((c, idx) => renderCard(c, idx))}
               </div>
-            </article>
-          ))}
-        </div>
+            </section>
+          )}
+
+          {/* ── Badges Section ── */}
+          {badgeList.length > 0 && (
+            <section className="cred-section">
+              <div className="cred-section-header">
+                <div className="cred-section-icon">🏅</div>
+                <div>
+                  <h2 className="cred-section-title">Badges</h2>
+                  <p className="cred-section-subtitle">Skills, achievements & micro-credentials</p>
+                </div>
+                <span className="cred-count-pill cred-count-pill--violet">{badgeList.length}</span>
+              </div>
+              <div className="badges-catalog-grid">
+                {badgeList.map((c, idx) => renderCard(c, idx))}
+              </div>
+            </section>
+          )}
+        </>
       )}
 
-      {/* ── Lightbox Details Modal ── */}
+      {/* ── Lightbox Detail Modal ── */}
       {activeCertificate && (
         <div className="lightbox-overlay" onClick={() => setActiveCertificate(null)}>
           <div className="lightbox-container" onClick={e => e.stopPropagation()}>
             <div className="lightbox-header">
-              <h2 className="lightbox-title">{activeCertificate.title}</h2>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span style={{ fontSize: '20px' }}>
+                  {activeCertificate.category === 'badge' ? '🏅' : '🎓'}
+                </span>
+                <h2 className="lightbox-title">{activeCertificate.title}</h2>
+              </div>
               <button className="lightbox-close" onClick={() => setActiveCertificate(null)}>&times;</button>
             </div>
             <div className="lightbox-image-wrap">
@@ -115,7 +158,7 @@ export default function CertificatesPage() {
                   className="btn btn-primary"
                   style={{ textDecoration: 'none' }}
                 >
-                  Verify Certificate Link
+                  Verify {activeCertificate.category === 'badge' ? 'Badge' : 'Certificate'} Link
                 </a>
               </div>
             )}

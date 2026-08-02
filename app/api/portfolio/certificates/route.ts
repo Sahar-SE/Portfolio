@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     await initDb();
-    const certificates = await sql`SELECT * FROM certificates ORDER BY id`;
+    const certificates = await sql`SELECT * FROM certificates ORDER BY id DESC`;
     return NextResponse.json({ success: true, certificates });
   } catch (error: any) {
     console.error('Error fetching certificates:', error);
@@ -19,7 +19,7 @@ export async function GET() {
 export async function PUT(req: Request) {
   try {
     await initDb();
-    const { id, title, image, url } = await req.json();
+    const { id, title, image, url, category } = await req.json();
 
     if (!id || !title || !image) {
       return NextResponse.json({ success: false, error: 'Missing id, title, or image' }, { status: 400 });
@@ -28,9 +28,10 @@ export async function PUT(req: Request) {
     await sql`
       UPDATE certificates
       SET
-        title = ${title},
-        image = ${image},
-        url   = ${url || ''}
+        title    = ${title},
+        image    = ${image},
+        url      = ${url || ''},
+        category = ${category || 'certificate'}
       WHERE id = ${id}
     `;
 
@@ -41,19 +42,19 @@ export async function PUT(req: Request) {
   }
 }
 
-// ── POST: Add a new certificate ──
+// ── POST: Add a new certificate ──────────────────────────────────
 export async function POST(req: Request) {
   try {
     await initDb();
-    const { title, image, url } = await req.json();
+    const { title, image, url, category } = await req.json();
 
     if (!title || !image) {
       return NextResponse.json({ success: false, error: 'Missing title or image' }, { status: 400 });
     }
 
     const rows = await sql`
-      INSERT INTO certificates (title, image, url)
-      VALUES (${title}, ${image}, ${url || ''})
+      INSERT INTO certificates (title, image, url, category)
+      VALUES (${title}, ${image}, ${url || ''}, ${category || 'certificate'})
       RETURNING id
     `;
 
@@ -64,7 +65,7 @@ export async function POST(req: Request) {
   }
 }
 
-// ── DELETE: Delete a certificate by ID ──
+// ── DELETE: Delete a certificate by ID ──────────────────────────
 export async function DELETE(req: Request) {
   try {
     await initDb();
