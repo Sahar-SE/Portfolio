@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     await initDb();
-    const rawProjects = await sql`SELECT * FROM projects ORDER BY id`;
+    const rawProjects = await sql`SELECT * FROM projects ORDER BY id DESC`;
     const projects = rawProjects.map((p: any) => ({
       ...p,
       devs: JSON.parse(p.devs),

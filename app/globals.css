@@ -288,10 +288,10 @@ main ul li,
 }
 
 .card-img {
-  width: 360px;
+  flex: 1;
+  min-width: 0;
   height: auto;
   align-self: stretch;
-  flex-shrink: 0;
   overflow: hidden;
   position: relative;
 }
@@ -320,8 +320,8 @@ main ul li,
 
 .card-contents {
   padding: 36px 40px;
-  width: auto;
-  flex-grow: 1;
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -445,7 +445,13 @@ main ul li,
 
 .btn:hover::before { opacity: 1; }
 
-.btn span, .btn-label { position: relative; z-index: 1; }
+/* Ensure text/icons inside .btn always sit above the ::before overlay */
+.btn span,
+.btn-label,
+.btn > * {
+  position: relative;
+  z-index: 1;
+}
 
 .btn { isolation: isolate; }
 
@@ -890,6 +896,15 @@ form label textarea {
   background: transparent;
   transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
   cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ensure text & icon remain visible above any overlay */
+.popup-button1 span,
+.popup-button1 img {
+  position: relative;
+  z-index: 1;
 }
 
 .popup-button1:hover {
@@ -966,6 +981,7 @@ form label textarea {
   .card2 { flex-direction: column; }
 
   .card-img {
+    flex: none;
     width: 100%;
     height: 200px;
   }
@@ -978,6 +994,7 @@ form label textarea {
   }
 
   .card-contents {
+    flex: none;
     width: 100%;
     padding: 24px 24px 28px;
     gap: 12px;
@@ -1018,6 +1035,73 @@ form label textarea {
   }
 
   .sign { width: 36px; }
+
+  /* ── Popup modal mobile fix ── */
+  .popup-menus {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .popup-main-container {
+    width: 100%;
+    max-width: 100%;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    max-height: 92vh;
+    overflow-y: auto;
+  }
+
+  .popup-content {
+    padding: 20px 16px 28px;
+    gap: 12px;
+  }
+
+  .popup-project1-title {
+    font-size: 1.3rem;
+  }
+
+  .popup-example-dev {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .dev1, .dev2 { font-size: 13px; }
+
+  /* Stack image above content on mobile */
+  .popup-desktop {
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+
+  .project-popup-img1,
+  .content-container {
+    flex: none !important;
+    width: 100% !important;
+  }
+
+  .popup-container-img {
+    width: 100%;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .popup-container-img img {
+    width: 100%;
+    display: block;
+  }
+
+  .popup-button {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .popup-button1 {
+    flex: 1;
+    min-width: 120px;
+    font-size: 13px;
+    padding: 0 14px;
+    height: 40px;
+    justify-content: center;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1659,6 +1743,44 @@ form label textarea {
   font-weight: 600;
   color: var(--accent-400);
   padding: 3px 6px;
+}
+
+/* ── Show More button inside card description ── */
+.show-more-btn {
+  background: none;
+  border: none;
+  color: var(--accent-400);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+  pointer-events: auto;
+}
+
+.show-more-btn:hover {
+  color: var(--accent-violet);
+}
+
+/* ── +N more tag badge in card ── */
+.tag-more-badge {
+  color: var(--accent-400);
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(99, 102, 241, 0.10);
+  border: 1px solid rgba(99, 102, 241, 0.20);
+  border-radius: var(--radius-sm);
+  padding: 4px 12px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.tag-more-badge:hover {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: rgba(99, 102, 241, 0.50);
 }
 
 /* ═══════════════════════════════════════════════════════════════

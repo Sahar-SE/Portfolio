@@ -662,6 +662,30 @@ export default function AdminPage() {
                 </div>
               </div>
 
+              <div style={adminStyles.row}>
+                <input
+                  type="text"
+                  placeholder="Category (e.g. Full Stack, Frontend, Backend)"
+                  value={projectForm.devs[0] || ''}
+                  onChange={e => setProjectForm({ ...projectForm, devs: [e.target.value, projectForm.devs[1] || '', projectForm.devs[2] || ''] })}
+                  style={adminStyles.inputField}
+                />
+                <input
+                  type="text"
+                  placeholder="Type / Sub-label (e.g. Capstone, Personal)"
+                  value={projectForm.devs[1] || ''}
+                  onChange={e => setProjectForm({ ...projectForm, devs: [projectForm.devs[0] || '', e.target.value, projectForm.devs[2] || ''] })}
+                  style={adminStyles.inputField}
+                />
+                <input
+                  type="text"
+                  placeholder="Year (e.g. 2024)"
+                  value={projectForm.devs[2] || ''}
+                  onChange={e => setProjectForm({ ...projectForm, devs: [projectForm.devs[0] || '', projectForm.devs[1] || '', e.target.value] })}
+                  style={{ ...adminStyles.inputField, maxWidth: '120px' }}
+                />
+              </div>
+
               <input
                 type="text"
                 placeholder="Tags (comma-separated, e.g. React, Rails, HTML)"
