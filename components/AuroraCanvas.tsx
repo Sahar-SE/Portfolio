@@ -29,8 +29,9 @@ function FluidCanvas({ isVisible }: { isVisible: boolean }) {
     import('webgl-fluid').then((module) => {
       const WebGLFluid = module.default;
 
-      // Initialize the WebGL Fluid Simulation
-      WebGLFluid(canvas, {
+      let colorScale = 1.0;
+
+      const fluidConfig = {
         TRIGGER: 'hover',
         IMMEDIATE: true,
         AUTO: false,
@@ -48,9 +49,9 @@ function FluidCanvas({ isVisible }: { isVisible: boolean }) {
         SHADING: true,
         COLORFUL: false,               // Disable random colorful spectrum to use website colors
         SPLAT_COLOR: {
-          get r() { return currentColor.r; },
-          get g() { return currentColor.g; },
-          get b() { return currentColor.b; },
+          get r() { return currentColor.r * colorScale; },
+          get g() { return currentColor.g * colorScale; },
+          get b() { return currentColor.b * colorScale; },
         },
         BACK_COLOR: { r: 9, g: 9, b: 15 }, // #09090f background color
         TRANSPARENT: false,
@@ -63,35 +64,23 @@ function FluidCanvas({ isVisible }: { isVisible: boolean }) {
         SUNRAYS: true,
         SUNRAYS_RESOLUTION: 196,
         SUNRAYS_WEIGHT: 0.8,
-      });
+      };
+
+      // Initialize the WebGL Fluid Simulation with the mutable config object
+      WebGLFluid(canvas, fluidConfig);
 
       // Track current mouse position globally for scroll trails
       let currentMouseX = window.innerWidth / 2;
       let currentMouseY = window.innerHeight / 2;
 
-      // ─── Custom Mouse Event Class ───
-      class CustomMouseEvent extends MouseEvent {
-        private _offsetX: number;
-        private _offsetY: number;
-
-        constructor(type: string, dict: MouseEventInit & { offsetX: number; offsetY: number }) {
-          super(type, dict);
-          this._offsetX = dict.offsetX;
-          this._offsetY = dict.offsetY;
-        }
-
-        get offsetX() { return this._offsetX; }
-        get offsetY() { return this._offsetY; }
-      }
-
-      // Helper to construct our CustomMouseEvent
+      // Helper to construct our CustomMouseEvent using standard Object.defineProperties
       const createCustomMouseEvent = (type: string, clientX: number, clientY: number) => {
         const rect = canvas.getBoundingClientRect();
         const offsetX = clientX - rect.left;
         const offsetY = clientY - rect.top;
 
-        return new CustomMouseEvent(type, {
-          bubbles: true,
+        const event = new MouseEvent(type, {
+          bubbles: false, // Set to false to prevent infinite event bubbling loop
           cancelable: true,
           clientX: clientX,
           clientY: clientY,
@@ -99,13 +88,19 @@ function FluidCanvas({ isVisible }: { isVisible: boolean }) {
           screenY: clientY,
           button: 0,
           buttons: 1,
-          offsetX: offsetX,
-          offsetY: offsetY,
         });
+
+        Object.defineProperties(event, {
+          offsetX: { value: offsetX, writable: true, configurable: true },
+          offsetY: { value: offsetY, writable: true, configurable: true },
+        });
+
+        return event;
       };
 
       // Handle window mouse move to track coordinate and dispatch to canvas
       const onWindowMouseMove = (e: MouseEvent) => {
+        if (!e.isTrusted) return; // Prevent loop from custom events
         currentMouseX = e.clientX;
         currentMouseY = e.clientY;
         selectRandomColor(); // Rotate colors on movement
@@ -114,35 +109,54 @@ function FluidCanvas({ isVisible }: { isVisible: boolean }) {
         canvas.dispatchEvent(customEvent);
       };
 
-      // Handle window click — fire a synchronous radial burst of mousemove events
-      const onWindowClick = (e: MouseEvent) => {
-        const cx = e.clientX;
-        const cy = e.clientY;
-        const spokes = 14;       // radial directions
-        const steps = 5;         // moves per spoke (near → far)
-        const burstRadius = 38;  // max px outward
-
+      // Helper to trigger a small simulated mousemove splat (necessary because TRIGGER is 'hover')
+      const triggerSplatAt = (cx: number, cy: number) => {
+        const spokes = 8;
+        const steps = 3;
+        const radius = 10;
         for (let d = 0; d < spokes; d++) {
-          selectRandomColor();
           const theta = (d / spokes) * 2 * Math.PI;
           for (let s = 1; s <= steps; s++) {
-            const dist = (burstRadius * s) / steps;
+            const dist = (radius * s) / steps;
             const mx = cx + Math.cos(theta) * dist;
             const my = cy + Math.sin(theta) * dist;
             canvas.dispatchEvent(createCustomMouseEvent('mousemove', mx, my));
           }
-          canvas.dispatchEvent(createCustomMouseEvent('mousemove', cx, cy));
         }
+        canvas.dispatchEvent(createCustomMouseEvent('mousemove', cx, cy));
       };
 
-      // Handle window scroll to generate ink trails at current mouse position
-      let scrollOffset = 1;
-      const onWindowScroll = () => {
-        selectRandomColor(); // Rotate colors on scroll
+      // Handle window click — fire native mousedown/mouseup splats directly
+      const onWindowClick = (e: MouseEvent) => {
+        if (!e.isTrusted) return; // Prevent loop from custom events
+        const target = e.target as HTMLElement;
+        if (!target) return;
 
-        scrollOffset = -scrollOffset;
-        const scrollEvent = createCustomMouseEvent('mousemove', currentMouseX + scrollOffset, currentMouseY + scrollOffset);
-        canvas.dispatchEvent(scrollEvent);
+        const cx = e.clientX;
+        const cy = e.clientY;
+
+        // Auto-detect if click happened on an interactive element/item (links, buttons, inputs, form controls, clickable cards/badges)
+        const clickedItem = target.closest('a, button, input, textarea, .btn, .show-more-btn, .tag-more-badge, [role="button"]');
+
+        if (clickedItem) {
+          const isHeaderClick = target && typeof target.closest === 'function' && target.closest('header');
+          const spawnY = isHeaderClick ? Math.max(cy, 85) : cy;
+
+          // Force theme color to Indigo (#6366f1) which is colors[0]
+          currentColor = colors[0];
+
+          // Make the splat small and subtle for item clicks
+          fluidConfig.SPLAT_RADIUS = 0.22;  // Standard is 0.65
+          fluidConfig.SPLAT_FORCE = 2500;   // Standard is 8000
+          colorScale = 0.90;
+
+          triggerSplatAt(cx, spawnY);
+
+          // Restore original settings
+          fluidConfig.SPLAT_RADIUS = 0.65;
+          fluidConfig.SPLAT_FORCE = 8000;
+          colorScale = 1.0;
+        }
       };
 
       const forwardTouchEvent = (e: TouchEvent) => {
@@ -165,23 +179,24 @@ function FluidCanvas({ isVisible }: { isVisible: boolean }) {
       const onNavbarClick = (e: Event) => {
         const customEvent = e as CustomEvent<{ x: number; y: number }>;
         const { x, y } = customEvent.detail;
-        
-        // Fire a massive fluid burst at the click coordinates
-        const spokes = 18;
-        const steps = 6;
-        const burstRadius = 55;
 
-        for (let d = 0; d < spokes; d++) {
-          selectRandomColor();
-          const theta = (d / spokes) * 2 * Math.PI;
-          for (let s = 1; s <= steps; s++) {
-            const dist = (burstRadius * s) / steps;
-            const mx = x + Math.cos(theta) * dist;
-            const my = y + Math.sin(theta) * dist;
-            canvas.dispatchEvent(createCustomMouseEvent('mousemove', mx, my));
-          }
-          canvas.dispatchEvent(createCustomMouseEvent('mousemove', x, y));
-        }
+        // Spawn below the blurred header
+        const spawnY = Math.max(y, 85);
+
+        // Force theme color to Indigo (#6366f1) which is colors[0]
+        currentColor = colors[0];
+
+        // Make the splat small and subtle
+        fluidConfig.SPLAT_RADIUS = 0.22;
+        fluidConfig.SPLAT_FORCE = 2500;
+        colorScale = 0.90;
+
+        triggerSplatAt(x, spawnY);
+
+        // Restore original settings
+        fluidConfig.SPLAT_RADIUS = 0.65;
+        fluidConfig.SPLAT_FORCE = 8000;
+        colorScale = 1.0;
       };
 
       // Ambient background drifting loop (keeps fluid flows always looping in the background)
@@ -209,25 +224,19 @@ function FluidCanvas({ isVisible }: { isVisible: boolean }) {
       // Trigger first splat immediately on mount
       triggerDriftSplat();
 
-      // Keep it looping continuously every 2 seconds
-      const autoInterval = setInterval(triggerDriftSplat, 2000);
+      // Keep it looping continuously every 70 seconds
+      const autoInterval = setInterval(triggerDriftSplat, 70000);
 
       // Listeners
       window.addEventListener('click', onWindowClick, { passive: true });
       window.addEventListener('navbar-click', onNavbarClick, { passive: true });
-      window.addEventListener('mousemove', onWindowMouseMove, { passive: true });
-      window.addEventListener('scroll', onWindowScroll, { passive: true });
       window.addEventListener('touchstart', forwardTouchEvent, { passive: true });
-      window.addEventListener('touchmove', forwardTouchEvent, { passive: true });
 
       cleanupListeners = () => {
         clearInterval(autoInterval);
         window.removeEventListener('click', onWindowClick);
         window.removeEventListener('navbar-click', onNavbarClick);
-        window.removeEventListener('mousemove', onWindowMouseMove);
-        window.removeEventListener('scroll', onWindowScroll);
         window.removeEventListener('touchstart', forwardTouchEvent);
-        window.removeEventListener('touchmove', forwardTouchEvent);
       };
     }).catch((err) => {
       console.error('Failed to load webgl-fluid:', err);
@@ -275,11 +284,11 @@ export default function AuroraCanvas() {
 
     fadeTimerRef.current = setTimeout(() => {
       setIsVisible(false);
-    }, 60000); // Fade out after 1 minute of idle time
+    }, 70000); // Fade out after 70 seconds of idle time
 
     destroyTimerRef.current = setTimeout(() => {
       setShouldRender(false);
-    }, 63000); // Unmount after fade completes
+    }, 73000); // Unmount after fade completes
   };
 
   useEffect(() => {

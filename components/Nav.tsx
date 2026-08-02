@@ -72,6 +72,7 @@ export default function Nav() {
   const needHashRedirect = !isHome;
 
   const triggerNavSplash = (e: React.MouseEvent) => {
+    console.log('triggerNavSplash dispatched coordinates:', e.clientX, e.clientY);
     window.dispatchEvent(
       new CustomEvent('navbar-click', {
         detail: { x: e.clientX, y: e.clientY }
