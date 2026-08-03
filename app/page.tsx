@@ -90,6 +90,68 @@ const renderContactIcon = (key: string, customIcon?: string) => {
   );
 };
 
+const FullStackIcon = () => (
+  <svg viewBox="0 0 24 24" className="neon-svg-icon neon-thunder-glow">
+    <rect x="2" y="3" width="20" height="12" rx="2" strokeWidth="2" />
+    <path d="M8 21h8M12 15v6" strokeWidth="2" />
+    <path d="M7 7l-2 2 2 2M11 11l2-4" strokeWidth="1.5" className="electric-line" />
+    <path d="M17 5l-4 6h4l-3 6" stroke="#00f2fe" strokeWidth="2.5" className="neon-thunder-bolt" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const AIIcon = () => (
+  <svg viewBox="0 0 24 24" className="neon-svg-icon neon-thunder-glow">
+    <circle cx="6" cy="7" r="2" strokeWidth="1.5" />
+    <circle cx="18" cy="7" r="2" strokeWidth="1.5" />
+    <circle cx="5" cy="15" r="2" strokeWidth="1.5" />
+    <circle cx="19" cy="15" r="2" strokeWidth="1.5" />
+    <path d="M8 7h8M7 9l4 4M17 9l-4 4M6 9v4M18 9v4" strokeWidth="1" strokeDasharray="2,2" className="electric-line" />
+    <circle cx="12" cy="13" r="3" strokeWidth="2" />
+    <path d="M13 2l-3 6h4l-2.5 5" stroke="#818cf8" strokeWidth="2.5" className="neon-thunder-bolt" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const RagIcon = () => (
+  <svg viewBox="0 0 24 24" className="neon-svg-icon neon-thunder-glow">
+    <ellipse cx="6" cy="6" rx="3.5" ry="1.5" strokeWidth="1.5" />
+    <path d="M2.5 6v5c0 1 1.5 1.5 3.5 1.5s3.5-.5 3.5-1.5V6" strokeWidth="1.5" />
+    <path d="M2.5 11v5c0 1 1.5 1.5 3.5 1.5s3.5-.5 3.5-1.5v-5" strokeWidth="1.5" />
+    <rect x="14" y="5" width="7" height="10" rx="1" strokeWidth="1.5" />
+    <path d="M16 8h3M16 11h3" strokeWidth="1" strokeDasharray="2,2" className="electric-line" />
+    <path d="M15 7l-4 4h2.5l-3.5 4" stroke="#34d399" strokeWidth="2.5" className="neon-thunder-bolt" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const AgenticIcon = () => (
+  <svg viewBox="0 0 24 24" className="neon-svg-icon neon-thunder-glow">
+    <circle cx="12" cy="12" r="3.5" strokeWidth="2" />
+    <circle cx="4" cy="6" r="1.5" strokeWidth="1.5" />
+    <circle cx="20" cy="6" r="1.5" strokeWidth="1.5" />
+    <circle cx="4" cy="18" r="1.5" strokeWidth="1.5" />
+    <circle cx="20" cy="18" r="1.5" strokeWidth="1.5" />
+    <path d="M6 7.5l3.5 2.5M18 7.5l-3.5 2.5M6 16.5l3.5-2.5M18 16.5l-3.5-2.5" strokeWidth="1" strokeDasharray="3,3" className="electric-line" />
+    <path d="M11 9.5L10 5M13 14.5l1.5 4.5M14.5 10l5.5-1.5M9.5 13.5l-5.5 1" stroke="#c084fc" strokeWidth="2" className="neon-thunder-bolt" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const ProjectIcon = () => (
+  <svg viewBox="0 0 24 24" className="neon-svg-icon neon-thunder-glow">
+    <rect x="3" y="5" width="18" height="14" rx="1.5" strokeWidth="1.5" />
+    <path d="M3 10h18M8 5v14M14 5v14" strokeWidth="1" strokeOpacity="0.3" />
+    <path d="M5 15l5-4h4l5-5" strokeWidth="1.5" strokeDasharray="3,3" strokeOpacity="0.6" className="electric-line" />
+    <path d="M5 16l6-5h-3.5l7-6" stroke="#60a5fa" strokeWidth="2.5" className="neon-thunder-bolt" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const QaIcon = () => (
+  <svg viewBox="0 0 24 24" className="neon-svg-icon neon-thunder-glow">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" strokeWidth="1.5" />
+    <circle cx="12" cy="11" r="2" strokeWidth="1.5" strokeOpacity="0.4" />
+    <path d="M9 11h6M10 8l-1.5-1.5M14 8l1.5-1.5M10 14l-1.5 1.5M14 14l1.5 1.5" strokeWidth="1" strokeOpacity="0.4" />
+    <path d="M14.5 4l-4.5 7h4l-3 6" stroke="#818cf8" strokeWidth="2.5" className="neon-thunder-bolt" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 export default function Home() {
   // Form handling state
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -206,43 +268,55 @@ export default function Home() {
           <div className="underline" style={{ margin: '8px auto 0', width: '80px' }} />
         </div>
         <div className="services-grid">
-          <div className="service-card">
-            <div className="service-icon-wrap">💻</div>
+          <div className="service-card neon-cyan">
+            <div className="service-icon-wrap">
+              <FullStackIcon />
+            </div>
             <h3 className="service-title">Full-Stack Development</h3>
             <p className="service-desc">
               Building interactive, responsive web applications and robust APIs using JavaScript, React, Ruby on Rails, and modern CSS/SQL configurations.
             </p>
           </div>
-          <div className="service-card">
-            <div className="service-icon-wrap">🤖</div>
+          <div className="service-card neon-indigo">
+            <div className="service-icon-wrap">
+              <AIIcon />
+            </div>
             <h3 className="service-title">Applied AI Integration</h3>
             <p className="service-desc">
               Embedding state-of-the-art Large Language Models (LLMs) and custom prompt engineering flows directly into production web products.
             </p>
           </div>
-          <div className="service-card">
-            <div className="service-icon-wrap">🗂️</div>
+          <div className="service-card neon-emerald">
+            <div className="service-icon-wrap">
+              <RagIcon />
+            </div>
             <h3 className="service-title">Retrieval-Augmented Generation (RAG)</h3>
             <p className="service-desc">
               Designing semantic search engines and vector database pipelines to deliver contextual data to LLMs with high precision.
             </p>
           </div>
-          <div className="service-card">
-            <div className="service-icon-wrap">⚙️</div>
+          <div className="service-card neon-purple">
+            <div className="service-icon-wrap">
+              <AgenticIcon />
+            </div>
             <h3 className="service-title">Agentic AI Orchestration</h3>
             <p className="service-desc">
               Constructing autonomous AI agents with structured output flows, cognitive planning loops, and programmatic tool execution capabilities.
             </p>
           </div>
-          <div className="service-card">
-            <div className="service-icon-wrap">📈</div>
+          <div className="service-card neon-blue">
+            <div className="service-icon-wrap">
+              <ProjectIcon />
+            </div>
             <h3 className="service-title">Project Management</h3>
             <p className="service-desc">
               Leading software development lifecycles with Agile workflows, scope definition, sprint planning, and cross-functional team collaborations.
             </p>
           </div>
-          <div className="service-card">
-            <div className="service-icon-wrap">🛡️</div>
+          <div className="service-card neon-indigo">
+            <div className="service-icon-wrap">
+              <QaIcon />
+            </div>
             <h3 className="service-title">Quality Assurance & Testing</h3>
             <p className="service-desc">
               Implementing robust unit, integration, and end-to-end testing strategies alongside automated CI/CD audits to guarantee reliability.
