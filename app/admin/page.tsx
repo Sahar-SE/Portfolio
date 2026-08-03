@@ -30,12 +30,13 @@ interface Certificate {
   category?: 'certificate' | 'badge';
 }
 
+interface ContactEntry {
+  url: string;
+  icon?: string;
+}
+
 interface Contacts {
-  twitter: string;
-  linkedin: string;
-  email: string;
-  github: string;
-  angel: string;
+  [key: string]: ContactEntry | undefined;
 }
 
 export default function AdminPage() {
@@ -49,11 +50,11 @@ export default function AdminPage() {
   const [frameworks, setFrameworks] = useState<Skill[]>([]);
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [contacts, setContacts] = useState<Contacts>({
-    twitter: '',
-    linkedin: '',
-    email: '',
-    github: '',
-    angel: ''
+    twitter: { url: '' },
+    linkedin: { url: '' },
+    email: { url: '' },
+    github: { url: '' },
+    angel: { url: '' }
   });
   const [resume, setResume] = useState('');
 
@@ -88,6 +89,11 @@ export default function AdminPage() {
 
   // GitHub README generator states
   const [isLoadingReadme, setIsLoadingReadme] = useState(false);
+
+  // Custom Contact Form State
+  const [newContactKey, setNewContactKey] = useState('');
+  const [newContactVal, setNewContactVal] = useState('');
+  const [newContactIcon, setNewContactIcon] = useState('');
 
   // Helper: Read file as Base64 string with canvas image compression (max dimension 800px, 0.70 JPEG quality)
   const handleImageUpload = (file: File, callback: (base64: string) => void) => {
@@ -247,7 +253,17 @@ export default function AdminPage() {
         setProjects(data.projects);
         setLanguages(data.languages);
         setFrameworks(data.frameworks);
-        setContacts(data.contacts);
+        if (data.contacts) {
+          const normalized: Record<string, { url: string; icon?: string }> = {};
+          for (const [k, v] of Object.entries(data.contacts)) {
+            if (typeof v === 'string') {
+              normalized[k] = { url: v };
+            } else if (v && typeof v === 'object' && 'url' in v) {
+              normalized[k] = { url: (v as any).url || '', icon: (v as any).icon };
+            }
+          }
+          setContacts(normalized as any);
+        }
         setResume(data.resume);
         setCertificates(data.certificates || []);
       }
@@ -878,57 +894,154 @@ export default function AdminPage() {
                 />
               </div>
 
-              <div style={adminStyles.contactRow}>
-                <label style={adminStyles.label}>Email Address</label>
-                <input
-                  type="text"
-                  value={contacts.email}
-                  onChange={e => setContacts({ ...contacts, email: e.target.value })}
-                  style={adminStyles.fullInputField}
-                  required
-                />
-              </div>
+              {Object.keys(contacts).map((key) => {
+                const isRequired = ['email', 'github', 'linkedin'].includes(key);
+                const label = key.charAt(0).toUpperCase() + key.slice(1);
+                const isCustom = !['email', 'github', 'linkedin', 'twitter', 'angel'].includes(key);
 
-              <div style={adminStyles.contactRow}>
-                <label style={adminStyles.label}>GitHub Profile Link</label>
-                <input
-                  type="text"
-                  value={contacts.github}
-                  onChange={e => setContacts({ ...contacts, github: e.target.value })}
-                  style={adminStyles.fullInputField}
-                  required
-                />
-              </div>
+                return (
+                  <div style={adminStyles.contactRow} key={key}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                      <label style={adminStyles.label}>{label} Link</label>
+                      {isCustom && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const updated = { ...contacts };
+                            delete updated[key];
+                            setContacts(updated);
+                          }}
+                          style={{
+                            background: 'none',
+                            border: 'none',
+                            color: '#f87171',
+                            cursor: 'pointer',
+                            fontSize: '12px',
+                            fontWeight: '600'
+                          }}
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <input
+                        type="text"
+                        value={contacts[key]?.url || ''}
+                        onChange={e => setContacts({ ...contacts, [key]: { ...contacts[key], url: e.target.value } })}
+                        style={{ ...adminStyles.fullInputField, flex: 1, margin: 0 }}
+                        required={isRequired}
+                      />
+                      {isCustom && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          {contacts[key]?.icon && (
+                            <img
+                              src={contacts[key].icon}
+                              alt="icon"
+                              style={{ width: '28px', height: '28px', borderRadius: '4px', border: '1px solid var(--border)', objectFit: 'contain', background: '#09090f' }}
+                            />
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            id={`icon-upload-${key}`}
+                            onChange={e => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                handleImageUpload(file, (base64) => {
+                                  setContacts({ ...contacts, [key]: { ...contacts[key], icon: base64 } });
+                                });
+                              }
+                            }}
+                            style={{ display: 'none' }}
+                          />
+                          <label htmlFor={`icon-upload-${key}`} style={{ ...adminStyles.editBtn, padding: '8px 12px', fontSize: '11px', cursor: 'pointer', display: 'inline-block', height: 'auto', lineHeight: 'normal' }}>
+                            Icon
+                          </label>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
 
-              <div style={adminStyles.contactRow}>
-                <label style={adminStyles.label}>LinkedIn Profile Link</label>
-                <input
-                  type="text"
-                  value={contacts.linkedin}
-                  onChange={e => setContacts({ ...contacts, linkedin: e.target.value })}
-                  style={adminStyles.fullInputField}
-                  required
-                />
-              </div>
-
-              <div style={adminStyles.contactRow}>
-                <label style={adminStyles.label}>Twitter Profile Link</label>
-                <input
-                  type="text"
-                  value={contacts.twitter}
-                  onChange={e => setContacts({ ...contacts, twitter: e.target.value })}
-                  style={adminStyles.fullInputField}
-                />
-              </div>
-
-              <div style={adminStyles.contactRow}>
-                <label style={adminStyles.label}>AngelList/Wellfound Link</label>
-                <input
-                  type="text"
-                  value={contacts.angel}
-                  onChange={e => setContacts({ ...contacts, angel: e.target.value })}
-                  style={adminStyles.fullInputField}
-                />
+              <div style={{
+                marginTop: '32px',
+                borderTop: '1px solid var(--border)',
+                paddingTop: '24px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px'
+              }}>
+                <h3 style={{ ...adminStyles.subTitle, fontSize: '15px', color: '#a78bfa', marginBottom: '4px' }}>
+                  Add Custom Contact Link
+                </h3>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                  <input
+                    type="text"
+                    placeholder="Platform Name (e.g. Telegram)"
+                    value={newContactKey}
+                    onChange={e => setNewContactKey(e.target.value)}
+                    style={{ ...adminStyles.inputField, flex: 1, margin: 0 }}
+                  />
+                  <input
+                    type="text"
+                    placeholder="URL (e.g. https://t.me/...)"
+                    value={newContactVal}
+                    onChange={e => setNewContactVal(e.target.value)}
+                    style={{ ...adminStyles.inputField, flex: 2, margin: 0 }}
+                  />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {newContactIcon && (
+                      <img
+                        src={newContactIcon}
+                        alt="preview"
+                        style={{ width: '28px', height: '28px', borderRadius: '4px', border: '1px solid var(--border)', objectFit: 'contain', background: '#09090f' }}
+                      />
+                    )}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id="new-contact-icon"
+                      onChange={e => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          handleImageUpload(file, (base64) => {
+                            setNewContactIcon(base64);
+                          });
+                        }
+                      }}
+                      style={{ display: 'none' }}
+                    />
+                    <label htmlFor="new-contact-icon" style={{ ...adminStyles.editBtn, padding: '10px 14px', fontSize: '12px', cursor: 'pointer', display: 'inline-block', height: 'auto', lineHeight: 'normal' }}>
+                      {newContactIcon ? 'Change Icon' : 'Upload Icon'}
+                    </label>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const k = newContactKey.trim().toLowerCase();
+                      if (!k) {
+                        alert('Please enter a platform name.');
+                        return;
+                      }
+                      if (contacts[k] !== undefined) {
+                        alert('This contact platform already exists.');
+                        return;
+                      }
+                      setContacts({
+                        ...contacts,
+                        [k]: { url: newContactVal.trim(), icon: newContactIcon || undefined }
+                      });
+                      setNewContactKey('');
+                      setNewContactVal('');
+                      setNewContactIcon('');
+                    }}
+                    style={{ ...adminStyles.editBtn, height: '40px', padding: '0 18px' }}
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
 
               <button type="submit" style={{ ...adminStyles.saveBtn, marginTop: '20px', width: '100%' }}>
