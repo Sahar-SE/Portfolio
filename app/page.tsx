@@ -167,23 +167,44 @@ export default function Home() {
         <div className="services-grid">
           <div className="service-card">
             <div className="service-icon-wrap">💻</div>
-            <h3 className="service-title">Front-End Development</h3>
+            <h3 className="service-title">Full-Stack Development</h3>
             <p className="service-desc">
-              Building highly interactive single page applications (SPAs) with React, Next.js, Redux, and modern styled interfaces.
+              Building interactive, responsive web applications and robust APIs using JavaScript, React, Ruby on Rails, and modern CSS/SQL configurations.
+            </p>
+          </div>
+          <div className="service-card">
+            <div className="service-icon-wrap">🤖</div>
+            <h3 className="service-title">Applied AI Integration</h3>
+            <p className="service-desc">
+              Embedding state-of-the-art Large Language Models (LLMs) and custom prompt engineering flows directly into production web products.
+            </p>
+          </div>
+          <div className="service-card">
+            <div className="service-icon-wrap">🗂️</div>
+            <h3 className="service-title">Retrieval-Augmented Generation (RAG)</h3>
+            <p className="service-desc">
+              Designing semantic search engines and vector database pipelines to deliver contextual data to LLMs with high precision.
             </p>
           </div>
           <div className="service-card">
             <div className="service-icon-wrap">⚙️</div>
-            <h3 className="service-title">Back-End Engineering</h3>
+            <h3 className="service-title">Agentic AI Orchestration</h3>
             <p className="service-desc">
-              Developing RESTful API endpoints, background jobs, schema models, and architectures with Ruby on Rails and Node.js.
+              Constructing autonomous AI agents with structured output flows, cognitive planning loops, and programmatic tool execution capabilities.
             </p>
           </div>
           <div className="service-card">
-            <div className="service-icon-wrap">🗄️</div>
-            <h3 className="service-title">Database Design</h3>
+            <div className="service-icon-wrap">📈</div>
+            <h3 className="service-title">Project Management</h3>
             <p className="service-desc">
-              Configuring relational databases (PostgreSQL, SQLite, MySQL) with query optimization, indexing, and persistent storage.
+              Leading software development lifecycles with Agile workflows, scope definition, sprint planning, and cross-functional team collaborations.
+            </p>
+          </div>
+          <div className="service-card">
+            <div className="service-icon-wrap">🛡️</div>
+            <h3 className="service-title">Quality Assurance & Testing</h3>
+            <p className="service-desc">
+              Implementing robust unit, integration, and end-to-end testing strategies alongside automated CI/CD audits to guarantee reliability.
             </p>
           </div>
         </div>
@@ -202,11 +223,11 @@ export default function Home() {
           <div className="timeline-item left">
             <div className="timeline-dot" />
             <div className="timeline-card">
-              <span className="timeline-date">2023 - Present</span>
-              <h3 className="timeline-title">Full-Stack Software Developer</h3>
-              <h4 className="timeline-subtitle">Independent Projects & Collaborations</h4>
+              <span className="timeline-date">2025 - 2026</span>
+              <h3 className="timeline-title">AI Solutions & Agentic Orchestration</h3>
+              <h4 className="timeline-subtitle">Autonomous Systems & RAG Architectures</h4>
               <p className="timeline-desc">
-                Building responsive web applications using React, Next.js, and Serverless databases. Creating REST API servers, state configurations, and fluid UI experiences.
+                Designing cognitive agent loops, tool calling mechanisms, and semantic search (RAG) pipelines. Integrating LLMs with vector stores to automate complex, multi-step workflow lifecycles.
               </p>
             </div>
           </div>
@@ -214,11 +235,11 @@ export default function Home() {
           <div className="timeline-item right">
             <div className="timeline-dot" />
             <div className="timeline-card">
-              <span className="timeline-date">2022</span>
-              <h3 className="timeline-title">Microverse Program Graduate</h3>
-              <h4 className="timeline-subtitle">Collaborative Remote Academy</h4>
+              <span className="timeline-date">2023 - 2024</span>
+              <h3 className="timeline-title">Full-Stack & Applied AI Developer</h3>
+              <h4 className="timeline-subtitle">Next.js & API Integrations</h4>
               <p className="timeline-desc">
-                Spent 1000+ hours mastering algorithms, data structures, test-driven development, and pair-programming on Git/GitHub using React/Redux and Ruby on Rails.
+                Developing highly responsive web apps in Next.js, building secure backend APIs in Ruby on Rails, and implementing automated testing (QA) structures alongside project management tasks.
               </p>
             </div>
           </div>
@@ -226,106 +247,126 @@ export default function Home() {
           <div className="timeline-item left">
             <div className="timeline-dot" />
             <div className="timeline-card">
-              <span className="timeline-date">2021</span>
-              <h3 className="timeline-title">Front-End Developer Journey</h3>
-              <h4 className="timeline-subtitle">Self-Driven Coding & Open Source</h4>
+              <span className="timeline-date">2022</span>
+              <h3 className="timeline-title">Full-Stack Foundations & Graduation</h3>
+              <h4 className="timeline-subtitle">Microverse Collaborative Program</h4>
               <p className="timeline-desc">
-                Started building user interfaces using pure HTML5, CSS3, and JavaScript (ES6). Mastered responsive design patterns, CSS Grid/Flexbox, and layout accessibility.
+                Acquired 1000+ hours of experience in software engineering, Agile frameworks, and team collaboration. Mastered data structures, React, Redux, Ruby on Rails, and database design.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ─── About Myself & Skill Matrix Section ─── */}
-      <aside id="about">
-        <div className="aside-contents">
-          <div className="about">
-            <h2 className="aside-head">About Myself</h2>
-            <p className="aside-para">
-              I'm Sahar, a software developer. I help teams, startups, and clients build beautiful, interactive products. I focus on clean code structures, component modularity, and rich aesthetic interfaces. If you have an application you need designed or code written, check my CV or get in touch.
-            </p>
-            <p className="p2">LET'S CONNECT</p>
-            <ul className="icons-list">
-              {contacts.twitter && (
-                <li>
-                  <a href={contacts.twitter} target="_blank" rel="noopener noreferrer">
-                    <img src="/img/Vector.png" alt="Twitter" />
-                  </a>
-                </li>
-              )}
-              {contacts.linkedin && (
-                <li>
-                  <a href={contacts.linkedin} target="_blank" rel="noopener noreferrer">
-                    <img src="/img/Linkedin.png" alt="LinkedIn" />
-                  </a>
-                </li>
-              )}
-              {contacts.email && (
-                <li>
-                  <a href={`mailto:${contacts.email}`}>
-                    <img src="/img/Vector(1).png" alt="Email" />
-                  </a>
-                </li>
-              )}
-              {contacts.github && (
-                <li>
-                  <a href={contacts.github} target="_blank" rel="noopener noreferrer">
-                    <img src="/img/Vector(2).png" alt="GitHub" />
-                  </a>
-                </li>
-              )}
-              {contacts.angel && (
-                <li>
-                  <a href={contacts.angel} target="_blank" rel="noopener noreferrer">
-                    <img src="/img/Vector(3).png" alt="Wellfound" />
-                  </a>
-                </li>
-              )}
-            </ul>
-            {resume && (
-              <a
-                href={resume}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ display: 'inline-block', width: 'fit-content', marginTop: '12px' }}
-              >
-                <button type="button" className="btn btn-primary">
-                  See My Resume
-                </button>
-              </a>
-            )}
-          </div>
-
-          <div className="skills">
-            <div className="texts">
-              <h3>Languages</h3>
-              <div className="underline" />
+      {/* ─── About Myself Section ─── */}
+      <section id="about" className="about-section">
+        <div className="about-container">
+          <div className="about-card">
+            <div className="about-info">
+              <h2 className="aside-head">About Myself</h2>
+              <div className="underline" style={{ width: '80px', margin: '4px 0 16px' }} />
+              <p className="aside-para">
+                I'm Sahar, a software developer. I help teams, startups, and clients build beautiful, interactive products. I focus on clean code structures, component modularity, and rich aesthetic interfaces. If you have an application you need designed or code written, check my CV or get in touch.
+              </p>
             </div>
-            <div className="badges">
-              {languages.map((l, idx) => (
-                <div className="badge" key={l.id || idx}>
-                  {l.image && <img src={l.image} alt={l.name} />}
-                  <p>{l.name}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="texts">
-              <h3>Frameworks</h3>
-              <div className="underline" />
-            </div>
-            <div className="badges">
-              {frameworks.map((f, idx) => (
-                <div className="badge" key={f.id || idx}>
-                  {f.image && <img src={f.image} alt={f.name} />}
-                  <p>{f.name}</p>
-                </div>
-              ))}
+            
+            <div className="about-actions">
+              <p className="p2">LET'S CONNECT</p>
+              <ul className="icons-list">
+                {contacts.twitter && (
+                  <li>
+                    <a href={contacts.twitter} target="_blank" rel="noopener noreferrer">
+                      <img src="/img/Vector.png" alt="Twitter" />
+                    </a>
+                  </li>
+                )}
+                {contacts.linkedin && (
+                  <li>
+                    <a href={contacts.linkedin} target="_blank" rel="noopener noreferrer">
+                      <img src="/img/Linkedin.png" alt="LinkedIn" />
+                    </a>
+                  </li>
+                )}
+                {contacts.email && (
+                  <li>
+                    <a href={`mailto:${contacts.email}`}>
+                      <img src="/img/Vector(1).png" alt="Email" />
+                    </a>
+                  </li>
+                )}
+                {contacts.github && (
+                  <li>
+                    <a href={contacts.github} target="_blank" rel="noopener noreferrer">
+                      <img src="/img/Vector(2).png" alt="GitHub" />
+                    </a>
+                  </li>
+                )}
+                {contacts.angel && (
+                  <li>
+                    <a href={contacts.angel} target="_blank" rel="noopener noreferrer">
+                      <img src="/img/Vector(3).png" alt="Wellfound" />
+                    </a>
+                  </li>
+                )}
+              </ul>
+              {resume && (
+                <a
+                  href={resume}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ display: 'inline-block', width: 'fit-content', marginTop: '4px' }}
+                >
+                  <button type="button" className="btn btn-primary">
+                    See My Resume
+                  </button>
+                </a>
+              )}
             </div>
           </div>
         </div>
-      </aside>
+      </section>
+
+      {/* ─── Skills & Tech Stack Section ─── */}
+      <section id="skills" className="skills-section">
+        <div className="skills-container">
+          <div className="section-header" style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <h2 className="section-title">Skills & Tech Stack</h2>
+            <div className="underline" style={{ margin: '8px auto 0', width: '80px' }} />
+          </div>
+
+          <div className="skills-grid">
+            <div className="skills-category-card">
+              <div className="texts">
+                <h3>Languages</h3>
+                <div className="underline" />
+              </div>
+              <div className="badges">
+                {languages.map((l, idx) => (
+                  <div className="badge" key={l.id || idx}>
+                    {l.image && <img src={l.image} alt={l.name} />}
+                    <p>{l.name}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="skills-category-card">
+              <div className="texts">
+                <h3>Frameworks/Libraries/Models</h3>
+                <div className="underline" />
+              </div>
+              <div className="badges">
+                {frameworks.map((f, idx) => (
+                  <div className="badge" key={f.id || idx}>
+                    {f.image && <img src={f.image} alt={f.name} />}
+                    <p>{f.name}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* ─── Contact Form Footer ─── */}
       <footer id="contact">

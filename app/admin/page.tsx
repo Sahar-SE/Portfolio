@@ -778,7 +778,7 @@ export default function AdminPage() {
                 style={adminStyles.select}
               >
                 <option value="language">Language</option>
-                <option value="framework">Framework</option>
+                <option value="framework">Framework/Library/Model</option>
               </select>
               <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                 <select
@@ -845,7 +845,7 @@ export default function AdminPage() {
                 </div>
               </div>
               <div style={{ flex: 1 }}>
-                <h3 style={adminStyles.subTitle}>Frameworks</h3>
+                <h3 style={adminStyles.subTitle}>Frameworks/Libraries/Models</h3>
                 <div style={adminStyles.badgeGrid}>
                   {frameworks.map((f, idx) => (
                     <div key={idx} style={adminStyles.badgeItem}>

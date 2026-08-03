@@ -46,7 +46,7 @@ function FluidCanvas({ isVisible }: { isVisible: boolean }) {
         SPLAT_RADIUS: 0.65,            // Wider area splat (covers wide area)
         SPLAT_FORCE: 8000,             // Splat velocity/force
         SPLAT_COUNT: 4,
-        SHADING: true,
+        SHADING: false,
         COLORFUL: false,               // Disable random colorful spectrum to use website colors
         SPLAT_COLOR: {
           get r() { return currentColor.r * colorScale; },
@@ -58,10 +58,10 @@ function FluidCanvas({ isVisible }: { isVisible: boolean }) {
         BLOOM: true,                   // High glow
         BLOOM_ITERATIONS: 8,
         BLOOM_RESOLUTION: 256,
-        BLOOM_INTENSITY: 0.9,
+        BLOOM_INTENSITY: 0.35,
         BLOOM_THRESHOLD: 0.3,
         BLOOM_SOFT_KNEE: 0.7,
-        SUNRAYS: true,
+        SUNRAYS: false,
         SUNRAYS_RESOLUTION: 196,
         SUNRAYS_WEIGHT: 0.8,
       };
