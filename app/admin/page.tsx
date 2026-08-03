@@ -949,7 +949,7 @@ export default function AdminPage() {
                               const file = e.target.files?.[0];
                               if (file) {
                                 handleImageUpload(file, (base64) => {
-                                  setContacts({ ...contacts, [key]: { ...contacts[key], icon: base64 } });
+                                  setContacts({ ...contacts, [key]: { url: contacts[key]?.url || '', icon: base64 } });
                                 });
                               }
                             }}
